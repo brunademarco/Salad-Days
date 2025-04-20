@@ -1,0 +1,269 @@
+{
+    "usuarios": [
+      {
+        "id": "1",
+        "login": "SaladDays",
+        "senha": "090805SD",
+        "nome": "Administrador do Sistema",
+        "email": "contatoSaladDasys@abc.com"
+      },
+      {
+        "id": "2",
+        "login": "user",
+        "senha": "31993324",
+        "nome": "Usuario Comum",
+        "email": "user@abc.com"
+      },
+      {
+        "id": "3",
+        "login": "LuizaMiranda",
+        "senha": "djej9302",
+        "nome": "Luiza",
+        "email": "lumirandda89@gmail.com"
+      },
+      {
+        "id": "4",
+        "login": "mariaclara98",
+        "senha": "senhacomum8932",
+        "nome": "Maria Silva",
+        "email": "mariaclara.silva@gmail.com"
+      },
+      {
+        "id": "5",
+        "login": "BrunaNoely",
+        "senha": "090805brunalunoely",
+        "nome": "Bruna Luiza Noely De Marco",
+        "email": "brunalunoelymarco@gmail.com"
+      }
+    ],
+    "receitas": [
+      {
+        "id": "1",
+        "titulo": "Salada Caeser",
+        "descricao": "Para quem busca uma refeição saborosa e leve, esta salada é uma clássica, além de ser uma excelente opção para um almoço ou jantar          equilibrado, é fácil de fazer e traz uma explosão de sabores, por ser leve e crocante.  Com ingredientes frescos, como alface americana picada, frango grelhado em tiras (opcional), queijo parmesão ralado e croutons crocantes, essa salada é um prato completo por si só. E uma dica: fica ainda melhor com um acompanhamento de fritas e coca-cola zero (um verdadeiro girl dinner)",
+        "ingredientes_base": [
+          "1 alface americana",
+          "1 xícara de queijo parmesão ralado",
+          "2 xícaras de croutons bem cocrantes (feitos com pão de forma sem casca)",
+          "1 peito de frango sem osso, temperado, grelhado e picado em tiras (opcional)"
+        ],
+        "ingredientes_molho": [
+          "1/2 xícara de azeite",
+          "2 dentes de alho amassados",
+          "2 colheres de sopa de maionese caseira",
+          "1 colher de sopa de mostarda",
+          "1 colher de sopa de limão espremido"
+        ],
+        "instrucoes": [
+          "Doure o alho em uma frigideira",
+          "Coloque o alho já dourado em um recipiente e misture com os demais ingredientes",
+          "Coloque a base da salada (alface, croutons e frango) em um recipiente fundo de sua preferência (recomendamos um bowl, o famoso balde de salada)",
+          "Após seguir esses passos, a salada está pronta, Bom apetite!"
+        ]
+      },
+      {
+        "id": "2",
+        "titulo": "Salada Big Mac",
+        "descricao": "A Salada Big Mac é uma variação do famoso sanduíche Big Mac, do McDonald's, transformada em uma opção de prato mais leve. Em vez do tradicional pão, carne e queijo, os ingredientes são servidos em forma de salada, geralmente com uma base de alface, acompanhada dos componentes típicos do Big Mac: carne moída ou hambúrguer picado, queijo, picles, cebola, molho especial, e, às vezes, fatias de tomate",
+        "ingredientes_base": [
+          "1 alface americana",
+          "1 cebola picada",
+          "500 g de carne moída refogada, temperada a sua preferência",
+          "2 tomates picados (opcional)"
+        ],
+        "ingredientes_molho": [
+          "1 xícara de maionese",
+          "2 colheres de sopa cheia do vinagre do picles",
+          "4 colheres de sopa de catchup apimentado (ou normal)",
+          "1 dente de alho",
+          "1/4 de cebola picada",
+          "1 picles grande em conserva",
+          "Sal a gosto"
+        ],
+        "instrucoes": [
+          "Coloque a alface, salpique por cima a carne moída refogada, depois junte a cebola e o tomate.",
+          "Bata os ingredientes do molho no liquidificador (ou misture), até ficar cremoso e coloque na geladeira.",
+          "Por último, coloque o queijo e o molho de salada.",
+          "Após seguir esses passos, a salada está pronta. Bom apetite!"
+        ]
+      },
+      {
+        "id": "3",
+        "titulo": "Salada Caprese",
+        "descricao": "A combinação de cores (vermelho, branco e verde) remete à bandeira italiana, tornando-a visualmente atraente. A Salada Caprese é refrescante e leve, ideal como entrada ou acompanhamento, especialmente durante os meses mais quentes. Além de deliciosa, é uma opção saudável, rica em nutrientes e sabor.",
+        "ingredientes_base": [
+          "tomates maduros, fatiados",
+          "250 g de mussarela de búfala, fatiada",
+          "Folhas frescas de manjericão",
+          "Azeite de oliva a gosto",
+          "Sal e pimenta-do-reino a gosto",
+          "Redução de balsâmico (opcional, para decorar)"
+        ],
+        "ingredientes_molho": [],
+        "instrucoes": [
+          "Em um prato grande ou travessa, alterne as fatias de tomate e mussarela, formando uma espiral ou camadas.",
+          "Distribua as folhas de manjericão por cima das fatias de tomate e mussarela.",
+          "Regue com azeite de oliva a gosto. Tempere com sal e pimenta-do-reino.",
+          "Se desejar, decore com um fio de redução de balsâmico para um toque extra de sabor.",
+          "A Salada Caprese pode ser servida imediatamente ou refrigerada por alguns minutos antes de servir.",
+          "Após seguir esses passos, a salada está pronta. Bom apetite!"
+        ]
+      },
+      {
+        "id": "4",
+        "titulo": "Salada Classica",
+        "descricao": "Esta salada é diversa e adaptável, pois pode ter vários tipos de ingredientes e até de molhos, sendo muitas vezes referida como a famosa salada com tudo que tem na geladeira, permitindo que cada pessoa a personalize de acordo com suas preferências. Essa flexibilidade a torna uma excelente opção para aproveitar sobras e evitar desperdícios. Além disso, a salada é uma escolha saudável e refrescante, ideal para qualquer ocasião.",
+        "ingredientes_base": [
+          "4 folhas grandes de alface (ou folhas de sua preferência)",
+          "tomate normal ou cereja",
+          "1 cebola roxa ou comum",
+          "50g de azeitona preta",
+          "30g de milho",
+          "60g de macarrão (ou batata)",
+          "100g de frango (em tiras ou desfiado)"
+        ],
+        "ingredientes_molho": [
+          1,
+          2,
+          3
+        ],
+        "instrucoes": [
+          "Coloque a batata ou o macarrão para cozinhar",
+          "Corte o frango em tiras e passe na frigideira",
+          "Corte os tomates e a cebola",
+          "Pique os coentros",
+          "Num recipiente junte todos os ingredientes cortados: a cebola, o tomate. Em seguida, coloque o frango em tiras, adicione as folhas de alface.",
+          "Tempere tudo com o azeite e uma pitada de sal. Envolva bem e adicione o molho.",
+          "Bom Apetite!"
+        ]
+      },
+      {
+        "id": "5",
+        "titulo": "Salada Mediterrânea",
+        "descricao": "Composta por ingredientes frescos e coloridos, como tomates, pepinos, pimentões, cebolas roxas, azeitonas e queijo feta, temperados com azeite de oliva, limão ou vinagre, ervas como orégano e manjericão, e sal. É uma refeição leve, rica, em nutrientes, antioxidantes e gorduras saudáveis, proporcionando benefícios para a saúde do coração e promovendo uma alimentação balanceada.",
+        "ingredientes_base": [
+          "4 folhas grandes de alface romana",
+          "1 pepino",
+          "1 cebola roxa",
+          "50g de azeitona preta",
+          "Queijo feta (a gosto)",
+          "Coentro/Salsa (a gosto)"
+        ],
+        "ingredientes_molho": [
+          "2 colheres de sopa de azeite",
+          "1 colher de sopa de vinagre balsâmico",
+          "1/2 limão",
+          "Sal a gosto"
+        ],
+        "instrucoes": [
+          "Após higienizar bem os alimentos, descasque a cebola roxa e corte em cubos pequenos.",
+          "Corte o tomate cherry a meio. Obs: se usar tomate de tamanho médio, retire as sementes e corte em cubos pequenos.",
+          "Corte o pepino a meio e retire as sementes. Corte em cubos pequenos. Nota: costumo tirar parte da casca (mas sem cortar na totalidade).",
+          "Corte o feta em cubos pequenos.",
+          "Pique os coentros.",
+          "Numa taça, junte todos os ingredientes cortados: a cebola, o tomate, o pepino, os coentros e o feta. Por fim, adicione as azeitonas.",
+          "Tempere tudo com o azeite, sumo de limão, o vinagre e o sal. Envolva bem.",
+          "Pode servir de imediato ou guardar no frigorífico por 1 hora antes de servir."
+        ]
+      },
+      {
+        "id": "6",
+        "titulo": "Salada Oriental",
+        "descricao": "Esta salada é versátil e pode ser servida como acompanhamento para pratos principais ou como uma refeição leve. Além disso, é fácil de preparar e pode ser adaptada com diferentes ingredientes conforme a preferência, como a adição de proteínas como frango grelhado ou tofu. Por ser rica em fibras e nutrientes, a Salada Oriental é uma excelente escolha para quem deseja manter uma alimentação equilibrada e cheia de sabor. É uma opção ideal para dias quentes ou quando se busca algo refrescante e saudável.",
+        "ingredientes_base": [
+          "2 xícaras de alface picada",
+          "1 xícara de repolho roxo fatiado",
+          "1 cenoura ralada",
+          "1/2 pimentão vermelho fatiado",
+          "1/2 cebola roxa fatiada",
+          "2 colheres de sopa de gergelim torrado"
+        ],
+        "ingredientes_molho": [
+          "3 colheres de sopa de molho de soja (shoyu)",
+          "2 colheres de sopa de óleo de gergelim",
+          "1 colher de sopa de vinagre de arroz",
+          "1 colher de sopa de mel",
+          "Pimenta a gosto"
+        ],
+        "instrucoes": [
+          "Em uma tigela, misture todos os vegetais",
+          "Em outra tigela, combine os ingredientes do molho",
+          "Regue o molho sobre a salada e misture bem.",
+          "Polvilhe o gergelim torrado antes de servir.",
+          "Após seguir esses passos, a salada está pronta. Bom apetite!"
+        ]
+      }
+    ],
+    "molhos": [
+      {
+        "id": "1",
+        "nome": "Caeser",
+        "ingredientes": [
+          "1/2 xícara de chá de azeite",
+          "2 dentes de alho amassados",
+          "2 colheres de sopa de maionese caseira",
+          "1 colher de sopa de mostarda",
+          "1 colher de sopa de limão espremido"
+        ]
+      },
+      {
+        "id": "2",
+        "nome": "Mostarda e Mel",
+        "ingredientes": [
+          "2 colheres de sopa de mostarda",
+          "1 colher de sopa de mel",
+          "1/2 colher de azeite",
+          "Uma pitada de sal"
+        ]
+      },
+      {
+        "id": "3",
+        "nome": "Pesto",
+        "ingredientes": [
+          "2 dentes de alho",
+          "1 xícara de chá de manjericão fresco",
+          "1/2 xícara de chá de azeite",
+          "100g de queijo parmesão ralado",
+          "1 colher de sopa de sal",
+          "1/2 limão"
+        ]
+      }
+    ],
+    "categorias": [
+      {
+        "id": "f67a"
+      }
+    ],
+    "favoritos": [
+      {
+        "id": "1",
+        "id_usuario": 1,
+        "id_salada": 1
+      },
+      {
+        "id": "2",
+        "id_usuario": 1,
+        "id_salada": 2
+      },
+      {
+        "id": "3",
+        "id_usuario": 1,
+        "id_salada": 3
+      },
+      {
+        "id": "4",
+        "id_usuario": 1,
+        "id_salada": 4
+      },
+      {
+        "id": "5",
+        "id_usuario": 1,
+        "id_salada": 5
+      },
+      {
+        "id": "6",
+        "id_usuario": 1,
+        "id_salada": 6
+      }
+    ]
+  }

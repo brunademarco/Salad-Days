@@ -1,0 +1,154 @@
+:root {
+    --branding-A1: #BDE038;
+    --branding-B1: #778899;
+    --branding-C1: #F5F5DC;
+    --C1-auxiliar: #fefce8;
+    --roxo-vivo: #9a5ef5;
+    --rosa-salada: #e85d8d;
+  }
+
+body {
+    background-color: var(--branding-C1);
+    margin: 0;
+    margin-top: 0;
+}
+
+header {
+    background-color: var(--branding-C1);
+    margin:0;
+
+}
+
+.nav-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    background-color: var(--branding-C1);
+    max-width: 100%;
+    max-height: 130px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+    transition: principaltransform 0.5s ease, opacity 0.5s ease, background-color 0.5s ease;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px; 
+    margin-left: 20px;
+}
+
+.logo-svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+  
+.menu {
+    font-family: "Oswald", sans-serif;
+    list-style-type: none; 
+    display: flex; 
+    gap: 20px; 
+    justify-content: center;  
+    padding: 10px 20px; 
+    margin-right: 20px;
+}
+
+.button-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%; 
+    background-color:var(--bege-fundo); 
+    border: 2px solid var(--branding-A1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.button-icon:hover {
+    background-color: #f6faecea; 
+    transform: scale(1.1);   
+  }
+  
+  @media (max-width: 479px) {
+    .logo {
+        padding: 5px; 
+    }
+
+    .logo-svg {
+      max-width: 280px;
+      margin: 0 auto;
+    }
+
+    .button-icon {
+        height: 30px;
+        width: 30px;
+    }
+    .button-icon {
+        height: 30px;
+        width: 30px;
+        border: 1px solid var(--branding-A1);
+    }
+
+    .menu {
+        gap: 10px;
+    }
+
+    img.person-svg, img.heart-svg {
+        width: 20px;
+        height: 20px;
+    }
+  }
+
+  @media (min-width: 479px) {
+    .logo {
+        padding: 5px; 
+        margin-left: 5px;
+    }
+
+    .logo-svg {
+      max-width: 350px;
+      margin: 0 auto;
+    }
+
+    .button-icon {
+        height: 40px;
+        width: 40px;
+    }
+    .button-icon {
+        height: 40px;
+        width: 40px;
+    }
+
+    .menu {
+        gap: 10px;
+        margin-right: 5px;
+    }
+  }
+  
+  @media (min-width: 767px) {
+
+    .logo-svg {
+    min-width: 430px;
+    }
+
+    .logo {
+        padding: 10px; 
+    }
+
+    .menu {
+        gap: 10px;
+    }
+
+    .button-icon {
+        height: 60px;
+        width: 60px;
+    }
+
+    img.person-svg, img.heart-svg {
+        width: 40px;
+        height: 40px;
+    }
+  }
+  
+  
