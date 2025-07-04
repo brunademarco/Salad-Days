@@ -1,3 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&family=Playfair:opsz,wght@5..1200,300..900&display=swap');
+
+p { 
+    font-family: "Archivo", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-variation-settings:
+      "wdth" 100;
+}
 :root {
     --branding-A1: #BDE038;
     --branding-B1: #778899;
@@ -35,7 +44,7 @@ header {
     display: flex;
     align-items: center;
     padding: 10px 20px; 
-    margin-left: 20px;
+    margin-left: 80px;
 }
 
 .logo-svg {
@@ -134,6 +143,7 @@ header {
 
     .logo {
         padding: 10px; 
+        margin-left: 40px;
     }
 
     .menu {

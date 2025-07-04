@@ -49,3 +49,166 @@
     margin-top: 0;
     text-align: center;
 }
+
+.recipes {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 30px auto;
+    margin-bottom: 40px;
+    margin-top: 80px;
+    padding: 20px;
+    margin-left: 20px;
+}
+
+.text {
+    width: 60%;
+    text-weight: 400;
+
+}
+
+p {
+    text-weight: 600;
+}
+
+
+.apresentation {
+    display: flex;
+    flex-direction:row
+}
+
+.carousel-container {
+    position: relative;
+    padding: 2rem;
+    font-family: sans-serif;
+  }
+  
+  .carousel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+
+    height:auto;
+  }
+  
+  .carousel-item {
+    flex: 0 0 auto;
+    transform: scale(0.8);
+    opacity: 0.5;
+    transition: transform 0.3s, opacity 0.3s;
+    text-align: center;
+  }
+  
+  .carousel-item img {
+    width: 240px;
+    border-radius: 50%;
+  }
+  
+  .carousel-item.active {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  
+  .caption {
+    margin-top: 0.5rem;
+    font-weight: bold;
+  }
+  
+  button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--branding-C1);
+    color: black;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 1.5rem;
+  }
+  
+  #prevBtn {
+    left: 240px; /* ou 0 se quiser grudado */
+  }
+  
+  #nextBtn {
+    right: 240px;
+  }
+  
+  
+
+@media (max-width: 479px) {
+    .slogan {
+        flex-direction: column;
+        height: auto;
+        width: 100%;
+        padding: 20px;
+        margin: 10px auto;
+        margin-bottom: 20px;
+    }
+
+    .slogan img{
+        height: 100%;
+    }
+
+    .imagem-slogan h1 {
+        font-size: 3em; 
+    }
+
+    .imagem-slogan h2, .imagem-slogan p {
+        font-size: medium; 
+    }
+}
+
+  @media (min-width: 479px) {
+    .logo {
+        padding: 5px; 
+        margin-left: 5px;
+    }
+
+    .logo-svg {
+      max-width: 350px;
+      margin: 0 auto;
+    }
+
+    .button-icon {
+        height: 40px;
+        width: 40px;
+    }
+    .button-icon {
+        height: 40px;
+        width: 40px;
+    }
+
+    .menu {
+        gap: 10px;
+        margin-right: 5px;
+    }
+  }
+  
+  @media (min-width: 767px) {
+
+    .logo-svg {
+    min-width: 430px;
+    }
+
+    .logo {
+        padding: 10px; 
+    }
+
+    .menu {
+        gap: 10px;
+    }
+
+    .button-icon {
+        height: 60px;
+        width: 60px;
+    }
+
+    img.person-svg, img.heart-svg {
+        width: 40px;
+        height: 40px;
+    }
+  }
+  
+  
