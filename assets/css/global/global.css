@@ -44,7 +44,6 @@ header {
     display: flex;
     align-items: center;
     padding: 10px 20px; 
-    margin-left: 80px;
 }
 
 .logo-svg {
@@ -57,10 +56,9 @@ header {
     font-family: "Oswald", sans-serif;
     list-style-type: none; 
     display: flex; 
-    gap: 20px; 
+    gap: 30px; 
     justify-content: center;  
     padding: 10px 20px; 
-    margin-right: 20px;
 }
 
 .button-icon {
@@ -78,6 +76,49 @@ header {
     background-color: #f6faecea; 
     transform: scale(1.1);   
   }
+
+footer {
+    display: flex;   
+    height: 100%;              
+    flex-direction: column;       
+    align-items: center;          
+    text-align: center;           
+    padding: 20px;                
+    background-color: var(--branding-B1);   
+    height: 250px;
+    justify-content: center;
+    border-top-left-radius: 40px;
+    border-top-right-radius: 40px;
+}
+
+footer h4 {
+    font-family: "Montserrat", sans-serif;
+    font-size: large;
+    font-style: normal;
+    color: var(--branding-C1);
+    margin-bottom: 3px;
+}
+
+footer p {
+    font-family: "Montserrat", sans-serif;
+    font-size: large;
+    font-style: normal;
+    color:var(--branding-C1);
+    margin: 3px;
+}
+
+.link-redes {
+    display: flex;                
+    gap: 15px;
+    margin: 8px;                  
+}
+
+.link-redes img {
+    width: 40px;                 
+    height: 40px;    
+    margin-bottom:30px;      
+}
+
   
   @media (max-width: 479px) {
     .logo {
@@ -107,9 +148,47 @@ header {
         width: 20px;
         height: 20px;
     }
+
+
   }
 
   @media (min-width: 479px) {
+
+    .nav-bar {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center; 
+        background-color: var(--branding-C1);
+        width: 100%;
+        max-height: 130px;
+        border-bottom-left-radius: 30px;
+        border-bottom-right-radius: 30px;
+        box-sizing: border-box;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        padding: 10px 20px; 
+    }
+    
+    .logo-svg {
+        display: block;
+        max-width: 100%;
+        height: auto;
+    }
+      
+    .menu {
+        font-family: "Oswald", sans-serif;
+        list-style-type: none; 
+        display: flex; 
+        gap: 20px; 
+        justify-content: center;  
+        padding: 10px 20px; 
+
+    }
+
     .logo {
         padding: 5px; 
         margin-left: 5px;
