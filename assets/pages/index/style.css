@@ -55,7 +55,15 @@
     flex-direction: column;
     justify-content: center;
     padding: 20px;
-    margin-left: 20px;
+    margin-left: 40px;
+}
+
+.title-recipes {
+    font-size: 60px;
+    font-family: "Archivo";
+    font-weight: 400;
+    color:var(--branding-A1);
+    margin: 0;
 }
 
 .text {
@@ -64,21 +72,33 @@
   font-size: 1.2em;
 }
 
-p {
-    font-size: 1.2em;
+.apresentation {
+  display: flex;
+  flex-direction: row;
+  justify-content:space-between;
+  align-items: center;
 }
 
-.button {
-  display: flex;
-  justify-content: center;
-  position: absolute;
+.button-recipes {
+  
+  background-color: var(--branding-A1);
   padding: 20px;
-  border: none;
-  background: var(--branding-A1);
+  border-radius: 50px;
+  border: 2px solid var(--branding-B1);
+  margin-right: 40px;
   cursor: pointer;
-  font-size: 16px;
-  margin: 5px;
-  border-radius: 30px;
+  overflow: hidden;
+  position: relative;
+  transition: background-color 0.5s cubic-bezier(0.3, 1, 0.3, 1),
+              color 0.5s cubic-bezier(0.3, 1, 0.3, 1);
+}
+
+.button-recipes:hover {
+  background-color: var(--branding-B1);
+}
+
+p {
+    font-size: 1.2em;
 }
 
 .button-link {
@@ -99,8 +119,7 @@ p {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 1.5rem;
-
+    gap: 1.2rem;
     height:auto;
   }
   
@@ -124,13 +143,14 @@ p {
   
   .caption {
     margin-top: 0.5rem;
-    font-weight: bold;
+    font-family: "Archivo", sans-serif;
+    font-weight: 400;
+
   }
   
   .carousel-button {
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
     background: var(--branding-C1);
     color: black;
     border: none;
@@ -196,7 +216,60 @@ p {
     right: 0;
   }
 
+  #EatYourSalad {
+    padding: 2rem;
+  }
+  
+  .guia-container {
+    display: flex;
+    justify-content: space-between;
+    align-items:flex-end;
+    padding: 2rem;
+  }
+  
+  .introducion {
+    max-width: 50%;
+  }
 
+
+
+  .text-title h1, h2 {
+    font-family: "Playfair Display", serif;
+    font-weight: 300;
+    color: var(--branding-A1);
+    font-size: 3em;
+    margin: 0;
+    padding: 0;
+  }
+
+  .text-title h1 {
+    font-size: 5em;
+    margin-bottom: 0.2em;
+  }
+ 
+  .carousel-container2 {
+    max-width: 50%;
+    position: relative;
+  }
+
+  .carousel2 {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    gap: 1rem;
+  }
+
+  .carousel-item2 .card {
+    width: 200px;
+    height: 200px;
+    border: 1px solid #000;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--branding-C1);
+  }
+  
+  /* Modal styles */
   .modal {
     position: fixed;
     top: 20px;
@@ -303,10 +376,9 @@ p {
     height: 30px;
   }
 
-/* Responsividade */
 @media (max-width: 768px) {
   .carousel-item {
-    flex: 0 0 100%; /* No mobile, cada item ocupa 100% da tela */
+    flex: 0 0 100%; 
   }
 }
 
