@@ -37,4 +37,26 @@ document.getElementById('nextBtn').addEventListener('click', () => {
   }
 });
 
-updateCarousel(); // inicialização
+updateCarousel(); 
+
+const switchModal = () => {
+  const modal = document.getElementById('modal-favoritos');
+  modal.classList.toggle('show'); 
+};
+
+document.addEventListener('click', function(event) {
+  const modal = document.getElementById('modal-favoritos');
+  const content = modal.querySelector('.modal-content');
+
+  if (!modal.classList.contains('show')) return;
+
+  if (
+    content.contains(event.target) || 
+    event.target.closest('.heart-svg') || 
+    event.target.closest('#botao-favoritos') 
+  ) {
+    return;
+  }
+
+  modal.classList.remove('show');
+});
