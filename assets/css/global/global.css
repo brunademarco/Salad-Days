@@ -239,4 +239,30 @@ footer p {
     }
   }
   
-  
+  @media (max-width: 380px) {
+    .nav-bar {
+        padding: 10px;
+    }
+
+    .logo img {
+        margin-bottom: 10px;
+        height: 30px;
+    }
+
+    .menu {
+        gap: 5px;
+        padding: 0 10px;
+    }
+
+    .button-icon {
+        height: 30px;
+        width: 30px;
+    }
+
+    img.person-svg, img.heart-svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    
+  }

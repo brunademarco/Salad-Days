@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--referencias --> 
+    <link rel="stylesheet" href="../../css/global/global.css">
+    <link rel="stylesheet" href="../index/style.css">
+    <link rel="icon" href="../../images/logo-icon.svg" type="image/x-icon">
+    <!--fim das referencias-->
+    <title>SALAD DAYS</title>
+</head>
+<body>
+    <header>
+        <nav class="nav-bar">
+            <a href="../index/index.html" class="logo-link">
+            <div class="logo">
+                <img class="logo-svg"  src="../../images/LOGO.svg" alt="logo salad days">
+            </div>
+            </a>
+            <ul class="menu">
+                <li>
+                    <a href="#" class="button-icon" onclick="switchModal()">
+                        <img class="heart-svg" src="../../images/heart-straight-light.svg" alt="button favoritos">
+                    </a>
+                </li>
+                <li>
+                    <a href="../../../login.html" class="button-icon">
+                        <img class="person-svg"  src="../../images/user-light24x.svg" alt="button profile">
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <footer>
+        <h4>&copy; 2025 Salad Days. Todos os direitos reservados.</h4>
+        <p>Feito com amor</p>
+        <p>Contato:</p>
+        <div class="link-redes">
+        <a href="https://github.com/brunanoely" target="_blank"><img class="github" src="../../images/github.svg" alt="icon github"></a>
+        <a href="https://www.linkedin.com/in/bruna-noely-68a70925a/" target="_blank"><img class="linkedin" src="../../images/linkedin.svg" alt="icon linkedin"></a>
+        <a href="https://www.instagram.com/brunanoelydm/" target="_blank"><img class="instagram" src="../../images/behance.svg" alt="icon behance"></a>
+        </div>
+    </footer>
+    
+    <div class="modal" id="modal-favoritos">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="title-favorites">Favoritos</h2>
+          <button class="close-button" onclick="switchModal()">
+            <img src="../../images/close2.svg" alt="Fechar">
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="search-bar">
+                <input type="text" placeholder="Pesquisar receitas..." />
+                <button>
+                <img src="../../images/search.svg" alt="Buscar" />
+                </button>
+            </div>
+            <div class="column-recipes">
+                <div class="recipe-item">
+                    <h3></h3>
+                </div>
+                <div class="recipe-item">
+                    <img src="../../images/recipe2.jpg" alt="Receita 2">
+                    <h3>Salada Caesar</h3>
+                </div>
+                <div class="recipe-item">
+                    <img src="../../images/recipe3.jpg" alt="Receita 3">
+                    <h3>Salada Grega</h3>
+                </div>
+                <!-- Adicione mais itens de receita conforme necessário -->
+            </div>
+        </div>
+      </div>
+    </div>
+    
+
+
+<script src="../../js/index.js"></script> 
+</body>
+</html>
