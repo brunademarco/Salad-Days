@@ -7,14 +7,14 @@ p {
     font-variation-settings:
       "wdth" 100;
 }
+
 :root {
     --branding-A1: #BDE038;
     --branding-B1: #778899;
     --branding-C1: #F5F5DC;
+    --A1-auxiliar: #ECFEA8;
     --C1-auxiliar: #fefce8;
-    --roxo-vivo: #9a5ef5;
-    --rosa-salada: #e85d8d;
-  }
+}
 
 body {
     background-color: var(--branding-C1);
@@ -164,6 +164,7 @@ footer p {
         border-bottom-left-radius: 30px;
         border-bottom-right-radius: 30px;
         box-sizing: border-box;
+        padding: 10px;
     }
 
     .logo {
