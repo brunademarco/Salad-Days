@@ -105,10 +105,9 @@ p {
 
 .button-link {
   text-decoration: none;
-  color: white;
+  color: var(--C1-auxiliar);
   font-family: "Archivo", sans-serif;
   font-size: 1.2em;
-  font-weight: bold;
 }
 
 .carousel-container {

@@ -1,26 +1,196 @@
+.JoinUs {
+    display: flex;
+    flex-direction: row;
+    align-items:flex-start;
+    justify-content: space-between;
+    background-color: var(--A1-auxiliar);
+    gap: 0.5rem;
+}
+
+.text-joinus {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 30%;
+    padding: 30px;
+    gap: 0.5rem;
+    margin-left: 20px;
+}
+
+.text-joinus h1 {
+    font-size: 2.5rem;
+    font-family: "Archivo";
+    font-weight: 400;
+    padding: 10px;
+}
+
+.background-joinus1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    height: 60px;
+    padding: 0;
+    background-color: var(--A2-auxiliar);
+}
+
+.background-joinus2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    margin-top: 10px;
+    height: 60px;
+    padding: 0;
+    background-color: var(--A2-auxiliar);
+}
+
+.button-joinus {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 18px 20px;
+    background-color: var(--branding-B1);
+    border-radius: 30px;
+    border: 1px solid var(--A2-auxiliar);
+    color: white;
+    margin-top: 10px;
+    font-family: "Archivo";
+    font-weight: 400;
+    font-size: 1.2rem;
+    width: fit-content; 
+}
+
+
+.image-joinus {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.image-joinus img {
+    
+    width: 100%;
+    height: auto;
+}
+
 .marquee-container {
     width: 100%;
     overflow: hidden;
-    background-color: transparent; /* ou sua cor de fundo */
+    background-color: var(--auxiliar-A1);
+    padding: 10px 0;
+  }
+  
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: scroll 45s linear infinite;
+  }
+  
+  .marquee-content {
+    display: flex;
+  }
+  
+  .marquee-content span {
+    font-size: 4rem;
+    font-family: "Archivo";
+    font-weight: 400;
     white-space: nowrap;
+    padding-right: 1.5rem;
+    color: black;
   }
   
-  .marquee {
-    display: inline-block;
-    animation: scroll-left 15s linear infinite;
-  }
-  
-  .marquee span {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: black; /* ou a cor que estiver usando */
-  }
-  
-  @keyframes scroll-left {
+  @keyframes scroll {
     0% {
-      transform: translateX(100%);
+      transform: translateX(0);
     }
     100% {
-      transform: translateX(-100%);
+      transform: translateX(-50%);
     }
   }
+
+.filter-recipes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: var(--branding-C1);
+    gap: 2rem;
+}
+  
+  .search-bar-joinus {
+    display: flex;
+    width:100%;
+    max-width: auto;
+    border: 1.5px solid #b5cd30;
+    border-radius: 50px;
+    overflow: hidden;
+    background-color: transparent;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .search-bar-joinus input {
+    flex: 1;
+    padding: 18px 25px;
+    border: none;
+    outline: none;
+    font-size: 20px;
+    background-color: transparent;
+  }
+  
+  .search-bar-joinus button {
+    padding: 10px 16px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .search-bar-joinus img {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    filter: invert(42%) sepia(56%) saturate(364%) hue-rotate(34deg) brightness(89%) contrast(92%);
+  }
+  
+  .filter-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%; 
+    max-width: 800px;
+    margin: 0 auto; 
+  }
+  .filter-button {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 1.5px solid #b5cd30;
+    background-color: transparent;
+    color: #b5cd30;
+    font-size: 10px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    padding: 0;
+    transition: all 0.3s ease;
+  }
+  
+  .filter-button:hover {
+    background-color: #b5cd30;
+    color: white;
+  }
+  
+  .recipe-cards {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    
+  }
+  
