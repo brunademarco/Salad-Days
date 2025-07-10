@@ -69,7 +69,7 @@
         "categoria_id": [4, 5],
         "titulo": "Salada Big Mac",
         "imagem": "cardBigMac.jpg",
-        "card_descricao": "Uma releitura surpreendente do clássico do fast food. A Salada Big Mac traz a crocância da alface, o sabor marcante da carne temperada e o toque especial do molho cremoso com picles, mostarda e ketchup. Uma opção divertida, cheia de personalidade e que vai conquistar qualquer fã de hambúrguer – só que agora no bowl.",
+        "card_descricao": "Uma releitura surpreendente do clássico do fast food. A Salada Big Mac traz a crocância da alface, o sabor marcante da carne temperada e o toque especial do molho cremoso com picles, mostarda e ketchup.",
         "descricao": "A Salada Big Mac é uma variação do famoso sanduíche Big Mac, do McDonald's, transformada em uma opção de prato mais leve. Em vez do tradicional pão, carne e queijo, os ingredientes são servidos em forma de salada, geralmente com uma base de alface, acompanhada dos componentes típicos do Big Mac: carne moída ou hambúrguer picado, queijo, picles, cebola, molho especial, e, às vezes, fatias de tomate",
         "ingredientes_base": [
           "1 alface americana",
@@ -122,7 +122,7 @@
         "id": "4",
         "categoria_id": [4, 6],
         "titulo": "Salada Classica",
-        "card_descricao": "A salada versátil que nunca sai de moda. Com ingredientes simples e acessíveis, como alface fresca, tomate, cebola e frango grelhado, a Salada Clássica é perfeita para qualquer ocasião. Leve, colorida e com liberdade para adaptar com o que tiver na geladeira, ela combina praticidade, sabor e nutrição em cada garfada.",
+        "card_descricao": "A salada versátil que nunca sai de moda. Com ingredientes simples e acessíveis, como alface fresca, tomate, cebola e frango grelhado, a Salada Clássica é perfeita para qualquer ocasião.",
         "imagem": "cardClassica.jpg",
         "descricao": "Esta salada é diversa e adaptável, pois pode ter vários tipos de ingredientes e até de molhos, sendo muitas vezes referida como a famosa salada com tudo que tem na geladeira, permitindo que cada pessoa a personalize de acordo com suas preferências. Essa flexibilidade a torna uma excelente opção para aproveitar sobras e evitar desperdícios. Além disso, a salada é uma escolha saudável e refrescante, ideal para qualquer ocasião.",
         "ingredientes_base": [
@@ -154,7 +154,7 @@
         "categoria_id": [6],
         "titulo": "Salada Mediterrânea",
         "card_descricao": "Colorida, refrescante e cheia de sabor! A Salada Mediterrânea traz o melhor da dieta do Mediterrâneo, com ingredientes frescos como pepino, cebola roxa e queijo feta. Leve e nutritiva, é perfeita para dias quentes ou refeições equilibradas com um toque europeu.",
-        "imagem": "cardMedirerranea.jpeg",
+        "imagem": "cardMediterranea.jpeg",
         "descricao": "Composta por ingredientes frescos e coloridos, como tomates, pepinos, pimentões, cebolas roxas, azeitonas e queijo feta, temperados com azeite de oliva, limão ou vinagre, ervas como orégano e manjericão, e sal. É uma refeição leve, rica, em nutrientes, antioxidantes e gorduras saudáveis, proporcionando benefícios para a saúde do coração e promovendo uma alimentação balanceada.",
         "ingredientes_base": [
           "4 folhas grandes de alface romana",

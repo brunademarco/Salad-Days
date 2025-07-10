@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
           const card = document.createElement('div');
           card.className = 'recipe-card';
           card.innerHTML = `
-            <img src="../../../assets/images/${receita.imagem}" alt="${receita.titulo}">
             <h3>${receita.titulo}</h3>
+            <img src="../../../assets/images/${receita.imagem}" alt="${receita.titulo}">
             <p>${receita.card_descricao}</p>
             <button class="recipe-button">Ver Receita</button>
           `;
