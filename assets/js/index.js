@@ -55,26 +55,49 @@ function resetAutoScroll() {
 updateCarousel();
 startAutoScroll();
 
-
 const switchModal = () => {
   const modal = document.getElementById('modal-favoritos');
-  modal.classList.toggle('show'); 
+  
+  if (modal.classList.contains('show')) {
+    
+    modal.addEventListener('transitionend', () => {
+      modal.classList.remove('show');  
+      modal.style.display = 'none';  
+    }, { once: true });
+  } else {
+    modal.style.display = 'block';  
+    
+    setTimeout(() => {
+      modal.classList.add('show');  
+    }, 10);
+  }
 };
 
-document.addEventListener('click', function(event) {
+const modalButton = document.getElementById('botao-favoritos');
+if (modalButton) {
+  modalButton.addEventListener('click', (event) => {
+    event.stopPropagation();  
+    switchModal();  
+  });
+}
+
+const closeButton = document.querySelector('.close-button');
+if (closeButton) {
+  closeButton.addEventListener('click', (event) => {
+    event.stopPropagation(); 
+    switchModal(); 
+  });
+}
+
+document.addEventListener('click', (event) => {
   const modal = document.getElementById('modal-favoritos');
   const content = modal.querySelector('.modal-content');
 
   if (!modal.classList.contains('show')) return;
 
-  if (
-    content.contains(event.target) || 
-    event.target.closest('.heart-svg') || 
-    event.target.closest('#botao-favoritos') 
-  ) {
+  if (content.contains(event.target) || event.target.closest('.heart-svg') || event.target.closest('#botao-favoritos')) {
     return;
   }
 
-  modal.classList.remove('show');
+  switchModal();
 });
-

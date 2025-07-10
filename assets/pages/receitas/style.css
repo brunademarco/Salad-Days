@@ -194,3 +194,111 @@
     
   }
   
+
+  .modal {
+    display: none;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    height: 100%;
+    width: 480px;
+    background-color: var(--branding-C1);
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2), 2px 0 10px rgba(0, 0, 0, 0.2);
+    transform: translateX(100%);
+    opacity: 0;
+    transition: transform 0.8s ease, opacity 0.4s ease;
+    z-index: 999;
+    border-radius: 30px 30px 0 0;
+    pointer-events: none;
+  }
+ 
+  .modal.show {
+    display: block;
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+  
+  .modal-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    margin-top: 0px;
+  }
+
+  .close-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    width: 50px;
+    margin-right: 20px;
+    border-radius: 50%; 
+    border: 2px solid var(--branding-B1);
+    background-color: var(--branding-C1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .close-button:hover {
+    background-color: #f6faecea; 
+    transform: scale(1.1); 
+  }
+
+  .title-favorites {
+    font-size: 50px;
+    font-family: "Archivo";
+    font-weight: 400;
+  }
+
+  .modal-body {
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+
+  }
+
+  .search-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--branding-C1);
+    border: 2px solid var(--branding-B1);
+    border-radius: 30px;
+    padding: 12px 16px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: 0.3s ease;
+  }
+
+  .search-bar:hover {
+    background-color: #f6faecea;
+  }
+  
+  .search-bar input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: none;
+    font-size: 1.2rem;
+    font-family: "Archivo", sans-serif;
+    color: var(--branding-B1);
+  }
+  
+  .search-bar button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .search-bar button img {
+    width: 30px;
+    height: 30px;
+  }

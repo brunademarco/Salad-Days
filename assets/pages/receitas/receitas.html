@@ -21,7 +21,7 @@
             </a>
             <ul class="menu">
                 <li>
-                    <a href="#" class="button-icon" onclick="switchModal()">
+                    <a href="#" id="botao-favoritos" class="button-icon">
                         <img class="heart-svg" src="../../images/heart-straight-light.svg" alt="button favoritos">
                     </a>
                 </li>
@@ -107,8 +107,8 @@
     <div class="modal" id="modal-favoritos">
       <div class="modal-content">
         <div class="modal-header">
-          <h2 class="title-favorites">Favoritos</h2>
-          <button class="close-button" onclick="switchModal()">
+          <h2 class="title-favorites">Favoritos</h2>  
+            <button class="close-button" id="closeModalButton">
             <img src="../../images/close2.svg" alt="Fechar">
           </button>
         </div>
@@ -132,7 +132,6 @@
                     <img src="../../images/recipe3.jpg" alt="Receita 3">
                     <h3>Salada Grega</h3>
                 </div>
-                <!-- Adicione mais itens de receita conforme necessário -->
             </div>
         </div>
       </div>
