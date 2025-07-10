@@ -208,8 +208,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  width: 280px; 
-  height: auto;
+  height: 460px;
   background-color: var(--branding-C1);
   border: 1px solid var(--branding-B1);
   border-radius: 20px;

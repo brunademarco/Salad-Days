@@ -153,6 +153,7 @@ footer p {
 
 .close-button {
     display: flex;
+    cursor: pointer;
     justify-content: center;
     align-items: center;
     height: 50px;

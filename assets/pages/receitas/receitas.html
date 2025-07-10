@@ -21,7 +21,7 @@
             </a>
             <ul class="menu">
                 <li>
-                    <a href="#" id="botao-favoritos" class="button-icon">
+                    <a href="#" class="button-icon" onclick="switchModal()">
                         <img class="heart-svg" src="../../images/heart-straight-light.svg" alt="button favoritos">
                     </a>
                 </li>
@@ -83,14 +83,7 @@
             <img src="../../images/search.svg" alt="Buscar" />
         </button>
         </div>
-        <div class="filter-options">
-            <button class="filter-button" onclick="filterRecipes('all')">Todas</button>
-            <button class="filter-button" onclick="filterRecipes('vegetarian')">Vegetariana</button>
-            <button class="filter-button" onclick="filterRecipes('vegan')">Vegana</button>
-            <button class="filter-button" onclick="filterRecipes('gluten-free')">Sem Glúten</button>
-            <button class="filter-button" onclick="filterRecipes('vegan')">Vegana</button>
-            <button class="filter-button" onclick="filterRecipes('gluten-free')">Sem Glúten</button>
-        </div>
+        <div class="filter-options"></div>
     </div>
 
     <section class="recipe-cards" id="lista-receitas"></section>
@@ -110,23 +103,24 @@
     </footer>
     
     <div class="modal" id="modal-favoritos">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h2 class="title-favorites">Favoritos</h2>  
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 class="title-favorites">Favoritos</h2>
             <button class="close-button" id="closeModalButton">
-            <img src="../../images/close2.svg" alt="Fechar">
-          </button>
-        </div>
-        <div class="modal-body">
-            <div class="search-bar">
-                <input type="text" placeholder="Pesquisar receitas..." />
-                <button>
-                <img src="../../images/search.svg" alt="Buscar" />
-                </button>
+              <img src="../../images/close2.svg" alt="Fechar">
+            </button>
+          </div>
+          <div class="modal-body">
+              <div class="search-bar">
+                  <input type="text" placeholder="Pesquisar receitas..." />
+                  <button>
+                  <img src="../../images/search.svg" alt="Buscar" />
+                  </button>
+              </div>
+              <div class="column-recipes"></div>
             </div>
-            <div class="column-recipes"></div>
-      </div>
-    </div>
+          </div>
+        </div>
 <script src="../../js/script.js"></script> 
 <script src="../../js/recipes.js"></script> 
 </body>

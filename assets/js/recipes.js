@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       return response.json();
     })
-    .then(receitas => {  // Recebe o array diretamente
+    .then(receitas => {  
       const container = document.getElementById('lista-receitas');
       
       if (!Array.isArray(receitas)) {
@@ -29,3 +29,4 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     .catch(error => console.error('Erro ao carregar receitas:', error));
 });
+

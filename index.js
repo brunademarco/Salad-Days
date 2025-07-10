@@ -5,7 +5,6 @@ const middlewares = jsonServer.defaults();
 
 server.use(middlewares);
 
-// Configurar CORS (se necessário)
 server.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*'); 
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
@@ -13,10 +12,8 @@ server.use((req, res, next) => {
   next();
 });
 
-// Usando o arquivo db.json como a fonte dos dados
 server.use(router);
 
-// Inicia o servidor
 server.listen(3000, () => {
   console.log('JSON Server is running em http://localhost:3000');
 });
