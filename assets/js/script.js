@@ -50,7 +50,6 @@ function resetAutoScroll() {
   startAutoScroll(); 
 }
 
-// 1. Modifique a função switchModal para debug avançado
 function switchModal() {
   console.log('--- Executando switchModal ---');
   
@@ -61,7 +60,6 @@ function switchModal() {
   }
   console.log('Modal encontrado:', modal);
 
-  // Estado atual do modal
   const isShowing = modal.classList.contains('show');
   console.log('Estado inicial:', isShowing ? 'VISÍVEL' : 'OCULTO');
 
@@ -78,7 +76,6 @@ function switchModal() {
     console.log('Iniciando abertura...');
     modal.style.display = 'block';
     
-    // Força recálculo do layout antes da transição
     void modal.offsetWidth;
     
     setTimeout(() => {
