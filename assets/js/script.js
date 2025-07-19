@@ -50,79 +50,55 @@ function resetAutoScroll() {
   startAutoScroll(); 
 }
 
-function switchModal() {
-  console.log('--- Executando switchModal ---');
-  
-  const modal = document.getElementById('modal-favoritos');
-  if (!modal) {
-    console.error('ERRO: Elemento modal não encontrado');
-    return false;
-  }
-  console.log('Modal encontrado:', modal);
+function openModal(modalId) {
+  const modal = document.getElementById(modalId);
+  if (!modal || modal.classList.contains('show')) return;
 
-  const isShowing = modal.classList.contains('show');
-  console.log('Estado inicial:', isShowing ? 'VISÍVEL' : 'OCULTO');
+  modal.style.display = 'block';
+  void modal.offsetWidth; 
+  setTimeout(() => {
+    modal.classList.add('show');
+  }, 10);
+}
 
-  if (isShowing) {
-    console.log('Iniciando fechamento...');
-    modal.classList.remove('show');
-    
-    modal.addEventListener('transitionend', function handler() {
-      console.log('Transição completa - ocultando modal');
-      modal.style.display = 'none';
-      modal.removeEventListener('transitionend', handler);
+function closeModal(modalId) {
+  const modal = document.getElementById(modalId);
+  if (!modal || !modal.classList.contains('show')) return;
+
+  modal.classList.remove('show');
+  setTimeout(() => {
+    modal.style.display = 'none';
+  }, 800); 
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const openFavoritosBtn = document.getElementById('openFavoritosBtn');
+  if (openFavoritosBtn) {
+    openFavoritosBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      openModal('modal-favoritos');
     });
-  } else {
-    console.log('Iniciando abertura...');
-    modal.style.display = 'block';
-    
-    void modal.offsetWidth;
-    
-    setTimeout(() => {
-      console.log('Adicionando classe show');
-      modal.classList.add('show');
-    }, 10);
   }
-  
-  return true;
-}
 
-document.getElementById('closeModalButton')?.addEventListener('click', function(event) {
+  const openReceitaBtn = document.getElementById('openReceitaBtn');
+  if (openReceitaBtn) {
+    openReceitaBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      openModal('modal-receita');
+    });
+  }
 
-  event.preventDefault();
-  event.stopPropagation();
-  
-  const result = switchModal();
+  const closeFavoritosBtn = document.getElementById('closeFavoritosModal');
+  if (closeFavoritosBtn) {
+    closeFavoritosBtn.addEventListener('click', () => {
+      closeModal('modal-favoritos');
+    });
+  }
+
+  const closeReceitaBtn = document.getElementById('closeReceitaModal');
+  if (closeReceitaBtn) {
+    closeReceitaBtn.addEventListener('click', () => {
+      closeModal('modal-receita');
+    });
+  }
 });
-
-function loadFavoritos() {
-  fetch('http://localhost:3000/favoritos')
-    .then(response => response.json())
-    .then(favoritosData => {
-      const modalContent = document.querySelector('.column-recipes');
-      favoritosData.forEach(favorito => {
-        const receitaId = favorito.id_salada;
-        
-        fetch(`http://localhost:3000/receitas/${receitaId}`)
-          .then(response => response.json())
-          .then(receita => {
-            const item = document.createElement('div');
-            item.classList.add('recipe-item');
-            item.innerHTML = `
-              <img src="images/${receita.imagem}" alt="${receita.titulo}">
-              <h3>${receita.titulo}</h3>
-            `;
-            modalContent.appendChild(item);
-          })
-          .catch(error => console.error('Erro ao carregar receita favorita:', error));
-      });
-    })
-    .catch(error => console.error('Erro ao carregar favoritos:', error));
-}
-
-document.getElementById('botao-favoritos').addEventListener('click', () => {
-  loadFavoritos();
-});
-
-updateCarousel();
-startAutoScroll();
