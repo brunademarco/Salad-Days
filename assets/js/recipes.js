@@ -51,8 +51,18 @@ document.addEventListener('DOMContentLoaded', () => {
   if (openReceitaBtn && modalReceita) {
     openReceitaBtn.addEventListener('click', (e) => {
       e.preventDefault();
+      const user = JSON.parse(localStorage.getItem('usuarioLogado'));
+
+      if (!user) {
+        showAlert("Você precisa estar logado para enviar uma receita!", () => {
+         window.location.href = "/login.html";
+        }, "Fazer login");
+
+        return;
+      }
+
       modalReceita.style.display = 'block';
-      void modalReceita.offsetWidth; // força reflow
+      void modalReceita.offsetWidth; 
       setTimeout(() => modalReceita.classList.add('show'), 10);
     });
   }
@@ -65,4 +75,36 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 800);
     });
   }
+});
+
+function showAlert(msg, callback = null, okText = "OK") {
+  const alertContainer = document.getElementById('custom-alert');
+  const alertOkButton = document.getElementById('alert-ok');
+  const alertMessage = document.getElementById('alert-message');
+
+  if (!alertContainer || !alertMessage || !alertOkButton) {
+    console.error('Elementos do alerta não encontrados no DOM.');
+    return;
+  }
+
+  alertMessage.textContent = msg;
+  alertOkButton.textContent = okText;
+
+  alertContainer.classList.remove('alert-hidden');
+  alertContainer.classList.add('alert-show');
+
+  const newOkButton = alertOkButton.cloneNode(true);
+  alertOkButton.parentNode.replaceChild(newOkButton, alertOkButton);
+
+  newOkButton.addEventListener('click', () => {
+    alertContainer.classList.remove('alert-show');
+    alertContainer.classList.add('alert-hidden');
+    if (callback) callback();
+  });
+}
+
+document.getElementById('closeAlert')?.addEventListener('click', () => {
+  const alertContainer = document.getElementById('custom-alert');
+  alertContainer.classList.remove('alert-show');
+  alertContainer.classList.add('alert-hidden');
 });

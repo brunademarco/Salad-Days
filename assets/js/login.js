@@ -56,8 +56,9 @@ function configurarLogin() {
             user.senha === senhaInput);
 
             if (user) {
+                localStorage.setItem('usuarioLogado', JSON.stringify(user));
+                alert(`Bem-vindo, ${user.nome}!`);
                 window.location.href = '/assets/pages/index/index.html';
-                alert(`Bem-vindo, ${user.nome}!`);  
             } else {
                 alert('Login ou senha inválidos!');
             }

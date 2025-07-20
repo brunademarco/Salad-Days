@@ -225,7 +225,76 @@ footer p {
     width: 30px;
     height: 30px;
 }
-  
+
+#custom-alert {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
+
+.alert-show {
+  display: flex !important;
+}
+
+.alert-hidden {
+  display: none !important;
+}
+
+.alert-box {
+  position: relative;
+  background: var(--branding-C1);
+  border-radius: 12px;
+  padding: 25px 35px;
+  max-width: 420px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  animation: fadeInScale 0.3s ease-out;
+}
+
+@keyframes fadeInScale {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.alert-box p {
+  margin-bottom: 20px;
+  font-family: "Archivo", sans-serif;
+  font-weight: 400;
+  font-size: 1.1rem;
+  color: black;
+}
+
+.aceppt-button {
+  padding: 10px 24px;
+  background-color: var(--branding-A1);
+  color: #fff;
+  border: 1.2px solid var(--branding-B1);
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.aceppt-button:hover {
+  background-color: var(--branding-B1);
+}
+
   @media (max-width: 479px) {
     .logo {
         padding: 5px; 
