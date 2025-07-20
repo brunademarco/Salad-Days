@@ -348,7 +348,7 @@
 }
 
 .modal-receita.show {
-  display: flex;
+  display: flex !important;
   align-items: center;
   justify-content: center;
   height: 100vh; 
