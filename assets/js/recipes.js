@@ -38,7 +38,31 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     if (lista.length === 0) {
-      container.innerHTML = '<p>Nenhuma receita encontrada.</p>';
+      container.innerHTML = '<p>Ops! Parece que ainda não temos essa receita :(</p>';
     }
+  }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const openReceitaBtn = document.getElementById('openReceitaBtn');
+  const closeReceitaBtn = document.getElementById('closeReceitaModal');
+  const modalReceita = document.getElementById('modal-receita');
+
+  if (openReceitaBtn && modalReceita) {
+    openReceitaBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      modalReceita.style.display = 'block';
+      void modalReceita.offsetWidth; // força reflow
+      setTimeout(() => modalReceita.classList.add('show'), 10);
+    });
+  }
+
+  if (closeReceitaBtn && modalReceita) {
+    closeReceitaBtn.addEventListener('click', () => {
+      modalReceita.classList.remove('show');
+      setTimeout(() => {
+        modalReceita.style.display = 'none';
+      }, 800);
+    });
   }
 });

@@ -122,15 +122,18 @@
           </div>
         </div>
 
-       <div class="modal" id="modal-receita">
+       <div class="modal-receita" id="modal-receita">
         <div class="modal-content">
 
-        <button class="close-button" id="closeReceitaModal">
-              <img src="../../images/close2.svg" alt="Fechar">
-        </button>
-
-        <h1>FORMULÁRIO</h1>
-        <p>Envie sua receita de salada :)</p>
+            <div class="modal-header">
+                <div class="modal-title">
+                        <h1>FORMULÁRIO</h1>
+                    <p>Envie sua receita de salada :)</p>
+                </div>
+                <button class="close-button" id="closeReceitaModal">
+                    <img src="../../images/close2.svg" alt="Fechar">
+                </button>
+            </div>
 
         <form action="#" method="POST">
             <label for="titulo">Título (Nome da Receita):</label>
@@ -158,7 +161,7 @@
         </form>
     </div>
 </div>
-<script src="../../js/script.js"></script> 
 <script src="../../js/recipes.js"></script> 
+<script src="../../js/script.js"></script> 
 </body>
 </html>

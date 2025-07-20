@@ -80,14 +80,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  const openReceitaBtn = document.getElementById('openReceitaBtn');
-  if (openReceitaBtn) {
-    openReceitaBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      openModal('modal-receita');
-    });
-  }
-
   const closeFavoritosBtn = document.getElementById('closeFavoritosModal');
   if (closeFavoritosBtn) {
     closeFavoritosBtn.addEventListener('click', () => {
@@ -95,10 +87,4 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  const closeReceitaBtn = document.getElementById('closeReceitaModal');
-  if (closeReceitaBtn) {
-    closeReceitaBtn.addEventListener('click', () => {
-      closeModal('modal-receita');
-    });
-  }
 });
