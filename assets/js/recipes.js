@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const container = document.getElementById('lista-receitas');
   let receitas = [];
 
-  fetch('../../../db/receitas.json')
+  fetch('http://localhost:3000/receitas')
     .then(res => res.json())
     .then(data => {
       receitas = data.receitas; 
@@ -75,6 +75,79 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 800);
     });
   }
+
+  const form = document.querySelector('#modal-receita form');
+
+form.addEventListener('submit', async function (e) { 
+  e.preventDefault();
+
+  const user = JSON.parse(localStorage.getItem('usuarioLogado'));
+  if (!user) {
+    showAlert("Você precisa estar logado para enviar uma receita!", () => {
+      window.location.href = "/login.html";
+    }, "Fazer login");
+    return;
+  }
+  const file = document.getElementById("imagem").files[0];
+
+if (!file) {
+  showAlert("Selecione uma imagem!");
+  return;
+}
+
+const formData = new FormData();
+formData.append("file", file);
+formData.append("upload_preset", "saladdays"); 
+
+
+const imageUrl = await fetch("https://api.cloudinary.com/v1_1/dp3ypabuy/image/upload", {
+  method: "POST",
+  body: formData
+})
+.then(res => res.json())
+.then(data => data.secure_url)
+.catch(err => {
+  console.error("Erro ao enviar imagem:", err);
+  showAlert("Erro ao enviar imagem.");
+  throw err;
+});
+
+  const novaReceita = {
+    titulo: document.getElementById("titulo").value,
+    tempo_preparo: document.getElementById("tempo-preparo").value,
+    categoria: document.getElementById("categoria").value,
+    porcoes: Number(document.getElementById("porcoes").value),
+    ingredientes: document.getElementById("ingredientes").value,
+    modo_preparo: document.getElementById("modo-preparo").value,
+    imagem: imageUrl,
+    autorId: user.id
+  };
+
+  fetch('http://localhost:3000/receitas', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(novaReceita)
+  })
+    .then(res => {
+      if (res.ok) {
+        showAlert("Receita enviada com sucesso!");
+        form.reset();
+        document.getElementById('modal-receita').classList.remove('show');
+        setTimeout(() => {
+          document.getElementById('modal-receita').style.display = 'none';
+        }, 500);
+      } else {
+        showAlert("Erro ao enviar a receita. Tente novamente.");
+      }
+    })
+    .catch(err => {
+      console.error("Erro:", err);
+      showAlert("Erro ao enviar a receita.");
+    });
+});
+
 });
 
 function showAlert(msg, callback = null, okText = "OK") {
