@@ -88,3 +88,19 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  const loginRedirectBtn = document.getElementById('login-redirect');
+  const user = JSON.parse(localStorage.getItem('usuarioLogado'));
+
+  if (loginRedirectBtn) {
+    loginRedirectBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (user) {
+        window.location.href = '../../pages/usuario/usuario.html'; 
+      } else {
+        window.location.href = '/login.html';
+      }
+    });
+  }
+});

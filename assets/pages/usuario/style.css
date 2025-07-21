@@ -1,0 +1,102 @@
+.perfil-container {
+  display: flex;
+  flex-direction: row;
+  height: calc(100vh - 60px); 
+}
+
+.perfil-sidebar {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--branding-B1);
+  Width: 220px;
+  height: 100%;
+  padding: 20px;
+  gap: 12px;
+  border-right: 1px solid #ddd;
+  border-radius: 20px;
+  margin: 20px;
+}
+
+.sidebar-button {
+  background-color: #F6F4F4;
+  border: none;
+  text-align: left;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 30px;
+  transition: background-color 0.2s;
+}
+
+.sidebar-button:hover {
+  background-color: #e0eac2;
+}
+
+.perfil-content {
+  flex-grow: 1;
+  margin: 20px;
+  background-color: var(--B1-auxiliar);
+  overflow-y: auto;
+  border-radius: 20px;
+  height: 100%;
+}
+
+.perfil-header  h2{
+    margin: 25px;
+    font-family: "Archivo", serif;
+    font-size: 1.5em;
+    font-weight: 400;
+}
+
+.card-perfil {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 30px;
+    background-color: #F6F4F4;
+    border-radius: 20px;
+    margin-left: 20px;
+    width: 500px;
+    height: auto;
+}
+
+.card-perfil p {
+    font-family: "Archivo", serif;
+    font-size: 1.2em;
+    font-weight: 400;
+    margin: 10px 0;
+}
+
+.perfil-dado {
+    font-family: "Archivo", serif;
+    background-color: var(--B1-auxiliar);
+    padding: 12px;
+    border-radius: 20px;
+    font-size: 1.2em;
+    font-weight: 400;
+    margin: 10px 0;
+    align-self: flex-start;
+}
+
+.perfil-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    
+    margin-bottom: 20px;
+}
+
+.perfil-editar {
+    border: none;
+    background-color: transparent;
+}
+
+.perfil-editar img {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    margin-left: 10px;
+}
