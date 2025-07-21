@@ -1,41 +1,4 @@
 {
-  "usuarios": [
-    {
-      "id": "1",
-      "login": "SaladDays",
-      "senha": "090805SD",
-      "nome": "Administrador do Sistema",
-      "email": "contatoSaladDasys@abc.com"
-    },
-    {
-      "id": "2",
-      "login": "user",
-      "senha": "31993324",
-      "nome": "Usuario Comum",
-      "email": "user@abc.com"
-    },
-    {
-      "id": "3",
-      "login": "LuizaMiranda",
-      "senha": "djej9302",
-      "nome": "Luiza",
-      "email": "lumirandda89@gmail.com"
-    },
-    {
-      "id": "4",
-      "login": "mariaclara98",
-      "senha": "senhacomum8932",
-      "nome": "Maria Silva",
-      "email": "mariaclara.silva@gmail.com"
-    },
-    {
-      "id": "5",
-      "login": "BrunaNoely",
-      "senha": "090805brunalunoely",
-      "nome": "Bruna Luiza Noely De Marco",
-      "email": "brunalunoelymarco@gmail.com"
-    }
-  ],
   "receitas": [
     {
       "id": "1",
@@ -307,38 +270,6 @@
     {
       "id": "6",
       "nome": "Refrescantes"
-    }
-  ],
-  "favoritos": [
-    {
-      "id": "1",
-      "id_usuario": 1,
-      "id_salada": 1
-    },
-    {
-      "id": "2",
-      "id_usuario": 1,
-      "id_salada": 2
-    },
-    {
-      "id": "3",
-      "id_usuario": 1,
-      "id_salada": 3
-    },
-    {
-      "id": "4",
-      "id_usuario": 1,
-      "id_salada": 4
-    },
-    {
-      "id": "5",
-      "id_usuario": 1,
-      "id_salada": 5
-    },
-    {
-      "id": "6",
-      "id_usuario": 1,
-      "id_salada": 6
     }
   ]
 }
