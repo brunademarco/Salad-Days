@@ -43,8 +43,21 @@ document.addEventListener("DOMContentLoaded", () => {
             <img src="/assets/images/editar.svg" alt="Editar Senha">
           </button>
         </div>
+        <button class="perfil-sair" data-campo="sair">
+            <img src="/assets/images/Sair.svg" alt="Sair do perfil">
+          </button>
       </div>
     `;
+
+    document.addEventListener("click", (e) => {
+        if (e.target.closest(".perfil-sair")) {
+        showConfirm("Tem certeza que deseja sair?", () => {
+            localStorage.removeItem("usuarioLogado");
+            window.location.href = "../../index.html";
+        }, "Sair");
+    }
+});
+
   }
 
   renderPerfil();
@@ -78,7 +91,6 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
 
-        // Limpa o conteúdo anterior
         content.innerHTML = `
           <div class="perfil-header">
             <h2>Suas Receitas</h2>
@@ -95,10 +107,15 @@ document.addEventListener("DOMContentLoaded", () => {
           card.innerHTML = `
             <h3>${receita.titulo}</h3>
             <p><strong>Categoria:</strong> ${receita.categoria}</p>
-            <p><strong>Porções:</strong> ${receita.porcoes}</p>
-            <p><strong>Tempo de preparo:</strong> ${receita.tempo_preparo}</p>
-            <p><strong>Ingredientes:</strong> ${receita.ingredientes}</p>
-            <p><strong>Modo de preparo:</strong> ${receita.modo_preparo}</p>
+            <p><strong>Descrição:</strong> ${receita.descrição}</p>
+            <div class="editar-e-sair"> 
+                <button class="editar-receita" data-campo="receita">
+                    <img src="/assets/images/editar.svg" alt="Editar receita">
+                </button>
+                <button class="excluir-receita" data-campo="receita">
+                    <img src="/assets/images/trash(1).svg" alt="Excluir receita">
+                </button>
+            </div>
           `;
 
           lista.appendChild(card);
@@ -108,14 +125,49 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error('Erro ao buscar receitas:', err);
         content.innerHTML = "<p>Erro ao carregar suas receitas.</p>";
       });
-  
-}
+    }
       }
       else if (view === "favoritos") {
         content.innerHTML = "<p>Suas receitas favoritas aparecerão aqui.</p>";
       }
     });
   });
+
+  content.addEventListener('click', (e) => {
+  const excluirBtn = e.target.closest('.excluir-receita');
+  if (excluirBtn) {
+    const card = excluirBtn.closest('.recipe-card');
+    const titulo = card.querySelector('h3').textContent;
+
+    showConfirm(`Tem certeza que deseja excluir a receita "${titulo}"?`, () => {
+     
+      const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+      
+      fetch(`http://localhost:3000/receitas?autorId=${usuarioLogado.id}`)
+        .then(res => res.json())
+        .then(receitas => {
+          const receitaAlvo = receitas.find(r => r.titulo === titulo && r.autorId === usuarioLogado.id);
+          if (!receitaAlvo) {
+            alert('Receita não encontrada.');
+            return;
+          }
+
+          fetch(`http://localhost:3000/receitas/${receitaAlvo.id}`, {
+            method: 'DELETE'
+          })
+          .then(() => {
+            alert('Receita excluída com sucesso!');
+            card.remove(); 
+          })
+          .catch(err => {
+            console.error('Erro ao excluir receita:', err);
+            alert('Erro ao excluir receita.');
+          });
+        });
+    });
+  }
+});
+
 });
 
 
@@ -125,3 +177,28 @@ content.addEventListener('click', (e) => {
     abrirModalEdicao(campo);
   }
 });
+
+function showConfirm(msg, onConfirm) {
+  const modal = document.getElementById('confirm-modal');
+  const message = document.getElementById('confirm-message');
+  const yesBtn = document.getElementById('confirm-yes');
+  const noBtn = document.getElementById('confirm-no');
+
+  message.textContent = msg;
+  modal.classList.remove('confirm-hidden');
+
+  const cleanup = () => {
+    modal.classList.add('confirm-hidden');
+    yesBtn.replaceWith(yesBtn.cloneNode(true));
+    noBtn.replaceWith(noBtn.cloneNode(true));
+  };
+
+  yesBtn.addEventListener('click', () => {
+    cleanup();
+    onConfirm();
+  });
+
+  noBtn.addEventListener('click', () => {
+    cleanup();
+  });
+}

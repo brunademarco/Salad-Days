@@ -85,7 +85,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    
+
     margin-bottom: 20px;
 }
 
@@ -99,4 +99,157 @@
     height: 24px;
     cursor: pointer;
     margin-left: 10px;
+}
+
+.card-perfil {
+  position: relative;
+}
+
+.perfil-sair {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.perfil-sair:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.card-lista-receitas {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    border-radius: 20px;
+    margin: 20px;
+}
+
+.recipe-card {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    background-color: #F6F4F4;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 20px;
+    width: calc(100% - 1000px);
+}
+
+.recipe-card h3 {
+    font-family: "Archivo", serif;
+    font-size: 1.5em;
+    font-weight: 400;
+    margin-bottom: 10px;
+}
+
+.editar-e-sair {
+    display: flex;
+    position: absolute;
+    cursor: pointer;
+    flex-direction: row;
+    padding: 10px;
+    gap: 10px;
+    top: 10px;
+    right: 10px;
+}
+
+.excluir-receita {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+    padding: 4px;
+    border-radius: 6px;
+}
+
+.excluir-receita:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.editar-receita {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+    padding: 4px;
+    border-radius: 6px;
+}
+
+.editar-receita:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+#confirm-modal.confirm-hidden {
+  display: none;
+}
+
+#confirm-modal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.confirm-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: var(--branding-C1);
+  border: none;
+  border-radius: 20px;
+  padding: 20px;
+  text-align: center;
+  width: 400px;
+  height: 200px;
+}
+
+.confirm-box p {
+    font-family: "Archivo", serif;
+    font-size: 1.4em;
+    margin-bottom: 50px;
+}
+
+.confirm-buttons {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.confirm-buttons button {
+  padding: 18px 20px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  font-family: "Archivo", sans-serif;
+}
+
+#confirm-yes {
+  font-family: "Archivo", serif;
+  font-size: 1.2em;
+  background-color: var(--branding-B1);
+  color: white;
+}
+
+#confirm-yes:hover {
+  background-color: #667482;
+}
+
+#confirm-no {
+  font-family: "Archivo", serif;
+  font-size: 1.2em;
+  background-color: #ccc;
+  color: black;
+}
+
+#confirm-no:hover {
+  background-color: #bbb;
 }

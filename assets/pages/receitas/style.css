@@ -390,6 +390,38 @@
   background-color: var(--branding-B1); 
 }
 
+.modal-receita form select {
+  font-family: "Archivo", serif;
+  font-weight: 400;
+  background-color: #fffef8;
+  padding: 12px;
+  border: 1px solid var(--branding-B1);
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+
+
+.custom-file-upload {
+  display: inline-block;
+  margin: 10px;
+  padding: 10px 20px;
+  background-color: var(--branding-B1);
+  color: white;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.custom-file-upload:hover {
+  background-color: var(--branding-A1);
+}
+
+.arquivo-nome {
+  margin-left: 10px;
+  font-style: italic;
+  color: #444;
+}
+
 .close-button {
   position: absolute;
   top: 10px;

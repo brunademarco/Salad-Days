@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   fetch('http://localhost:3000/receitas')
     .then(res => res.json())
     .then(data => {
-      receitas = data.receitas; 
+      receitas = data; 
       render(receitas);
     })
     .catch(err => console.error('Erro ao carregar JSON:', err));
@@ -76,7 +76,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  const form = document.querySelector('#modal-receita form');
+fetch('http://localhost:3000/categorias')
+  .then(res => res.json())
+  .then(categorias => {
+    const select = document.getElementById('categoria');
+    categorias.forEach(cat => {
+      const option = document.createElement('option');
+      option.value = cat.nome; 
+      option.textContent = cat.nome;
+      select.appendChild(option);
+    });
+  })
+  .catch(err => console.error("Erro ao carregar categorias:", err));
+
+const form = document.querySelector('#modal-receita form');
 
 form.addEventListener('submit', async function (e) { 
   e.preventDefault();
