@@ -1,3 +1,5 @@
 node_modules/
 .vscode/
-db/usuários.json
+db/usuarios.json
+merge-db.js
+db/db.json

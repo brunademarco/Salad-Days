@@ -56,6 +56,13 @@ document.addEventListener("DOMContentLoaded", () => {
             window.location.href = "../../index.html";
         }, "Sair");
     }
+
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('.perfil-editar')) {
+           const campo = e.target.closest('.perfil-editar').getAttribute('data-campo');
+            abrirModalEdicao(campo);
+    }
+});
 });
 
   }
@@ -167,15 +174,44 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
-
 });
 
+function abrirModalEdicao(campo) {
+  const modal = document.getElementById("modal-edicao");
+  const titulo = document.getElementById("modal-titulo");
+  const input = document.getElementById("modal-input");
+  const salvarBtn = document.getElementById("salvar-edicao");
 
-content.addEventListener('click', (e) => {
-  if (e.target.classList.contains('perfil-editar')) {
-    const campo = e.target.getAttribute('data-campo');
-    abrirModalEdicao(campo);
-  }
+  const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
+
+  titulo.textContent = `Editar ${campo.charAt(0).toUpperCase() + campo.slice(1)}`;
+  input.value = campo === "senha" ? "" : usuario[campo];
+  input.type = campo === "senha" ? "password" : "text";
+  modal.classList.remove("oculto");
+
+  salvarBtn.onclick = () => {
+    const novoValor = input.value.trim();
+    if (!novoValor) return alert("O campo não pode estar vazio.");
+
+    usuario[campo] = novoValor;
+    localStorage.setItem("usuarioLogado", JSON.stringify(usuario));
+
+    fetch(`http://localhost:3000/usuarios/${usuario.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ [campo]: novoValor })
+    })
+    .then(res => res.ok ? res.json() : Promise.reject("Erro ao atualizar"))
+    .then(() => {
+      modal.classList.add("oculto");
+      renderPerfil();
+    })
+    .catch(() => alert("Erro ao atualizar o perfil."));
+  };
+}
+
+document.getElementById("cancelar-edicao").addEventListener("click", () => {
+  document.getElementById("modal-edicao").classList.add("oculto");
 });
 
 function showConfirm(msg, onConfirm) {

@@ -253,3 +253,75 @@
 #confirm-no:hover {
   background-color: #bbb;
 }
+
+.modal-edicao {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-conteudo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--branding-C1);
+  padding: 20px;
+  border-radius: 20px;
+  min-width: 400px;
+}
+
+.oculto {
+  display: none;
+}
+
+.modal-conteudo h3 {
+    font-family: "Archivo", serif;
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+.modal-conteudo input[type="text"],
+.modal-conteudo input[type="password"] {
+  width: 60%;
+  padding: 15px;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  font-family: "Archivo", serif;
+  transition: border-color 0.3s ease;
+}
+
+.modal-conteudo input:focus {
+  border: 2px solid #6c8294; 
+  outline: none; 
+}
+
+.modal-conteudo button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    background-color: var(--branding-B1);
+    color: white;
+    cursor: pointer;
+    font-family: "Archivo", serif;
+    font-size: 1.2em;
+    transition: background-color 0.2s;
+}
+
+.modal-conteudo #cancelar-edicao {
+    background-color: #ccc;
+    color: black;
+}
+
+.modal-botoes {
+    display: flex;
+    gap: 30px;
+    padding-top: 20px;
+}
