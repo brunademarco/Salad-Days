@@ -1,6 +1,4 @@
 node_modules/
 .vscode/
-db/usuarios.json
 merge-db.js
 db/db.json
-db/receitas.json

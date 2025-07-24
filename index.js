@@ -6,9 +6,8 @@ const middlewares = jsonServer.defaults();
 const CryptoJS = require("crypto-js");
 
 const dbPath = path.join(__dirname, 'db/db.json');
-const db = JSON.parse(fs.readFileSync(dbPath, 'utf-8'));  
 
-const router = jsonServer.router(db);  
+const router = jsonServer.router(dbPath);
 
 server.use(middlewares);  
 server.use((req, res, next) => {
