@@ -1,4 +1,5 @@
 const BASE_IMAGE_PATH = '/assets/images/'; 
+const API_URL = 'http://localhost:3000';
 
 document.addEventListener('DOMContentLoaded', () => {
   const input = document.getElementById('searchInput');
@@ -6,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const container = document.getElementById('lista-receitas');
   let receitas = [];
 
-  fetch('http://localhost:3000/receitas')
+  fetch(`${API_URL}/receitas`)
     .then(res => res.json())
     .then(data => {
       receitas = data; 
@@ -76,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-fetch('http://localhost:3000/categorias')
+fetch(`${API_URL}/categorias`)
   .then(res => res.json())
   .then(categorias => {
     const select = document.getElementById('categoria');
@@ -136,7 +137,7 @@ const imageUrl = await fetch("https://api.cloudinary.com/v1_1/dp3ypabuy/image/up
     autorId: user.id
   };
 
-  fetch('http://localhost:3000/receitas', {
+  fetch(`${API_URL}/receitas`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

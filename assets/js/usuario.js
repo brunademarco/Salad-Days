@@ -1,4 +1,5 @@
 const BASE_IMAGE_PATH = '/assets/images/'; 
+const API_URL = process.env.API_URL || 'http://localhost:3000';
 
 document.addEventListener("DOMContentLoaded", () => {
   const content = document.getElementById("perfil-content");
@@ -90,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    fetch(`http://localhost:3000/receitas?autorId=${usuarioLogado.id}`)
+    fetch(`${API_URL}/receitas?autorId=${usuarioLogado.id}`)
       .then(res => res.json())
       .then(receitas => {
         if (receitas.length === 0) {
@@ -150,7 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
      
       const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
       
-      fetch(`http://localhost:3000/receitas?autorId=${usuarioLogado.id}`)
+      fetch(`${API_URL}/receitas?autorId=${usuarioLogado.id}`)
         .then(res => res.json())
         .then(receitas => {
           const receitaAlvo = receitas.find(r => r.titulo === titulo && r.autorId === usuarioLogado.id);
@@ -159,7 +160,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
           }
 
-          fetch(`http://localhost:3000/receitas/${receitaAlvo.id}`, {
+          fetch(`${API_URL}/receitas/${receitaAlvo.id}`, {
             method: 'DELETE'
           })
           .then(() => {
@@ -196,7 +197,7 @@ function abrirModalEdicao(campo) {
     usuario[campo] = novoValor;
     localStorage.setItem("usuarioLogado", JSON.stringify(usuario));
 
-    fetch(`http://localhost:3000/usuarios/${usuario.id}`, {
+    fetch(`${API_URL}/usuarios/${usuario.id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ [campo]: novoValor })

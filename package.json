@@ -1,28 +1,26 @@
 {
   "name": "saladdays",
   "version": "1.0.0",
+  "description": "",
   "main": "index.js",
   "scripts": {
-      "prejson": "node merge-db.js",
-    "json": "npx json-server --watch db/db.json --port 3000",
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/brunanoely/salad-days.git"
+    "url": "git+https://github.com/brunademarco/salad-days.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/brunanoely/salad-days/issues"
+    "url": "https://github.com/brunademarco/salad-days/issues"
   },
-  "homepage": "https://github.com/brunanoely/salad-days#readme",
-  "description": "",
+  "homepage": "https://github.com/brunademarco/salad-days#readme",
   "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^4.17.1",
-    "json-server": "^1.0.0-beta.3",
-    "mapbox-gl": "^3.8.0"
+    "crypto-js": "^4.2.0",
+    "json-server": "^0.17.4"
   }
 }
