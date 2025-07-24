@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../../css/global/global.css">
     <link rel="stylesheet" href="../usuario/style.css">
     <link rel="icon" href="../../images/logo-icon.svg" type="image/x-icon">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <!--fim das referencias-->
     <title>Perfil - Salad Days</title>
 </head>
@@ -67,7 +68,16 @@
 <div id="modal-edicao" class="modal-edicao oculto">
   <div class="modal-conteudo">
     <h3 id="modal-titulo">Editar</h3>
-    <input type="text" id="modal-input" />
+
+    <div id="grupo-input-unico">
+      <input type="text" id="modal-input" />
+    </div>
+
+    <div id="grupo-input-senha" class="oculto">
+      <input type="password" id="senha-atual" placeholder="Senha atual" />
+      <input type="password" id="nova-senha" placeholder="Nova senha" />
+    </div>
+
     <div class="modal-botoes">
       <button id="cancelar-edicao">Cancelar</button>
       <button id="salvar-edicao">Salvar</button>

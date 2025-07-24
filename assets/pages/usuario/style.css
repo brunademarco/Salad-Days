@@ -105,10 +105,15 @@
   position: relative;
 }
 
-.perfil-sair {
+.button-space {
   position: absolute;
-  top: 30px;
-  right: 30px;
+  top: 16px;
+  right: 16px;
+  display: flex;
+}
+
+.perfil-sair, .perfil-excluir {
+  position: relative;
   background: transparent;
   border: none;
   cursor: pointer;
@@ -117,7 +122,7 @@
   transition: background 0.2s;
 }
 
-.perfil-sair:hover {
+.perfil-sair:hover, .perfil-excluir:hover {
   background-color: rgba(0, 0, 0, 0.05);
 }
 
@@ -288,7 +293,7 @@
 
 .modal-conteudo input[type="text"],
 .modal-conteudo input[type="password"] {
-  width: 60%;
+  width: 90%;
   padding: 15px;
   margin-bottom: 1rem;
   font-size: 1rem;
@@ -324,4 +329,9 @@
     display: flex;
     gap: 30px;
     padding-top: 20px;
+}
+
+#grupo-input-unico {
+  width: 100%;
+
 }

@@ -27,7 +27,7 @@ fetch(`${API_URL}/usuarios`)
         return response.json();
     })
     .then(data => {
-        usuarios = data.usuarios; 
+        usuarios = data; 
         console.log('Dados carregados com sucesso:', usuarios);
 
         configurarLogin();
