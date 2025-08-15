@@ -127,12 +127,16 @@ const imageUrl = await fetch("https://api.cloudinary.com/v1_1/dp3ypabuy/image/up
 });
 
   const novaReceita = {
-    titulo: document.getElementById("titulo").value,
-    tempo_preparo: document.getElementById("tempo-preparo").value,
-    categoria: document.getElementById("categoria").value,
+    titulo: document.getElementById("titulo").value.trim(),
+    tempo_preparo: document.getElementById("tempo-preparo").value.trim(),
+    categoria_id: [Number(categoriaEncontrada.id)],
     porcoes: Number(document.getElementById("porcoes").value),
-    ingredientes: document.getElementById("ingredientes").value,
-    modo_preparo: document.getElementById("modo-preparo").value,
+    ingredientes_base: document.getElementById("ingredientes-base").value
+      .split("\n").map(i => i.trim()).filter(i => i),
+    ingredientes_molho: document.getElementById("ingredientes-molho").value
+      .split("\n").map(i => i.trim()).filter(i => i),
+    instrucoes: document.getElementById("modo-preparo").value
+      .split("\n").map(i => i.trim()).filter(i => i),
     imagem: imageUrl,
     autorId: user.id
   };

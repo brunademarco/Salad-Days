@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (sairBtn) {
       showConfirm("Tem certeza que deseja sair?", () => {
         localStorage.removeItem("usuarioLogado");
-        window.location.href = "../../index.html";
+        window.location.href = "../../pages/index/index.html";
       }, "Sair");
     }
 
@@ -314,3 +314,4 @@ function showConfirm(msg, onConfirm, acao = "Confirmar") {
     cleanup();
   });
 }
+
