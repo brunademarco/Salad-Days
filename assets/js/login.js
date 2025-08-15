@@ -3,7 +3,6 @@ const registerBox = document.getElementById("register-box");
 const showRegisterLink = document.getElementById("show-register");
 const showLoginLink = document.getElementById("show-login");
 
-let usuarios = [];
 
 showRegisterLink.addEventListener("click", (e) => {
     e.preventDefault();
@@ -17,144 +16,92 @@ showLoginLink.addEventListener("click", (e) => {
     loginBox.classList.add("active");
 });
 
-fetch(`/usuarios`) 
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Erro ao carregar o JSON');
-        }
-        return response.json();
-    })
-    .then(data => {
-        usuarios = data; 
-        console.log('Dados carregados com sucesso:', usuarios);
 
-        configurarLogin();
-    })
-    .catch(error => {
-        console.error('Erro ao carregar os dados:', error);
-    });
+document.querySelector('#login-box form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const loginInput = document.querySelector('#login-input').value;
+    const senhaInput = document.querySelector('#login-box input[type="password"]').value;
 
-function configurarLogin() {
-        const loginForm = document.querySelector('#login-box form');
-    
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-    
-            const loginInput = loginForm.querySelector('#login-input').value; 
-            const senhaInput = loginForm.querySelector('input[type="password"]').value;
-            const senhaHash = CryptoJS.SHA256(senhaInput).toString(CryptoJS.enc.Base64);
-
-            console.log('Login digitado:', loginInput);
-            console.log('Senha digitada:', senhaInput);
-    
-            if (usuarios.length === 0) {
-                alert('Os dados ainda não foram carregados. Tente novamente.');
-                return;
-            }
-    
-           const user = usuarios.find(user =>
-            (user.login === loginInput || user.email === loginInput) &&
-             user.senha === senhaHash);
-
-            if (user) {
-                localStorage.setItem('usuarioLogado', JSON.stringify(user));
-                window.location.href = '/assets/pages/index/index.html';
-            } else {
-                alert('Login ou senha inválidos!');
-            }
+    try {
+        const response = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                login: loginInput,
+                senha: senhaInput
+            })
         });
-    }    
 
-const registerForm = document.querySelector('#register-box form');
+        const data = await response.json();
 
-registerForm.addEventListener('submit', (e) => {
+        if (response.ok) {
+            
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('user', JSON.stringify(data.user));
+            window.location.href = '/assets/pages/index/index.html';
+        } else {
+            alert(data.error || 'Login falhou!');
+        }
+    } catch (error) {
+        console.error('Erro:', error);
+        alert('Erro ao conectar com o servidor');
+    }
+});
+
+document.querySelector('#register-box form').addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const nomeInput = registerForm.querySelector('input[name="nome"]').value.trim(); 
-    const loginInput = registerForm.querySelector('input[name="login"]').value.trim(); 
-    const emailInput = registerForm.querySelector('input[name="email"]').value.trim(); 
-    const senhaInput = registerForm.querySelector('input[name="senha"]').value.trim();
+    const formData = {
+        nome: document.querySelector('input[name="nome"]').value.trim(),
+        login: document.querySelector('input[name="login"]').value.trim(),
+        email: document.querySelector('input[name="email"]').value.trim(),
+        senha: document.querySelector('#register-box input[name="senha"]').value.trim()
+    };
 
-    const senhaHash = CryptoJS.SHA256(senhaInput).toString(CryptoJS.enc.Base64);
-
-    if (!nomeInput || !emailInput || !senhaInput || !loginInput) {
+    if (!Object.values(formData).every(Boolean)) {
         alert('Todos os campos são obrigatórios!');
         return;
     }
 
-    fetch(`/usuarios`)
-        .then(response => response.json())
-        .then(usuarios => {
-
-            const loginExists = usuarios.some(user => user.login === loginInput);
-            const emailExists = usuarios.some(user => user.email === emailInput);
-
-            if (loginExists) {
-                alert('Este nome de usuário já está em uso!');
-                return;
-            }
-
-            if (emailExists) {
-                alert('Este email já está em uso!');
-                return;
-            }
-
-            const novoUsuario = {
-                id: usuarios.length + 1,
-                login: loginInput,
-                senha: senhaHash,
-                nome: nomeInput,
-                email: emailInput
-            };
-
-            return fetch(`/usuarios`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(novoUsuario)
-            });
-        })
-        .then((response) => {
-            if (response.ok) {
-                const modal = document.getElementById('confirmation-modal');
-                modal.style.display = 'flex'; 
-
-                registerForm.reset(); 
-                setTimeout(() => {
-                    window.location.href = '/assets/pages/index/index.html';
-                }, 3000);
-            } else {
-                alert('Erro ao cadastrar o usuário!');
-            }
-        })
-        .catch((error) => {
-            console.error('Erro:', error);
+    try {
+        const response = await fetch('/api/auth/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
         });
+
+        if (response.ok) {
+            const modal = document.getElementById('confirmation-modal');
+            modal.style.display = 'flex';
+            
+            setTimeout(() => {
+                window.location.href = '/assets/pages/index/index.html';
+            }, 3000);
+        } else {
+            const error = await response.json();
+            alert(error.error || 'Erro no registro');
+        }
+    } catch (error) {
+        console.error('Erro:', error);
+        alert('Erro ao conectar com o servidor');
+    }
 });
 
 const inputBoxes = document.querySelectorAll('.input-box input');
-
 inputBoxes.forEach(input => {
-
     input.addEventListener('focus', () => {
-        const label = input.nextElementSibling;  
-        label.classList.add('float'); 
+        input.nextElementSibling.classList.add('float');
     });
-
     input.addEventListener('blur', () => {
-        const label = input.nextElementSibling; 
         if (input.value.trim() === "") {
-            label.classList.remove('float'); 
+            input.nextElementSibling.classList.remove('float');
         }
     });
 });
 
-const passwordInput = document.querySelector('#senha');
 const togglePasswordCheckbox = document.querySelector('#toggle-password');
-
 togglePasswordCheckbox.addEventListener('change', () => {
-
+    const passwordInput = document.querySelector('#senha');
     passwordInput.type = togglePasswordCheckbox.checked ? 'text' : 'password';
 });
-

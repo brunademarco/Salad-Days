@@ -1,10 +1,23 @@
 {
   "name": "saladdays",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "API para o projeto Salad Days",
+  "main": "api/index.js",
+  "type": "commonjs",
   "scripts": {
+    "start": "node api/index.js",
+    "dev": "nodemon api/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "crypto-js": "^4.2.0",
+    "dotenv": "^16.6.1",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
   },
   "repository": {
     "type": "git",
@@ -13,13 +26,8 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
   "bugs": {
     "url": "https://github.com/brunademarco/salad-days/issues"
   },
-  "homepage": "https://github.com/brunademarco/salad-days#readme",
-  "dependencies": {
-    "crypto-js": "^4.2.0",
-    "json-server": "^0.17.4"
-  }
+  "homepage": "https://github.com/brunademarco/salad-days#readme"
 }

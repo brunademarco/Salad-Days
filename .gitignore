@@ -3,3 +3,4 @@ node_modules/
 merge-db.js
 db/db.json
 .vercel
+.env
