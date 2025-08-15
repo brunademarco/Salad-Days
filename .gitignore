@@ -2,3 +2,4 @@ node_modules/
 .vscode/
 merge-db.js
 db/db.json
+.vercel

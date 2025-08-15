@@ -1,5 +1,3 @@
-const API_URL = 'http://localhost:3000';
-
 const loginBox = document.getElementById("login-box");
 const registerBox = document.getElementById("register-box");
 const showRegisterLink = document.getElementById("show-register");
@@ -19,7 +17,7 @@ showLoginLink.addEventListener("click", (e) => {
     loginBox.classList.add("active");
 });
 
-fetch(`${API_URL}/usuarios`) 
+fetch(`/usuarios`) 
     .then(response => {
         if (!response.ok) {
             throw new Error('Erro ao carregar o JSON');
@@ -84,7 +82,7 @@ registerForm.addEventListener('submit', (e) => {
         return;
     }
 
-    fetch(`${API_URL}/usuarios`)
+    fetch(`/usuarios`)
         .then(response => response.json())
         .then(usuarios => {
 
@@ -109,7 +107,7 @@ registerForm.addEventListener('submit', (e) => {
                 email: emailInput
             };
 
-            return fetch(`${API_URL}/usuarios`, {
+            return fetch(`/usuarios`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

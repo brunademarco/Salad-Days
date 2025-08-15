@@ -1,5 +1,4 @@
 const BASE_IMAGE_PATH = '/assets/images/'; 
-const API_URL = 'http://localhost:3000';
 
 document.addEventListener("DOMContentLoaded", () => {
   const content = document.getElementById("perfil-content");
@@ -80,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
         if (!usuario) return;
 
-        fetch(`${API_URL}/usuarios/${usuario.id}`, {
+        fetch(`/usuarios/${usuario.id}`, {
           method: 'DELETE'
         })
         .then(() => {
@@ -101,7 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       showConfirm(`Tem certeza que deseja excluir a receita "${titulo}"?`, () => {
         const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
-        fetch(`${API_URL}/receitas?autorId=${usuario.id}`)
+        fetch(`/receitas?autorId=${usuario.id}`)
           .then(res => res.json())
           .then(receitas => {
             const receitaAlvo = receitas.find(r => r.titulo === titulo && r.autorId === usuario.id);
@@ -110,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
               return;
             }
 
-            fetch(`${API_URL}/receitas/${receitaAlvo.id}`, {
+            fetch(`/receitas/${receitaAlvo.id}`, {
               method: 'DELETE'
             })
             .then(() => {
@@ -148,7 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    fetch(`${API_URL}/receitas?autorId=${usuarioLogado.id}`)
+    fetch(`/receitas?autorId=${usuarioLogado.id}`)
       .then(res => res.json())
       .then(receitas => {
         if (receitas.length === 0) {
@@ -253,7 +252,7 @@ function abrirModalEdicao(campo) {
 
     localStorage.setItem("usuarioLogado", JSON.stringify(usuario));
 
-    fetch(`${API_URL}/usuarios/${usuario.id}`, {
+    fetch(`/usuarios/${usuario.id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ [campo]: usuario[campo] })
