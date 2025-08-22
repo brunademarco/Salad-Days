@@ -26,13 +26,37 @@ module.exports = {
 
     if (senha === senhaDescriptografada) {
         const token = jwt.sign(
-        { id: usuario.id }, // Dados armazenados no token
+        { id: usuario.id },
         process.env.JWT_SECRET,
-        {expiresIn: '1h' } // Token expira em 1 hora
+        {expiresIn: '1h' } 
     );
   
     const { senha: _, ...userData } = usuario;
-    res.json({ ...userData, token }); // Retorna token + dados do usuário
+    res.json({ ...userData, token }); 
     }
-},
+    },
+
+    register: (req, res) => {
+        const db = readDB();
+        const { login, senha, nome, email } = req.body;
+
+        if (db.usuarios.some(u => u.login === login || u.email === email)) {
+            return res.status(400).json({ error: 'Usuário ou email já existe' });
+        }
+
+        const senhaCriptografada = CryptoJS.AES.encrypt(senha, process.env.CRYPTO_SECRET || 'chave-fallback').toString();
+
+        const novoUsuario = {
+            id: Date.now().toString(),
+            login,
+            senha: senhaCriptografada,
+            nome,
+            email
+        };
+
+    db.usuarios.push(novoUsuario);
+    saveDB(db);
+
+    res.status(201).json({ id: novoUsuario.id });
+  }
 };
