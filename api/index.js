@@ -3,6 +3,8 @@ const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 const usuariosRoutes = require('./routes/usuariosRoutes');
 const receitasRoutes = require('./routes/receitasRoutes');
+const fs = require('fs');              // <- adicionar
+const path = require('path');          //
 require('dotenv').config();
 
 const app = express();
@@ -15,17 +17,24 @@ app.use(cors({
 
 app.use(express.json());
 
-app.use('/api/auth', authRoutes);
-app.use('/api/usuarios', usuariosRoutes);
-app.use('/api/receitas', usuariosRoutes);
+app.get('/api/health', (req, res) => res.json({ ok: true }));
 
-app.get('/', (req, res) => {
-  res.redirect('/api/health'); 
-
+// categorias
+const dbPath = path.join(__dirname, '../db/db.json');
+const readDB = () => JSON.parse(fs.readFileSync(dbPath));
+app.get('/api/categorias', (req, res) => {
+  try {
+    const db = readDB();
+    res.json(db.categorias || []);
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: 'Falha ao carregar categorias' });
+  }
 });
 
-app.get('/', (req, res) => res.redirect('/api/health'));
-app.get('/api/health', (req, res) => res.json({ status: 'API funcionando' }));
+app.use('/api/auth', authRoutes);
+app.use('/api/usuarios', usuariosRoutes);
+app.use('/api/receitas', receitasRoutes);
 
 app.use((err, req, res, next) => {
   console.error(err);

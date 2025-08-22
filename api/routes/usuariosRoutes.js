@@ -3,8 +3,18 @@ const router = express.Router();
 const usuariosController = require('../controllers/usuariosController');
 const authMiddleware = require('../middlewares/authMiddleware'); 
 
-router.use(authMiddleware); 
+// token
+router.use(authMiddleware);
 
-router.get('/perfil', usuariosController.login);
+// perfil
+router.get('/perfil', usuariosController.profile);
+
+// favoritos
+router.get('/favoritos', usuariosController.getFavorites);
+router.post('/favoritos', usuariosController.toggleFavorite);
+
+// atualizar e excluir
+router.patch('/:id', usuariosController.patchById);
+router.delete('/:id', usuariosController.deleteById);
 
 module.exports = router;
