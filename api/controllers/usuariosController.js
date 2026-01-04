@@ -1,103 +1,159 @@
-const CryptoJS = require('crypto-js');
-const { readDB, saveDB } = require('../services/dbService');
+const bcrypt = require('bcryptjs');
+const { query } = require('../services/db');
 
-const sanitize = (u) => {
+const toPublicUser = (u) => {
   if (!u) return u;
-  const { senha, ...rest } = u;
-  return rest;
+  return {
+    id: u.id_usuario,
+    nome: u.nome_completo,
+    login: u.nome_usuario,
+    email: u.email,
+    criadoEm: u.criado_em
+  };
 };
 
 module.exports = {
 
   // GET /api/usuarios/perfil
-  profile: (req, res) => {
-    const db = readDB();
-    const usuario = db.usuarios.find(u => u.id === req.userId);
+  profile: async (req, res) => {
+    const result = await query(
+      'SELECT id_usuario, nome_completo, nome_usuario, email, criado_em FROM usuarios WHERE id_usuario = $1',
+      [req.userId]
+    );
+    const usuario = result.rows[0];
     if (!usuario) return res.status(404).json({ error: 'Usuário não encontrado' });
-    res.json(sanitize(usuario));
+    res.json(toPublicUser(usuario));
   },
 
   // GET /api/usuarios/favoritos  
-  getFavorites: (req, res) => {
-    const db = readDB();
-    const usuario = db.usuarios.find(u => u.id === req.userId);
-    if (!usuario) return res.status(404).json({ error: 'Usuário não encontrado' });
-    res.json(Array.isArray(usuario.favoritos) ? usuario.favoritos : []);
+  getFavorites: async (req, res) => {
+    const usuario = await query('SELECT 1 FROM usuarios WHERE id_usuario = $1', [req.userId]);
+    if (usuario.rows.length === 0) return res.status(404).json({ error: 'Usuário não encontrado' });
+
+    const result = await query(
+      'SELECT id_receita FROM receitas_favoritas WHERE id_usuario = $1 ORDER BY data_favorito DESC',
+      [req.userId]
+    );
+    res.json(result.rows.map(r => r.id_receita));
   },
 
   // POST /api/usuarios/favoritos  body: { receitaId }
-  toggleFavorite: (req, res) => {
+  toggleFavorite: async (req, res) => {
     const { receitaId } = req.body;
     if (!receitaId) return res.status(400).json({ error: 'receitaId é obrigatório' });
+    const receitaIdNumero = Number(receitaId);
+    if (!Number.isInteger(receitaIdNumero)) {
+      return res.status(400).json({ error: 'receitaId inválido' });
+    }
 
-    const db = readDB();
-    const idx = db.usuarios.findIndex(u => u.id === req.userId);
-    if (idx === -1) return res.status(404).json({ error: 'Usuário não encontrado' });
+    const usuario = await query('SELECT 1 FROM usuarios WHERE id_usuario = $1', [req.userId]);
+    if (usuario.rows.length === 0) return res.status(404).json({ error: 'Usuário não encontrado' });
 
-    const favs = Array.isArray(db.usuarios[idx].favoritos) ? db.usuarios[idx].favoritos : [];
+    const favorito = await query(
+      'SELECT 1 FROM receitas_favoritas WHERE id_usuario = $1 AND id_receita = $2',
+      [req.userId, receitaIdNumero]
+    );
 
-    const pos = favs.indexOf(receitaId);
-    if (pos === -1) favs.push(receitaId);
-    else favs.splice(pos, 1);
+    if (favorito.rows.length === 0) {
+      try {
+        await query(
+          'INSERT INTO receitas_favoritas (id_usuario, id_receita) VALUES ($1, $2)',
+          [req.userId, receitaIdNumero]
+        );
+      } catch (err) {
+        if (err.code === '23503') {
+          return res.status(404).json({ error: 'Receita não encontrada' });
+        }
+        throw err;
+      }
+    } else {
+      await query(
+        'DELETE FROM receitas_favoritas WHERE id_usuario = $1 AND id_receita = $2',
+        [req.userId, receitaIdNumero]
+      );
+    }
 
-    db.usuarios[idx].favoritos = favs;
-    saveDB(db);
-
-    res.json({ favoritos: favs });
+    const result = await query(
+      'SELECT id_receita FROM receitas_favoritas WHERE id_usuario = $1 ORDER BY data_favorito DESC',
+      [req.userId]
+    );
+    res.json({ favoritos: result.rows.map(r => r.id_receita) });
   },
 
   // PATCH /api/usuarios/:id  -> { nome | email | login | senha }
-  patchById: (req, res) => {
+  patchById: async (req, res) => {
     const { id } = req.params;
-    if (id !== req.userId) return res.status(403).json({ error: 'Operação não permitida' });
+    if (Number(id) !== Number(req.userId)) return res.status(403).json({ error: 'Operação não permitida' });
 
     const { nome, email, login, senha } = req.body;
-    const db = readDB();
 
-    const idx = db.usuarios.findIndex(u => u.id === id);
-    if (idx === -1) return res.status(404).json({ error: 'Usuário não encontrado' });
+    const usuarioExistente = await query(
+      'SELECT id_usuario FROM usuarios WHERE id_usuario = $1',
+      [req.userId]
+    );
+    if (usuarioExistente.rows.length === 0) return res.status(404).json({ error: 'Usuário não encontrado' });
 
     // valida colisões (login/email) se vierem no body
-    if (login && db.usuarios.some(u => u.login === login && u.id !== id)) {
-      return res.status(409).json({ error: 'Login já em uso' });
+    if (login) {
+      const loginEmUso = await query(
+        'SELECT 1 FROM usuarios WHERE nome_usuario = $1 AND id_usuario <> $2',
+        [login, req.userId]
+      );
+      if (loginEmUso.rows.length > 0) return res.status(409).json({ error: 'Login já em uso' });
     }
-    if (email && db.usuarios.some(u => u.email === email && u.id !== id)) {
-      return res.status(409).json({ error: 'E-mail já em uso' });
+    if (email) {
+      const emailEmUso = await query(
+        'SELECT 1 FROM usuarios WHERE email = $1 AND id_usuario <> $2',
+        [email, req.userId]
+      );
+      if (emailEmUso.rows.length > 0) return res.status(409).json({ error: 'E-mail já em uso' });
     }
 
-    if (typeof nome === 'string') db.usuarios[idx].nome = nome.trim();
-    if (typeof email === 'string') db.usuarios[idx].email = email.trim();
-    if (typeof login === 'string') db.usuarios[idx].login = login.trim();
-
+    const campos = [];
+    const valores = [];
+    let i = 1;
+    if (typeof nome === 'string') {
+      campos.push(`nome_completo = $${i++}`);
+      valores.push(nome.trim());
+    }
+    if (typeof email === 'string') {
+      campos.push(`email = $${i++}`);
+      valores.push(email.trim());
+    }
+    if (typeof login === 'string') {
+      campos.push(`nome_usuario = $${i++}`);
+      valores.push(login.trim());
+    }
     if (typeof senha === 'string' && senha.trim()) {
-      const senhaCriptografada = CryptoJS.AES.encrypt(
-        senha.trim(),
-        process.env.CRYPTO_SECRET
-      ).toString();
-      db.usuarios[idx].senha = senhaCriptografada;
+      const senhaHash = await bcrypt.hash(senha.trim(), 10);
+      campos.push(`senha = $${i++}`);
+      valores.push(senhaHash);
     }
 
-    saveDB(db);
-    res.json(sanitize(db.usuarios[idx]));
+    if (campos.length === 0) {
+      const atual = await query(
+        'SELECT id_usuario, nome_completo, nome_usuario, email, criado_em FROM usuarios WHERE id_usuario = $1',
+        [req.userId]
+      );
+      return res.json(toPublicUser(atual.rows[0]));
+    }
+
+    valores.push(req.userId);
+    const atualizado = await query(
+      `UPDATE usuarios SET ${campos.join(', ')} WHERE id_usuario = $${i}
+       RETURNING id_usuario, nome_completo, nome_usuario, email, criado_em`,
+      valores
+    );
+    res.json(toPublicUser(atualizado.rows[0]));
   },
 
   // DELETE /api/usuarios/:id
-  deleteById: (req, res) => {
+  deleteById: async (req, res) => {
     const { id } = req.params;
-    if (id !== req.userId) return res.status(403).json({ error: 'Operação não permitida' });
+    if (Number(id) !== Number(req.userId)) return res.status(403).json({ error: 'Operação não permitida' });
 
-    const db = readDB();
-    const exists = db.usuarios.some(u => u.id === id);
-    if (!exists) return res.status(404).json({ error: 'Usuário não encontrado' });
-
-    db.usuarios = db.usuarios.filter(u => u.id !== id);
-
-    //  remover receitas
-    if (Array.isArray(db.receitas)) {
-      db.receitas = db.receitas.filter(r => r.autorId !== id);
-    }
-
-    saveDB(db);
+    const result = await query('DELETE FROM usuarios WHERE id_usuario = $1', [req.userId]);
+    if (result.rowCount === 0) return res.status(404).json({ error: 'Usuário não encontrado' });
     res.status(204).send();
   }
 };

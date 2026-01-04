@@ -438,44 +438,65 @@ function openEditModal(campo, usuario, token) {
 }
 
 function showAlert(message, callback) {
-  const alertBox = document.createElement('div');
-  alertBox.className = 'custom-alert';
-  alertBox.innerHTML = `
-    <div class="alert-content">
-      <p>${message}</p>
-      <button class="alert-btn">OK</button>
-    </div>
-  `;
-  
-  document.body.appendChild(alertBox);
-  
-  alertBox.querySelector('.alert-btn').addEventListener('click', () => {
-    alertBox.remove();
+  let alertRoot = document.getElementById('custom-alert');
+  if (!alertRoot) {
+    alertRoot = document.createElement('div');
+    alertRoot.id = 'custom-alert';
+    alertRoot.className = 'alert-hidden';
+    alertRoot.innerHTML = `
+      <div class="alert-box">
+        <button class="close-button" id="closeAlert">
+          <img src="${STATIC_IMAGE_PATH}close2.svg" alt="Fechar alerta">
+        </button>
+        <div class="alert-message">
+          <p id="alert-message">Mensagem</p>
+          <button class="aceppt-button" id="alert-ok">OK</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(alertRoot);
+  }
+
+  const msg = alertRoot.querySelector('#alert-message');
+  const closeBtn = alertRoot.querySelector('#closeAlert');
+  const okBtn = alertRoot.querySelector('#alert-ok');
+
+  if (msg) msg.textContent = message;
+  alertRoot.classList.remove('alert-hidden');
+  alertRoot.classList.add('alert-show');
+
+  const hide = () => {
+    alertRoot.classList.remove('alert-show');
+    alertRoot.classList.add('alert-hidden');
     if (callback) callback();
-  });
+  };
+
+  if (closeBtn) closeBtn.addEventListener('click', hide, { once: true });
+  if (okBtn) okBtn.addEventListener('click', hide, { once: true });
 }
 
 function showConfirm(message, onConfirm, confirmText = "Confirmar") {
-  const confirmBox = document.createElement('div');
-  confirmBox.className = 'custom-confirm';
-  confirmBox.innerHTML = `
-    <div class="confirm-content">
-      <p>${message}</p>
-      <div class="confirm-buttons">
-        <button class="confirm-btn confirm-no">Cancelar</button>
-        <button class="confirm-btn confirm-yes">${confirmText}</button>
-      </div>
-    </div>
-  `;
-  
-  document.body.appendChild(confirmBox);
-  
-  confirmBox.querySelector('.confirm-no').addEventListener('click', () => {
-    confirmBox.remove();
-  });
-  
-  confirmBox.querySelector('.confirm-yes').addEventListener('click', () => {
-    confirmBox.remove();
+  const modal = document.getElementById('confirm-modal');
+  const msg = document.getElementById('confirm-message');
+  const btnNo = document.getElementById('confirm-no');
+  const btnYes = document.getElementById('confirm-yes');
+
+  if (!modal || !msg || !btnNo || !btnYes) {
+    if (window.confirm(message)) onConfirm();
+    return;
+  }
+
+  msg.textContent = message;
+  btnYes.textContent = confirmText;
+  modal.classList.remove('confirm-hidden');
+
+  const closeModal = () => {
+    modal.classList.add('confirm-hidden');
+  };
+
+  btnNo.addEventListener('click', closeModal, { once: true });
+  btnYes.addEventListener('click', () => {
+    closeModal();
     onConfirm();
-  });
+  }, { once: true });
 }

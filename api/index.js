@@ -4,7 +4,7 @@ const path = require('path');
 const authRoutes = require('./routes/authRoutes');
 const usuariosRoutes = require('./routes/usuariosRoutes');
 const receitasRoutes = require('./routes/receitasRoutes');
-const { readDB } = require('./services/dbService');
+const { query } = require('./services/db');
 require('dotenv').config();
 
 const app = express();
@@ -22,10 +22,10 @@ app.use(express.static(publicDir));
 app.get('/api/health', (req, res) => res.json({ ok: true }));
 
 // categorias
-app.get('/api/categorias', (req, res) => {
+app.get('/api/categorias', async (req, res) => {
   try {
-    const db = readDB();
-    res.json(db.categorias || []);
+    const result = await query('SELECT id_categoria, nome FROM categorias ORDER BY nome');
+    res.json(result.rows.map(row => ({ id: row.id_categoria, nome: row.nome })));
   } catch (e) {
     console.error(e);
     res.status(500).json({ error: 'Falha ao carregar categorias' });
