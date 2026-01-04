@@ -2,6 +2,7 @@ const loginBox = document.getElementById("login-box");
 const registerBox = document.getElementById("register-box");
 const showRegisterLink = document.getElementById("show-register");
 const showLoginLink = document.getElementById("show-login");
+const basePath = window.location.pathname.includes('/pages/') ? '../../' : './';
 
 
 showRegisterLink.addEventListener("click", (e) => {
@@ -36,10 +37,12 @@ document.querySelector('#login-box form').addEventListener('submit', async (e) =
         const data = await response.json();
 
         if (response.ok) {
-            
+            const usuario = data.usuario || data.user;
             localStorage.setItem('token', data.token);
-            localStorage.setItem('user', JSON.stringify(data.user));
-            window.location.href = '/assets/pages/index/index.html';
+            if (usuario) {
+              localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
+            }
+            window.location.href = `${basePath}index.html`;
         } else {
             alert(data.error || 'Login falhou!');
         }
@@ -76,7 +79,7 @@ document.querySelector('#register-box form').addEventListener('submit', async (e
             modal.style.display = 'flex';
             
             setTimeout(() => {
-                window.location.href = '/assets/pages/index/index.html';
+                window.location.href = `${basePath}index.html`;
             }, 3000);
         } else {
             const error = await response.json();

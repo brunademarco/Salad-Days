@@ -1,4 +1,5 @@
-const BASE_IMAGE_PATH = '/assets/images/';
+const ROOT_PREFIX = window.location.pathname.includes('/pages/') ? '../../' : './';
+const BASE_IMAGE_PATH = `${ROOT_PREFIX}assets/images/`;
 const API_BASE_URL = '/api/receitas'; 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -51,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.recipe-button').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const receitaId = e.target.getAttribute('data-id');
-        window.location.href = `/receita.html?id=${receitaId}`;
+        window.location.href = `${ROOT_PREFIX}pages/detalhesreceita/receita.html?id=${receitaId}`;
       });
     });
   }
@@ -67,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (!user) {
         showAlert("Você precisa estar logado para enviar uma receita!", () => {
-          window.location.href = "/login.html";
+          window.location.href = `${ROOT_PREFIX}login.html`;
         }, "Fazer login");
         return;
       }
@@ -103,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const user = JSON.parse(localStorage.getItem('usuarioLogado'));
     if (!user) {
       showAlert("Sessão expirada. Faça login novamente.", () => {
-        window.location.href = "/login.html";
+        window.location.href = `${ROOT_PREFIX}login.html`;
       });
       return;
     }

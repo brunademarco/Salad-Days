@@ -440,3 +440,139 @@
   text-align: center;
   margin-top: 35px;
 }
+
+@media (max-width: 768px) {
+  .JoinUs {
+    flex-direction: column;
+    align-items: center;
+    padding: 16px 12px;
+  }
+
+  .text-joinus {
+    width: 100%;
+    margin-left: 0;
+    padding: 12px 0;
+    align-items: center;
+    text-align: center;
+  }
+
+  .background-joinus1,
+  .background-joinus2 {
+    height: auto;
+    padding: 6px 10px;
+  }
+
+  .text-joinus h1 {
+    font-size: 1.4rem;
+    padding: 0;
+  }
+
+  .button-joinus {
+    font-size: 0.95rem;
+    padding: 10px 14px;
+    border-radius: 999px;
+  }
+
+  .image-joinus {
+    padding: 8px 0 0;
+    width: 100%;
+  }
+
+  .image-joinus img {
+    width: 90%;
+    max-width: 360px;
+  }
+
+  .marquee-content span {
+    font-size: 1.6rem;
+  }
+
+  .filter-recipes {
+    padding: 12px;
+    gap: 1rem;
+  }
+
+  .search-bar-joinus {
+    border-width: 1px;
+  }
+
+  .search-bar-joinus input {
+    padding: 12px 14px;
+    font-size: 0.95rem;
+  }
+
+  .search-bar-joinus img {
+    width: 22px;
+    height: 22px;
+    margin-right: 6px;
+  }
+
+  .filter-options {
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .filter-button {
+    width: 44px;
+    height: 44px;
+    font-size: 0;
+  }
+
+  #lista-receitas {
+    width: 100%;
+    padding: 12px;
+    gap: 16px;
+  }
+
+  .recipe-card {
+    width: 100%;
+    max-width: 360px;
+    height: auto;
+    padding: 12px;
+  }
+
+  .recipe-card img {
+    width: 100%;
+    height: 180px;
+  }
+
+  .recipe-card h3 {
+    font-size: 1.5rem;
+    margin: 10px 0;
+    text-align: center;
+  }
+
+  .recipe-card p {
+    font-size: 0.9rem;
+    max-height: none;
+  }
+
+  .recipe-card .recipe-button {
+    font-size: 0.85rem;
+    padding: 10px 14px;
+    margin-bottom: 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .text-joinus h1 {
+    font-size: 1.2rem;
+  }
+
+  .image-joinus img {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .marquee-content span {
+    font-size: 1.4rem;
+  }
+
+  .recipe-card {
+    max-width: 320px;
+  }
+
+  .recipe-card img {
+    height: 160px;
+  }
+}

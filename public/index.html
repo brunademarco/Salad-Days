@@ -5,28 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--referencias --> 
     <link rel="stylesheet" href="./assets/css/global/global.css">
-    <link rel="stylesheet" href="./assets/pages/index/style.css">
-    <link rel="icon" href="../../images/logo-icon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="./pages/index/style.css">
+    <link rel="icon" href="./assets/images/logo-icon.svg" type="image/x-icon">
     <!--fim das referencias-->
     <title>SALAD DAYS</title>
 </head>
 <body>
     <header>
         <nav class="nav-bar">
-          <a href="../index/index.html" class="logo-link">
+          <a href="./index.html" class="logo-link">
             <div class="logo">
-                <img class="logo-svg"  src="../../images/LOGO.svg" alt="logo salad days">
+                <img class="logo-svg"  src="./assets/images/LOGO.svg" alt="logo salad days">
             </div>
           </a>
             <ul class="menu">
                 <li>
                     <a href="#" class="button-icon" id="openFavoritosBtn">
-                        <img class="heart-svg" src="../../images/heart-straight-light.svg" alt="button favoritos">
+                        <img class="heart-svg" src="./assets/images/heart-straight-light.svg" alt="button favoritos">
                     </a>
                 </li>
                 <li>
-                  <a href="../../../login.html" class="button-icon" id="login-redirect">
-                      <img class="person-svg" src="../../images/user-light24x.svg" alt="button profile">
+                  <a href="./login.html" class="button-icon" id="login-redirect">
+                      <img class="person-svg" src="./assets/images/user-light24x.svg" alt="button profile">
                   </a>
                 </li>
             </ul>
@@ -39,7 +39,7 @@
                 <h2>Have a good day, have a Salad Day</h2>
                 <p>fresh and refresh.</p>
             </div>
-            <img class="img-slogan" src="../../images/slogan3.png" alt="imagem slogan">
+            <img class="img-slogan" src="./assets/images/slogan3.png" alt="imagem slogan">
      </section>
 
      <section class="recipes">
@@ -49,24 +49,24 @@
                 <p>Nada melhor do que unir sabor, frescor e saúde em um único prato. As saladas são uma explosão de cores e texturas que transformam qualquer refeição em uma experiência especial. Seja você um amante da culinária saudável ou alguém em busca de praticidade, aqui você encontrará receitas que atendem a todos os gostos. </p>
             </div>
             <div class="button-recipes">
-                <a href="../receitas/receitas.html" class="button-link">VER RECEITAS</a>
+                <a href="./pages/receitas/receitas.html" class="button-link">VER RECEITAS</a>
             </div>
         </div>
         <div class="carousel-container">
             <button class="carousel-button" id="prevBtn">
-                <img class="arrow-svg" src="../../images/caret-left.svg" alt="arrow carousel left">
+                <img class="arrow-svg" src="./assets/images/caret-left.svg" alt="arrow carousel left">
             </button>
             
             <div class="carousel" id="carousel">
-            <div class="carousel-item"><img src="../../images/carouselbigmac.png" alt=""><p class="caption">SALADA BIG MAC</p></div>
-            <div class="carousel-item"><img src="../../images/carouselCaprese.png" alt=""><p class="caption">SALADA CAPRESE</p></div>
-            <div class="carousel-item"><img src="../../images/carouselCaeser.png" alt=""><p class="caption">SALADA CAESER</p></div>
-            <div class="carousel-item"><img src="../../images/carouselClassica.png" alt=""><p class="caption">SALADA CLÁSSICA</p></div>
-            <div class="carousel-item"><img src="../../images/carouselMediterranea.png" alt=""><p class="caption">SALADA MEDITERRÂNEA</p></div>
+            <div class="carousel-item"><img src="./assets/images/carouselbigmac.png" alt=""><p class="caption">SALADA BIG MAC</p></div>
+            <div class="carousel-item"><img src="./assets/images/carouselCaprese.png" alt=""><p class="caption">SALADA CAPRESE</p></div>
+            <div class="carousel-item"><img src="./assets/images/carouselCaeser.png" alt=""><p class="caption">SALADA CAESER</p></div>
+            <div class="carousel-item"><img src="./assets/images/carouselClassica.png" alt=""><p class="caption">SALADA CLÁSSICA</p></div>
+            <div class="carousel-item"><img src="./assets/images/carouselMediterranea.png" alt=""><p class="caption">SALADA MEDITERRÂNEA</p></div>
             </div>
             
             <button class="carousel-button" id="nextBtn">
-                <img class="arrow-svg" src="../../images/caret-right.svg" alt="arrow carousel right">
+                <img class="arrow-svg" src="./assets/images/caret-right.svg" alt="arrow carousel right">
             </button>
         </div> 
     </section>
@@ -86,7 +86,7 @@
       </div>
    </div>
     <div class="image-container">
-      <img src="../../images/aboutimage.png" alt="Imagem sobre a história">
+      <img src="./assets/images/aboutimage.png" alt="Imagem sobre a história">
     </div> 
 </section>
 
@@ -103,32 +103,37 @@
     </div>
   
       <section class="carousel-container2">
-        <button class="carousel-button" id="prevBtn">
-            <img class="arrow-svg" src="../../images/caret-left.svg" alt="arrow carousel left">
+        <button class="carousel-button guide-btn" id="guidePrev" type="button">
+            <img class="arrow-svg" src="./assets/images/caret-left.svg" alt="Receitas anteriores">
         </button>
   
-        <div class="carousel2">
-          <div class="carousel-item2">
-            <div class="card">
-              <img src="image1.jpg" alt="Card 1" />
+        <div class="carousel2-wrapper">
+          <div class="carousel2">
+            <div class="carousel-item2">
+              <div class="card">
+                <img src="./assets/images/cardBigMac.jpg" alt="Dica 1" loading="lazy"/>
+              </div>
             </div>
-          </div>
-          <div class="carousel-item2">
-            <div class="card">
-              <img src="image2.jpg" alt="Card 2" />
-              
+            <div class="carousel-item2">
+              <div class="card">
+                <img src="./assets/images/cardMediterranea.jpeg" alt="Dica 2" loading="lazy"/>
+              </div>
             </div>
-          </div>
-          <div class="carousel-item2">
-            <div class="card">
-              <img src="image3.jpg" alt="Card 3" />
-            
+            <div class="carousel-item2">
+              <div class="card">
+                <img src="./assets/images/cardOriental.jpg" alt="Dica 3" loading="lazy"/>
+              </div>
+            </div>
+            <div class="carousel-item2">
+              <div class="card">
+                <img src="./assets/images/cardCaprese.jpg" alt="Dica 4" loading="lazy"/>
+              </div>
             </div>
           </div>
         </div>
   
-        <button class="carousel-button" id="nextBtn">
-            <img class="arrow-svg" src="../../images/caret-right.svg" alt="arrow carousel right">
+        <button class="carousel-button guide-btn" id="guideNext" type="button">
+            <img class="arrow-svg" src="./assets/images/caret-right.svg" alt="Próximas dicas">
         </button>
       </section>
     </div>
@@ -140,9 +145,9 @@
     <p>Feito com amor</p>
     <p>Contato:</p>
     <div class="link-redes">
-    <a href="https://github.com/brunanoely" target="_blank"><img class="github" src="../../images/github.svg" alt="icon github"></a>
-    <a href="https://www.linkedin.com/in/bruna-noely-68a70925a/" target="_blank"><img class="linkedin" src="../../images/linkedin.svg" alt="icon linkedin"></a>
-    <a href="https://www.instagram.com/brunanoelydm/" target="_blank"><img class="instagram" src="../../images/behance.svg" alt="icon behance"></a>
+    <a href="https://github.com/brunanoely" target="_blank"><img class="github" src="./assets/images/github.svg" alt="icon github"></a>
+    <a href="https://www.linkedin.com/in/bruna-noely-68a70925a/" target="_blank"><img class="linkedin" src="./assets/images/linkedin.svg" alt="icon linkedin"></a>
+    <a href="https://www.instagram.com/brunanoelydm/" target="_blank"><img class="instagram" src="./assets/images/behance.svg" alt="icon behance"></a>
     </div>
 </footer>
 
@@ -151,14 +156,14 @@
     <div class="modal-header">
       <h2 class="title-favorites">Favoritos</h2>
       <button class="close-button" id="closeFavoritosModal">
-        <img src="../../images/close2.svg" alt="Fechar">
+        <img src="./assets/images/close2.svg" alt="Fechar">
       </button>
     </div>
     <div class="modal-body">
         <div class="search-bar">
             <input type="text" placeholder="Pesquisar receitas..." />
             <button>
-            <img src="../../images/search.svg" alt="Buscar" />
+            <img src="./assets/images/search.svg" alt="Buscar" />
             </button>
         </div>
         <div class="column-recipes"></div>
@@ -167,6 +172,7 @@
   </div>
 
 
-<script src="../../js/script.js"></script>
+<script src="./assets/js/common.js"></script>
+<script src="./assets/js/index.js"></script>
 </body>
 </html>

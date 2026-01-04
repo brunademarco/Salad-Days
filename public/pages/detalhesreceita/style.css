@@ -1,0 +1,240 @@
+:root {
+  --detail-card: #bfe43c;
+  --detail-border: #cfe97a;
+  --detail-ink: #4a4a4a;
+}
+
+.recipe-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 32px 24px 60px;
+}
+
+.hero-card {
+  display: grid;
+  grid-template-columns: 1.35fr 0.65fr;
+  gap: 24px;
+  background: var(--detail-card);
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 8px 0 rgba(0, 0, 0, 0.05);
+}
+
+.hero-info h1 {
+  font-family: "Archivo", sans-serif;
+  font-size: 2.4rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  margin: 0 0 8px;
+  color: var(--branding-C1);
+}
+
+.hero-info p {
+  font-family: "Archivo", sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--branding-C1);
+  text-transform: none;
+  margin: 0 0 20px;
+  max-width: 520px;
+}
+
+.hero-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(110px, 140px));
+  gap: 10px 14px;
+}
+
+.metric {
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 12px;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--detail-ink);
+  max-width: 140px;
+}
+
+.metric-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.metric-value {
+  font-size: 1rem;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.hero-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-image img {
+  width: 100%;
+  max-width: 460px;
+  aspect-ratio: 4 / 3;
+  border-radius: 16px;
+  object-fit: cover;
+}
+
+.recipe-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 32px;
+}
+
+.recipe-panel h2 {
+  font-family: "Archivo", sans-serif;
+  font-size: 1.4rem;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: #768497;
+  border-top: 3px solid #9fb0c0;
+  padding-top: 6px;
+  margin: 0 0 16px;
+  text-align: center;
+}
+
+.recipe-panel ul,
+.recipe-panel ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.recipe-panel li {
+  position: relative;
+  padding-left: 24px;
+  font-size: 0.95rem;
+  color: var(--detail-ink);
+  font-family: "Archivo", sans-serif;
+  font-weight: 400;
+  text-transform: none;
+}
+
+.recipe-panel li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.45em;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid #9fb0c0;
+  background: transparent;
+}
+
+.checklist li {
+  padding-left: 0;
+}
+
+.checklist li::before {
+  content: none;
+}
+
+.checklist label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.checklist input[type="checkbox"] {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid #9fb0c0;
+  display: inline-block;
+  position: relative;
+}
+
+.checklist input[type="checkbox"]:checked {
+  border-color: #8aa23b;
+  background: #8aa23b;
+}
+
+.checklist input[type="checkbox"]:checked + span {
+  text-decoration: line-through;
+  color: #8d98a6;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.info-card {
+  border: 2px solid var(--detail-border);
+  border-radius: 18px;
+  padding: 18px;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.info-card h3 {
+  font-family: "Archivo", sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 400;
+  color: #8aa23b;
+  margin: 0 0 12px;
+  text-align: center;
+}
+
+.info-body {
+  display: grid;
+  gap: 8px;
+  font-size: 0.95rem;
+  color: var(--detail-ink);
+  font-family: "Archivo", sans-serif;
+  font-weight: 400;
+  text-transform: none;
+}
+
+@media (max-width: 900px) {
+  .hero-card {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-image img {
+    max-width: 100%;
+  }
+
+  .recipe-columns,
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .recipe-detail {
+    padding: 20px 16px 40px;
+  }
+
+  .hero-card {
+    padding: 18px;
+  }
+
+  .hero-info h1 {
+    font-size: 1.8rem;
+  }
+
+  .hero-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .metric {
+    padding: 8px 10px;
+  }
+}

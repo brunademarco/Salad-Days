@@ -1,11 +1,6 @@
 const CryptoJS = require('crypto-js');
-const fs = require('fs');
-const path = require('path');
 const jwt = require('jsonwebtoken');
-
-const dbPath = path.join(__dirname, '../../db/db.json');
-const readDB = () => JSON.parse(fs.readFileSync(dbPath));
-const saveDB = (data) => fs.writeFileSync(dbPath, JSON.stringify(data, null, 2));
+const { readDB, saveDB } = require('../services/dbService');
 
 module.exports = {
   login: (req, res) => {

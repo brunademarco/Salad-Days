@@ -1,5 +1,20 @@
 const BASE_API_URL = '/api/usuarios';
 const RECEITAS_API_URL = '/api/receitas';
+const ROOT_PREFIX = window.location.pathname.includes('/pages/') ? '../../' : './';
+const STATIC_IMAGE_PATH = `${ROOT_PREFIX}assets/images/`;
+
+const resolveImage = (imagem) => {
+  if (!imagem) return `${STATIC_IMAGE_PATH}cardClassica.jpg`;
+  return imagem.startsWith('http') ? imagem : `${STATIC_IMAGE_PATH}${imagem}`;
+};
+
+const goToLogin = () => {
+  window.location.href = `${ROOT_PREFIX}login.html`;
+};
+
+const goToHome = () => {
+  window.location.href = `${ROOT_PREFIX}index.html`;
+};
 
 document.addEventListener("DOMContentLoaded", async () => {
   const content = document.getElementById("perfil-content");
@@ -10,7 +25,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     content.innerHTML = `
       <div class="auth-error">
         <p>Você precisa estar logado para acessar esta página</p>
-        <a href="/login.html" class="auth-link">Fazer login</a>
+        <a href="${ROOT_PREFIX}login.html" class="auth-link">Fazer login</a>
       </div>
     `;
     return;
@@ -52,7 +67,7 @@ async function fetchUserProfile(token) {
   if (!response.ok) {
     if (response.status === 401) {
       localStorage.removeItem("token");
-      window.location.href = "/login.html";
+      goToLogin();
     }
     throw new Error('Erro ao carregar perfil');
   }
@@ -69,36 +84,36 @@ function renderPerfil(usuario) {
       <div class="perfil-info">
         <p class="perfil-dado">${usuario.nome}</p>
         <button class="perfil-editar" data-campo="nome">
-          <img src="/assets/images/editar.svg" alt="Editar Nome">
+          <img src="${STATIC_IMAGE_PATH}editar.svg" alt="Editar Nome">
         </button>
       </div>
       <p><strong>Email:</strong></p>
       <div class="perfil-info">
         <p class="perfil-dado">${usuario.email}</p>
         <button class="perfil-editar" data-campo="email">
-          <img src="/assets/images/editar.svg" alt="Editar Email">
+          <img src="${STATIC_IMAGE_PATH}editar.svg" alt="Editar Email">
         </button>
       </div>
       <p><strong>Login:</strong></p>
       <div class="perfil-info">
         <p class="perfil-dado">${usuario.login}</p>
         <button class="perfil-editar" data-campo="login">
-          <img src="/assets/images/editar.svg" alt="Editar Login">
+          <img src="${STATIC_IMAGE_PATH}editar.svg" alt="Editar Login">
         </button>
       </div>
       <p><strong>Senha:</strong></p>
       <div class="perfil-info">
         <p class="perfil-dado">${"•".repeat(8)}</p>
         <button class="perfil-editar" data-campo="senha">
-          <img src="/assets/images/editar.svg" alt="Editar Senha">
+          <img src="${STATIC_IMAGE_PATH}editar.svg" alt="Editar Senha">
         </button>
       </div>
       <div class="button-space">
         <button class="perfil-sair">
-          <img src="/assets/images/Sair.svg" alt="Sair do perfil">
+          <img src="${STATIC_IMAGE_PATH}Sair.svg" alt="Sair do perfil">
         </button>
         <button class="perfil-excluir">
-          <img src="/assets/images/trash-light.svg" alt="Excluir conta">
+          <img src="${STATIC_IMAGE_PATH}trash-light.svg" alt="Excluir conta">
         </button>
       </div>
     </div>
@@ -157,14 +172,14 @@ function createRecipeCard(receita) {
   card.className = 'recipe-card';
   card.innerHTML = `
     <h3>${receita.titulo}</h3>
-    <img src="/assets/images/${receita.imagem}" alt="${receita.titulo}" loading="lazy">
+    <img src="${resolveImage(receita.imagem)}" alt="${receita.titulo}" loading="lazy">
     <p class="recipe-description">${receita.card_descricao}</p>
     <div class="recipe-actions">
       <button class="btn-edit" data-id="${receita.id}">
-        <img src="/assets/images/editar.svg" alt="Editar">
+        <img src="${STATIC_IMAGE_PATH}editar.svg" alt="Editar">
       </button>
       <button class="btn-delete" data-id="${receita.id}">
-        <img src="/assets/images/trash-light.svg" alt="Excluir">
+        <img src="${STATIC_IMAGE_PATH}trash-light.svg" alt="Excluir">
       </button>
     </div>
   `;
@@ -237,10 +252,10 @@ function createFavoriteCard(receita) {
   const card = document.createElement('div');
   card.className = 'favorite-card';
   card.innerHTML = `
-    <img src="/assets/images/${receita.imagem}" alt="${receita.titulo}">
+    <img src="${resolveImage(receita.imagem)}" alt="${receita.titulo}">
     <h4>${receita.titulo}</h4>
     <button class="btn-remove-favorite" data-id="${receita.id}">
-      <img src="/assets/images/heart-filled.svg" alt="Remover dos favoritos">
+      <img src="${STATIC_IMAGE_PATH}heart-filled.svg" alt="Remover dos favoritos">
     </button>
   `;
   return card;
@@ -252,7 +267,7 @@ function setupEventListeners(usuario, token) {
     if (e.target.closest('.perfil-sair')) {
       showConfirm("Deseja sair da sua conta?", () => {
         localStorage.removeItem("token");
-        window.location.href = "/index.html";
+        goToHome();
       });
     }
   });
@@ -268,7 +283,7 @@ function setupEventListeners(usuario, token) {
           
           if (response.ok) {
             localStorage.removeItem("token");
-            window.location.href = "/index.html";
+            goToHome();
           } else {
             throw new Error('Falha ao excluir conta');
           }

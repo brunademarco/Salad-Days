@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--referencias --> 
-    <link rel="stylesheet" href="../../css/global/global.css">
-    <link rel="stylesheet" href="../usuario/style.css">
-    <link rel="icon" href="../../images/logo-icon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="../../assets/css/global/global.css">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="icon" href="../../assets/images/logo-icon.svg" type="image/x-icon">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <!--fim das referencias-->
     <title>Perfil - Salad Days</title>
@@ -14,20 +14,20 @@
 <body>
     <header>
         <nav class="nav-bar">
-          <a href="../index/index.html" class="logo-link">
+          <a href="../../index.html" class="logo-link">
             <div class="logo">
-                <img class="logo-svg"  src="../../images/LOGO.svg" alt="logo salad days">
+                <img class="logo-svg"  src="../../assets/images/LOGO.svg" alt="logo salad days">
             </div>
           </a>
             <ul class="menu">
                 <li>
                     <a href="#" class="button-icon" id="openFavoritosBtn">
-                        <img class="heart-svg" src="../../images/heart-straight-light.svg" alt="button favoritos">
+                        <img class="heart-svg" src="../../assets/images/heart-straight-light.svg" alt="button favoritos">
                     </a>
                 </li>
                 <li>
-                    <a href="../../../login.html" class="button-icon">
-                        <img class="person-svg"  src="../../images/user-light24x.svg" alt="button profile">
+                    <a href="../../login.html" class="button-icon">
+                        <img class="person-svg"  src="../../assets/images/user-light24x.svg" alt="button profile">
                     </a>
                 </li>
             </ul>
@@ -38,15 +38,15 @@
 
     <aside class="perfil-sidebar">
       <button class="sidebar-button active" data-view="perfil">
-        <img src="../../images/editarPerfil.svg" alt="Perfil" />
+        <img src="../../assets/images/editarPerfil.svg" alt="Perfil" />
         Perfil
       </button>
       <button class="sidebar-button" data-view="receitas">
-        <img src="../../images/receitasEnviadas.svg" alt="Receitas enviadas" />
+        <img src="../../assets/images/receitasEnviadas.svg" alt="Receitas enviadas" />
         Receitas enviadas
       </button>
       <button class="sidebar-button" data-view="favoritos">
-        <img src="../../images/listaFavoritas.svg" alt="Favoritos" />
+        <img src="../../assets/images/listaFavoritas.svg" alt="Favoritos" />
         Favoritos
       </button>
     </aside>
@@ -86,6 +86,6 @@
 </div>
 
 </body>
-<script src="../../js/usuario.js"></script>
+<script src="../../assets/js/common.js"></script>
+<script src="./usuario.js"></script>
 </html>
-

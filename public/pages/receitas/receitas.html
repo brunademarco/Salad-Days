@@ -4,30 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--referencias --> 
-    <link rel="stylesheet" href="../../css/global/global.css">
-    <link rel="stylesheet" href="../index/style.css">
-    <link rel="stylesheet" href="../receitas/style.css">
-    <link rel="icon" href="../../images/logo-icon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="../../assets/css/global/global.css">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="icon" href="../../assets/images/logo-icon.svg" type="image/x-icon">
     <!--fim das referencias-->
     <title>Receitas - Salad Days</title>
 </head>
 <body>
     <header>
         <nav class="nav-bar">
-            <a href="../index/index.html" class="logo-link">
+            <a href="../../index.html" class="logo-link">
             <div class="logo">
-                <img class="logo-svg"  src="../../images/LOGO.svg" alt="logo salad days">
+                <img class="logo-svg"  src="../../assets/images/LOGO.svg" alt="logo salad days">
             </div>
             </a>
             <ul class="menu">
                 <li>
                     <a href="#" class="button-icon" id="openFavoritosBtn">
-                        <img class="heart-svg" src="../../images/heart-straight-light.svg" alt="button favoritos">
+                        <img class="heart-svg" src="../../assets/images/heart-straight-light.svg" alt="button favoritos">
                     </a>
                 </li>
                 <li>
-                  <a href="../../../login.html" class="button-icon" id="login-redirect">
-                      <img class="person-svg" src="../../images/user-light24x.svg" alt="button profile">
+                  <a href="../../login.html" class="button-icon" id="login-redirect">
+                      <img class="person-svg" src="../../assets/images/user-light24x.svg" alt="button profile">
                   </a>
                 </li>
             </ul>
@@ -47,7 +46,7 @@
             </button>
         </div>
         <div class="image-joinus">
-            <img class="img-joinus" src="../../images/JoinUs.svg" alt="imagem slogan">
+            <img class="img-joinus" src="../../assets/images/JoinUs.svg" alt="imagem slogan">
         </div>
     </section>
 
@@ -80,7 +79,7 @@
         <div class="search-bar-joinus">
             <input type="text" id="searchInput" placeholder="Pesquisar receitas..." />
             <button id="searchButton">
-            <img src="../../images/search.svg" alt="Buscar" />
+            <img src="../../assets/images/search.svg" alt="Buscar" />
         </button>
         </div>
         <div class="filter-options"></div>
@@ -96,9 +95,9 @@
         <p>Feito com amor</p>
         <p>Contato:</p>
         <div class="link-redes">
-        <a href="https://github.com/brunanoely" target="_blank"><img class="github" src="../../images/github.svg" alt="icon github"></a>
-        <a href="https://www.linkedin.com/in/bruna-noely-68a70925a/" target="_blank"><img class="linkedin" src="../../images/linkedin.svg" alt="icon linkedin"></a>
-        <a href="https://www.instagram.com/brunanoelydm/" target="_blank"><img class="instagram" src="../../images/behance.svg" alt="icon behance"></a>
+        <a href="https://github.com/brunanoely" target="_blank"><img class="github" src="../../assets/images/github.svg" alt="icon github"></a>
+        <a href="https://www.linkedin.com/in/bruna-noely-68a70925a/" target="_blank"><img class="linkedin" src="../../assets/images/linkedin.svg" alt="icon linkedin"></a>
+        <a href="https://www.instagram.com/brunanoelydm/" target="_blank"><img class="instagram" src="../../assets/images/behance.svg" alt="icon behance"></a>
         </div>
     </footer>
     
@@ -107,14 +106,14 @@
           <div class="modal-header">
             <h2 class="title-favorites">Favoritos</h2>
             <button class="close-button" id="closeFavoritosModal">
-              <img src="../../images/close2.svg" alt="Fechar">
+              <img src="../../assets/images/close2.svg" alt="Fechar">
             </button>
           </div>
           <div class="modal-body">
               <div class="search-bar">
                   <input type="text" placeholder="Pesquisar receitas..." />
                   <button>
-                  <img src="../../images/search.svg" alt="Buscar" />
+                  <img src="../../assets/images/search.svg" alt="Buscar" />
                   </button>
               </div>
               <div class="column-recipes"></div>
@@ -131,7 +130,7 @@
                     <p>Envie sua receita de salada :)</p>
                 </div>
                 <button class="close-button" id="closeReceitaModal">
-                    <img src="../../images/close2.svg" alt="Fechar">
+                    <img src="../../assets/images/close2.svg" alt="Fechar">
                 </button>
             </div>
 
@@ -173,7 +172,7 @@
 <div id="custom-alert" class="alert-hidden">
   <div class="alert-box">
     <button class="close-button" id="closeAlert">
-      <img src="../../images/close2.svg" alt="Fechar alerta">
+      <img src="../../assets/images/close2.svg" alt="Fechar alerta">
     </button>
     <div class="alert-message">
         <p id="alert-message">Mensagem</p>
@@ -182,7 +181,7 @@
   </div>
 </div>
 
-<script src="../../js/recipes.js"></script> 
-<script src="../../js/script.js"></script> 
+<script src="../../assets/js/common.js"></script> 
+<script src="./receitas.js"></script> 
 </body>
 </html>

@@ -1,13 +1,14 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const authRoutes = require('./routes/authRoutes');
 const usuariosRoutes = require('./routes/usuariosRoutes');
 const receitasRoutes = require('./routes/receitasRoutes');
-const fs = require('fs');              // <- adicionar
-const path = require('path');          //
+const { readDB } = require('./services/dbService');
 require('dotenv').config();
 
 const app = express();
+const publicDir = path.join(__dirname, '../public');
 
 app.use(cors({
   origin: process.env.FRONTEND_URL || '*',
@@ -16,12 +17,11 @@ app.use(cors({
 }));
 
 app.use(express.json());
+app.use(express.static(publicDir));
 
 app.get('/api/health', (req, res) => res.json({ ok: true }));
 
 // categorias
-const dbPath = path.join(__dirname, '../db/db.json');
-const readDB = () => JSON.parse(fs.readFileSync(dbPath));
 app.get('/api/categorias', (req, res) => {
   try {
     const db = readDB();
@@ -41,9 +41,9 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Erro interno no servidor' });
 });
 
-if (process.env.NODE_ENV === 'development') {
+if (require.main === module) {
   const PORT = process.env.PORT || 3000;
   app.listen(PORT, () => console.log(`🛡️ Servidor rodando na porta ${PORT}`));
 }
 
-module.exports = app; 
+module.exports = app;
