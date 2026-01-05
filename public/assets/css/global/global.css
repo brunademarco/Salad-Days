@@ -148,7 +148,7 @@ footer p {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
+    padding: 20px 20px 8px;
     margin-top: 0px;
 }
 
@@ -176,12 +176,16 @@ footer p {
     font-size: 50px;
     font-family: "Archivo";
     font-weight: 400;
+    color: var(--branding-A1);
+    margin: 0;
 }
 
 .modal-body {
     display: flex; 
     flex-direction: column;
     align-items: center;
+    padding-top: 4px;
+    gap: 10px;
 }
 
 .search-bar {
@@ -225,6 +229,149 @@ footer p {
 .search-bar button img {
     width: 30px;
     height: 30px;
+}
+
+.column-recipes {
+    width: 100%;
+    min-height: 280px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.favorites-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 60px 20px 40px;
+    text-align: center;
+}
+
+.favorites-empty-title {
+    font-family: "Archivo", sans-serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: #000;
+    margin: 0;
+}
+
+.favorites-empty-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    border-radius: 30px;
+    border: 2px solid var(--branding-A1);
+    background: transparent;
+    font-family: "Archivo", sans-serif;
+    font-size: 1rem;
+    cursor: pointer;
+    color: #000;
+}
+
+.favorites-empty-btn:hover {
+    background-color: #f6faecea;
+}
+
+.filter-options {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 26px;
+}
+
+.filter-pill {
+    background: transparent;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 0;
+    font-family: "Archivo";
+    font-weight: 400;
+    color: #000;
+}
+
+.filter-circle {
+    width: 78px;
+    height: 78px;
+    border-radius: 50%;
+    border: 2px solid var(--branding-A1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+}
+
+.filter-circle img {
+    width: 34px;
+    height: 34px;
+}
+
+.filter-label {
+    font-size: 1rem;
+}
+
+#modal-favoritos .filter-options {
+    gap: 10px;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 14px;
+    max-width: 360px;
+}
+
+#modal-favoritos .filter-circle {
+    width: 52px;
+    height: 52px;
+    border-color: #778899;
+}
+
+#modal-favoritos .filter-circle img {
+    width: 22px;
+    height: 22px;
+    filter: brightness(0) saturate(100%) invert(47%) sepia(8%) saturate(713%) hue-rotate(169deg) brightness(92%) contrast(88%);
+}
+
+#modal-favoritos .filter-label {
+    font-size: 0.8rem;
+    color: #778899;
+}
+
+#modal-favoritos .filter-pill:hover .filter-circle {
+    border-color: #778899;
+}
+
+#modal-favoritos .filter-pill:hover .filter-label {
+    color: #778899;
+}
+
+.filter-pill.active .filter-circle {
+    box-shadow: 0 0 0 3px rgba(189, 224, 56, 0.2);
+}
+
+.filter-pill:hover .filter-circle {
+    transform: scale(1.04);
+    border-color: #9bbf2c;
+}
+
+.filter-pill:hover .filter-label {
+    color: #9bbf2c;
+    transform: scale(1.04);
+}
+
+.filter-pill:hover .filter-circle img {
+    transform: scale(1.08);
+}
+
+.filter-circle,
+.filter-circle img,
+.filter-label {
+    transition: transform 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
 #custom-alert {

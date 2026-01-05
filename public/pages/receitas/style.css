@@ -119,8 +119,9 @@
     margin: 0 auto;
     padding: 20px;
     background-color: var(--branding-C1);
-    gap: 2rem;
+    gap: 26px;
 }
+
   
   .search-bar-joinus {
     display: flex;
@@ -287,9 +288,11 @@
 }
 
 .modal-title {
-    display: flex;
-    flex-direction: column;
-    padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0;
 }
 
 .modal-title h1 {
@@ -309,25 +312,27 @@
   font-style: normal;
   color: black;
   margin: 0;
-  padding: 5px;
+  padding: 5px 0 0;
 }
 
 .modal-receita form {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  width: 100%;
-  max-width: 600px;
-  padding: 20px;
+  max-width: 460px;
+  padding: 10px 20px 20px;
   border-radius: 12px;
+  gap: 12px;
 }
 
 .modal-receita form label {
   font-family: "Archivo", serif;
   font-weight: 400;
   font-size: 1.2rem;
-  margin-bottom: 10px;
+  margin-bottom: 4px;
+  width: 100%;
+  text-align: left;
 }
 
 .modal-receita form input,
@@ -338,6 +343,8 @@
   font-size: 1rem;
   background-color: #fffef8;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .modal-receita form input:focus,
@@ -360,14 +367,46 @@
 
 .modal-receita .modal-content {
   background-color: var(--branding-C1);
-  padding: 10px;
+  padding: 18px 24px 22px;
   border-radius: 20px;
-  width: 600px;
+  width: 480px;
   max-width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
   box-shadow: 0 0 10px rgba(34, 34, 34, 0.3);
   transform: scale(0.8);
   transition: transform 0.4s ease;
+  position: relative;
+  scrollbar-width: thin;
+  scrollbar-color: var(--branding-B1) #ece9dc;
 }
+
+.modal-receita .modal-content::-webkit-scrollbar {
+  width: 10px;
+}
+
+.modal-receita .modal-content::-webkit-scrollbar-track {
+  background: #ece9dc;
+  border-radius: 12px;
+}
+
+.modal-receita .modal-content::-webkit-scrollbar-thumb {
+  background: var(--branding-B1);
+  border-radius: 12px;
+  border: 2px solid #ece9dc;
+}
+
+.modal-receita .modal-content::-webkit-scrollbar-thumb:hover {
+  background: #667482;
+}
+
+.modal-receita .modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 10px;
+}
+
 
 .modal-receita.show .modal-content {
   transform: scale(1);
@@ -394,21 +433,28 @@
   font-family: "Archivo", serif;
   font-weight: 400;
   background-color: #fffef8;
-  padding: 12px;
-  border: 1px solid var(--branding-B1);
-  border-radius: 20px;
-  margin-bottom: 10px;
+  padding: 10px;
+  border: 1.5px solid #ccc;
+  border-radius: 15px;
+  margin-bottom: 4px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .custom-file-upload {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   margin: 10px;
-  padding: 10px 20px;
+  padding: 8px 14px;
   background-color: var(--branding-B1);
   color: white;
   border-radius: 30px;
   cursor: pointer;
   font-weight: bold;
+  width: fit-content;
+  max-width: 180px;
+  align-self: center;
 }
 
 .custom-file-upload:hover {
@@ -421,7 +467,7 @@
   color: #444;
 }
 
-.close-button {
+.modal-receita .close-button {
   position: absolute;
   top: 10px;
   right: 10px;

@@ -159,17 +159,49 @@
         <img src="./assets/images/close2.svg" alt="Fechar">
       </button>
     </div>
-    <div class="modal-body">
-        <div class="search-bar">
-            <input type="text" placeholder="Pesquisar receitas..." />
-            <button>
-            <img src="./assets/images/search.svg" alt="Buscar" />
-            </button>
+        <div class="modal-body">
+            <div class="search-bar">
+                <input type="text" placeholder="Pesquisar receitas..." />
+                <button>
+                <img src="./assets/images/search.svg" alt="Buscar" />
+                </button>
+            </div>
+            <div class="filter-options">
+              <button class="filter-pill" data-category="Vegana" type="button">
+                <span class="filter-circle">
+                  <img src="./assets/images/Vegana.svg" alt="Vegana">
+                </span>
+                <span class="filter-label">Vegana</span>
+              </button>
+              <button class="filter-pill" data-category="Proteica" type="button">
+                <span class="filter-circle">
+                  <img src="./assets/images/Proteica.svg" alt="Proteica">
+                </span>
+                <span class="filter-label">Proteica</span>
+              </button>
+              <button class="filter-pill" data-category="Classica" type="button">
+                <span class="filter-circle">
+                  <img src="./assets/images/Classica.svg" alt="Classica">
+                </span>
+                <span class="filter-label">Classica</span>
+              </button>
+              <button class="filter-pill" data-category="Sem Gluten" type="button">
+                <span class="filter-circle">
+                  <img src="./assets/images/SemGluten.svg" alt="Sem Gluten">
+                </span>
+                <span class="filter-label">Sem Gluten</span>
+              </button>
+              <button class="filter-pill" data-category="Vegetariana" type="button">
+                <span class="filter-circle">
+                  <img src="./assets/images/Vegetariana.svg" alt="Vegetariana">
+                </span>
+                <span class="filter-label">Vegetariana</span>
+              </button>
+            </div>
+            <div class="column-recipes"></div>
+          </div>
         </div>
-        <div class="column-recipes"></div>
       </div>
-    </div>
-  </div>
 
 
 <script src="./assets/js/common.js"></script>

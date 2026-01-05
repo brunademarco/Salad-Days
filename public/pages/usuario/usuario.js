@@ -22,12 +22,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   
   const token = localStorage.getItem("token");
   if (!token) {
-    content.innerHTML = `
-      <div class="auth-error">
-        <p>Você precisa estar logado para acessar esta página</p>
-        <a href="${ROOT_PREFIX}login.html" class="auth-link">Fazer login</a>
-      </div>
-    `;
+    goToLogin();
     return;
   }
 
@@ -122,7 +117,7 @@ function renderPerfil(usuario) {
 
 async function renderUserRecipes(userId, token) {
   const content = document.getElementById("perfil-content");
-  content.innerHTML = '<div class="loading">Carregando suas receitas...</div>';
+  content.innerHTML = '';
 
   try {
     const response = await fetch(`${RECEITAS_API_URL}?autorId=${userId}`, {
@@ -188,7 +183,7 @@ function createRecipeCard(receita) {
 
 async function renderFavorites(userId, token) {
   const content = document.getElementById("perfil-content");
-  content.innerHTML = '<div class="loading">Carregando favoritos...</div>';
+  content.innerHTML = '';
 
   try {
     const response = await fetch(`${BASE_API_URL}/favoritos`, {
@@ -370,42 +365,47 @@ async function handleRemoveFavorite(receitaId, token) {
 
 function openEditModal(campo, usuario, token) {
   const modal = document.getElementById("modal-edicao");
-  const titulo = modal.querySelector(".modal-titulo");
+  const titulo = modal.querySelector("#modal-titulo");
   const inputUnico = modal.querySelector("#modal-input");
   const grupoUnico = modal.querySelector("#grupo-input-unico");
   const grupoSenha = modal.querySelector("#grupo-input-senha");
   const salvarBtn = modal.querySelector("#salvar-edicao");
+  const cancelarBtn = modal.querySelector("#cancelar-edicao");
 
   titulo.textContent = `Editar ${campo.charAt(0).toUpperCase() + campo.slice(1)}`;
   
   if (campo === "senha") {
-    grupoUnico.classList.add("hidden");
-    grupoSenha.classList.remove("hidden");
+    grupoUnico.classList.add("oculto");
+    grupoSenha.classList.remove("oculto");
     modal.querySelector("#senha-atual").value = "";
     modal.querySelector("#nova-senha").value = "";
     modal.querySelector("#confirmar-senha").value = "";
   } else {
-    grupoUnico.classList.remove("hidden");
-    grupoSenha.classList.add("hidden");
+    grupoUnico.classList.remove("oculto");
+    grupoSenha.classList.add("oculto");
     inputUnico.value = usuario[campo];
   }
 
-  modal.classList.remove("hidden");
+  modal.classList.remove("oculto");
 
   salvarBtn.onclick = async () => {
     try {
       let updateData = {};
       
       if (campo === "senha") {
-        const senhaAtual = modal.querySelector("#senha-atual").value;
-        const novaSenha = modal.querySelector("#nova-senha").value;
-        const confirmarSenha = modal.querySelector("#confirmar-senha").value;
+        const senhaAtual = modal.querySelector("#senha-atual").value.trim();
+        const novaSenha = modal.querySelector("#nova-senha").value.trim();
+        const confirmarSenha = modal.querySelector("#confirmar-senha").value.trim();
+
+        if (!senhaAtual || !novaSenha) {
+          return showAlert("Preencha a senha atual e a nova senha.");
+        }
 
         if (novaSenha !== confirmarSenha) {
           return showAlert("As senhas não coincidem!");
         }
 
-        updateData = { senha: novaSenha };
+        updateData = { senha: novaSenha, senhaAtual };
       } else {
         const novoValor = inputUnico.value.trim();
         if (!novoValor) return showAlert("O campo não pode estar vazio!");
@@ -423,18 +423,27 @@ function openEditModal(campo, usuario, token) {
 
       if (response.ok) {
         showAlert("Alterações salvas com sucesso!");
-        modal.classList.add("hidden");
+        modal.classList.add("oculto");
         
         const updatedUser = await fetchUserProfile(token);
+        Object.assign(usuario, updatedUser);
         renderPerfil(updatedUser);
       } else {
-        throw new Error('Falha ao atualizar perfil');
+        const data = await response.json().catch(() => ({}));
+        const msg = data.error || 'Falha ao atualizar perfil';
+        throw new Error(msg);
       }
     } catch (error) {
       console.error("Erro ao atualizar perfil:", error);
-      showAlert("Erro ao salvar alterações. Tente novamente.");
+      showAlert(error.message || "Erro ao salvar alterações. Tente novamente.");
     }
   };
+
+  if (cancelarBtn) {
+    cancelarBtn.onclick = () => {
+      modal.classList.add("oculto");
+    };
+  }
 }
 
 function showAlert(message, callback) {

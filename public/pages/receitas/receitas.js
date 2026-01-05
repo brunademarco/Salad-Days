@@ -6,7 +6,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const input = document.getElementById('searchInput');
   const button = document.getElementById('searchButton');
   const container = document.getElementById('lista-receitas');
+  const filterButtons = Array.from(document.querySelectorAll('.filter-pill'));
   let receitas = [];
+  let searchTerm = '';
+  let activeCategoryId = null;
 
   fetch(API_BASE_URL)
     .then(res => {
@@ -15,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     .then(data => {
       receitas = data;
-      render(receitas);
+      applyFilters();
     })
     .catch(err => {
       console.error('Erro:', err);
@@ -23,12 +26,31 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
   input.addEventListener('input', () => {
-    const termo = input.value.trim().toLowerCase();
-    const filtradas = receitas.filter(receita =>
-      receita.titulo.toLowerCase().includes(termo)
-    );
-    render(filtradas);
+    searchTerm = input.value.trim().toLowerCase();
+    applyFilters();
   });
+
+  if (button) {
+    button.addEventListener('click', () => {
+      searchTerm = input.value.trim().toLowerCase();
+      applyFilters();
+    });
+  }
+
+  function applyFilters() {
+    let lista = receitas;
+    if (activeCategoryId) {
+      lista = lista.filter(receita =>
+        Array.isArray(receita.categoria_id) && receita.categoria_id.includes(activeCategoryId)
+      );
+    }
+    if (searchTerm) {
+      lista = lista.filter(receita =>
+        receita.titulo.toLowerCase().includes(searchTerm)
+      );
+    }
+    render(lista);
+  }
 
   function render(lista) {
     container.innerHTML = '';
@@ -64,22 +86,22 @@ document.addEventListener('DOMContentLoaded', () => {
   if (openReceitaBtn) {
     openReceitaBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      const user = JSON.parse(localStorage.getItem('usuarioLogado'));
+      const token = localStorage.getItem('token');
 
-      if (!user) {
+      if (!token) {
         showAlert("Você precisa estar logado para enviar uma receita!", () => {
           window.location.href = `${ROOT_PREFIX}login.html`;
         }, "Fazer login");
         return;
       }
 
-      modalReceita.style.display = 'block';
+      modalReceita.classList.add('show');
     });
   }
 
   if (closeReceitaBtn) {
     closeReceitaBtn.addEventListener('click', () => {
-      modalReceita.style.display = 'none';
+      modalReceita.classList.remove('show');
     });
   }
 
@@ -88,6 +110,17 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(res => res.json())
     .then(categorias => {
       const select = document.getElementById('categoria');
+      const categoriaMap = new Map();
+      categorias.forEach(cat => {
+        categoriaMap.set(normalizeText(cat.nome), cat.id);
+      });
+
+      filterButtons.forEach(btn => {
+        const key = normalizeText(btn.dataset.category || '');
+        const id = categoriaMap.get(key);
+        if (id) btn.dataset.categoryId = String(id);
+      });
+
       categorias.forEach(cat => {
         const option = document.createElement('option');
         option.value = cat.id;
@@ -98,18 +131,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
  
   const form = document.querySelector('#modal-receita form');
+  const fileInput = document.getElementById('imagem');
+  const nomeArquivo = document.getElementById('nome-arquivo');
+
+  if (fileInput && nomeArquivo) {
+    fileInput.addEventListener('change', () => {
+      const file = fileInput.files && fileInput.files[0];
+      nomeArquivo.textContent = file ? file.name : '';
+    });
+  }
+
   form.addEventListener('submit', async function(e) {
     e.preventDefault();
 
-    const user = JSON.parse(localStorage.getItem('usuarioLogado'));
-    if (!user) {
+    const token = localStorage.getItem('token');
+    if (!token) {
       showAlert("Sessão expirada. Faça login novamente.", () => {
         window.location.href = `${ROOT_PREFIX}login.html`;
       });
       return;
     }
 
-    const fileInput = document.getElementById('imagem');
     if (!fileInput.files[0]) {
       showAlert("Selecione uma imagem para a receita!");
       return;
@@ -139,8 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
           .split('\n').filter(i => i.trim()),
         instrucoes: document.getElementById('modo-preparo').value
           .split('\n').filter(i => i.trim()),
-        imagem: imageUrl.split('/').pop(), 
-        autorId: user.id
+        imagem: imageUrl.split('/').pop()
       };
 
       
@@ -148,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(novaReceita)
       });
@@ -156,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (response.ok) {
         showAlert("Receita enviada com sucesso!");
         form.reset();
-        modalReceita.style.display = 'none';
+        modalReceita.classList.remove('show');
        
         const updatedData = await fetch(API_BASE_URL).then(res => res.json());
         receitas = updatedData;
@@ -169,22 +210,64 @@ document.addEventListener('DOMContentLoaded', () => {
       showAlert("Erro ao enviar receita. Tente novamente.");
     }
   });
+
+  filterButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const categoryName = (btn.dataset.category || '').toLowerCase();
+      if (categoryName === 'todas') {
+        activeCategoryId = null;
+      } else {
+        const id = Number(btn.dataset.categoryId);
+        activeCategoryId = Number.isInteger(id) ? id : null;
+      }
+      applyFilters();
+    });
+  });
 });
+
+function normalizeText(value) {
+  return value
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '');
+}
 
 
 function showAlert(msg, callback = null, okText = "OK") {
-  const alertBox = document.createElement('div');
-  alertBox.className = 'custom-alert';
-  alertBox.innerHTML = `
-    <div class="alert-content">
-      <p>${msg}</p>
-      <button class="alert-button">${okText}</button>
-    </div>
-  `;
-  
-  document.body.appendChild(alertBox);
-  alertBox.querySelector('button').addEventListener('click', () => {
-    alertBox.remove();
+  const alertRoot = document.getElementById('custom-alert');
+  if (!alertRoot) {
+    alert(msg);
     if (callback) callback();
-  });
+    return;
+  }
+
+  const messageEl = alertRoot.querySelector('#alert-message');
+  const okBtn = alertRoot.querySelector('#alert-ok');
+  const closeBtn = alertRoot.querySelector('#closeAlert');
+
+  if (messageEl) messageEl.textContent = msg;
+  if (okBtn) okBtn.textContent = okText;
+
+  alertRoot.classList.remove('alert-hidden');
+  alertRoot.classList.add('alert-show');
+
+  const hide = () => {
+    alertRoot.classList.remove('alert-show');
+    alertRoot.classList.add('alert-hidden');
+  };
+
+  if (okBtn) okBtn.addEventListener('click', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    hide();
+    if (callback) callback();
+  }, { once: true });
+  if (closeBtn) closeBtn.addEventListener('click', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    hide();
+  }, { once: true });
 }

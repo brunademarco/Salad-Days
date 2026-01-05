@@ -88,10 +88,11 @@ module.exports = {
     const { nome, email, login, senha } = req.body;
 
     const usuarioExistente = await query(
-      'SELECT id_usuario FROM usuarios WHERE id_usuario = $1',
+      'SELECT id_usuario, senha FROM usuarios WHERE id_usuario = $1',
       [req.userId]
     );
-    if (usuarioExistente.rows.length === 0) return res.status(404).json({ error: 'Usuário não encontrado' });
+    const usuarioAtual = usuarioExistente.rows[0];
+    if (!usuarioAtual) return res.status(404).json({ error: 'Usuário não encontrado' });
 
     // valida colisões (login/email) se vierem no body
     if (login) {
@@ -125,6 +126,12 @@ module.exports = {
       valores.push(login.trim());
     }
     if (typeof senha === 'string' && senha.trim()) {
+      const senhaAtual = typeof req.body.senhaAtual === 'string' ? req.body.senhaAtual.trim() : '';
+      if (!senhaAtual) return res.status(400).json({ error: 'Senha atual é obrigatória' });
+
+      const senhaConfere = await bcrypt.compare(senhaAtual, usuarioAtual.senha);
+      if (!senhaConfere) return res.status(401).json({ error: 'Senha atual inválida' });
+
       const senhaHash = await bcrypt.hash(senha.trim(), 10);
       campos.push(`senha = $${i++}`);
       valores.push(senhaHash);
