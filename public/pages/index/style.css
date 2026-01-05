@@ -115,7 +115,7 @@ p {
   position: relative;
   padding: 2rem;
   font-family: sans-serif;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .carousel {
@@ -125,9 +125,9 @@ p {
   gap: 1.2rem;
   height: auto;
   overflow-x: auto;
-  overflow-y: visible;
+  overflow-y: hidden;
   scroll-behavior: smooth;
-  padding: 0 20%;
+  padding: 1.5rem 12% 2.5rem;
   scrollbar-width: none;
 }
 
@@ -162,6 +162,7 @@ p {
 .carousel-button {
   position: absolute;
   top: 50%;
+  transform: translateY(-50%);
   background: var(--branding-C1);
   color: black;
   border: none;
@@ -171,11 +172,11 @@ p {
 }
 
 #prevBtn {
-  left: 0;
+  left: calc(12% - 12px);
 }
 
 #nextBtn {
-  right: 0;
+  right: calc(12% + 12px);
 }
 
 /* About */
@@ -273,14 +274,15 @@ p {
   top: 50%;
   transform: translateY(-50%);
   z-index: 2;
+  background: transparent;
 }
 
 #guidePrev {
-  left: -6%;
+  left: -8%;
 }
 
 #guideNext {
-  right: -6%;
+  right: -8%;
 }
 
 .carousel2-wrapper {
@@ -354,7 +356,7 @@ p {
   }
 
   .carousel-container {
-    overflow: hidden;
+    overflow: visible;
     width: 100%;
   }
 

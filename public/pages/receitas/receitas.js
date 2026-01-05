@@ -157,6 +157,17 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
+    const categoriaIds = Array.from(
+      document.querySelectorAll('#categoria-selecionadas .categoria-chip')
+    )
+      .map(chip => Number(chip.dataset.id))
+      .filter(id => Number.isInteger(id));
+
+    if (categoriaIds.length === 0) {
+      showAlert("Selecione pelo menos uma categoria!");
+      return;
+    }
+
     try {
       
       const formData = new FormData();
@@ -173,7 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const novaReceita = {
         titulo: document.getElementById('titulo').value.trim(),
-        categoria_id: [Number(document.getElementById('categoria').value)],
+        categoria_id: categoriaIds,
         card_descricao: document.getElementById('descricao').value.trim(),
         ingredientes_base: document.getElementById('ingredientes-base').value
           .split('\n').filter(i => i.trim()),
@@ -197,6 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (response.ok) {
         showAlert("Receita enviada com sucesso!");
         form.reset();
+        clearSelectedCategories();
         modalReceita.classList.remove('show');
        
         const updatedData = await fetch(API_BASE_URL).then(res => res.json());
@@ -226,6 +238,57 @@ document.addEventListener('DOMContentLoaded', () => {
       applyFilters();
     });
   });
+
+  const addCategoriaBtn = document.getElementById('add-categoria');
+  const categoriaSelecionadas = document.getElementById('categoria-selecionadas');
+  const categoriaSelect = document.getElementById('categoria');
+
+  function addSelectedCategory(id, name) {
+    if (!categoriaSelecionadas || !Number.isInteger(id)) return;
+    const existing = categoriaSelecionadas.querySelector(`.categoria-chip[data-id="${id}"]`);
+    if (existing) return;
+
+    const chip = document.createElement('span');
+    chip.className = 'categoria-chip';
+    chip.dataset.id = String(id);
+    chip.textContent = name;
+
+    const removeBtn = document.createElement('button');
+    removeBtn.type = 'button';
+    removeBtn.className = 'remove-categoria';
+    removeBtn.setAttribute('aria-label', `Remover ${name}`);
+    removeBtn.textContent = '×';
+    removeBtn.addEventListener('click', () => chip.remove());
+
+    chip.appendChild(removeBtn);
+    categoriaSelecionadas.appendChild(chip);
+  }
+
+  function clearSelectedCategories() {
+    if (categoriaSelecionadas) categoriaSelecionadas.innerHTML = '';
+  }
+
+  if (addCategoriaBtn && categoriaSelect) {
+    const updateAddButtonState = () => {
+      const option = categoriaSelect.options[categoriaSelect.selectedIndex];
+      addCategoriaBtn.disabled = !option || !option.value;
+    };
+
+    addCategoriaBtn.addEventListener('click', () => {
+      const option = categoriaSelect.options[categoriaSelect.selectedIndex];
+      if (!option || !option.value) {
+        return;
+      }
+      const id = Number(option.value);
+      const name = option.textContent || '';
+      addSelectedCategory(id, name);
+      categoriaSelect.value = '';
+      updateAddButtonState();
+    });
+
+    categoriaSelect.addEventListener('change', updateAddButtonState);
+    updateAddButtonState();
+  }
 });
 
 function normalizeText(value) {
