@@ -5,9 +5,13 @@ const { query } = require('../services/db');
 module.exports = {
   login: async (req, res) => {
     const { login, senha } = req.body;
+    const loginValue = typeof login === 'string' ? login.trim() : '';
+    if (!loginValue) {
+      return res.status(400).json({ error: 'Login ou email obrigatório' });
+    }
     const result = await query(
-      'SELECT id_usuario, nome_completo, nome_usuario, email, senha FROM usuarios WHERE nome_usuario = $1 OR email = $1 LIMIT 1',
-      [login]
+      'SELECT id_usuario, nome_completo, nome_usuario, email, senha FROM usuarios WHERE LOWER(nome_usuario) = LOWER($1) OR LOWER(email) = LOWER($1) LIMIT 1',
+      [loginValue]
     );
     const usuario = result.rows[0];
 

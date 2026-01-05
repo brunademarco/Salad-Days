@@ -190,6 +190,8 @@ p {
 
 .about-container {
   margin-left: 40px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 .title-history {
@@ -199,6 +201,7 @@ p {
 
 .image-container img {
   width: 800px;
+  display: block;
 }
 
 .title-history h2 {
@@ -477,14 +480,24 @@ p {
     margin-top: 30px;
   }
 
+  .carousel {
+    padding: 0 6%;
+    justify-content: center;
+  }
+
   .carousel-item {
     flex: 0 0 100%;
     transform: scale(1);
     opacity: 1;
   }
 
+  .carousel-item.active {
+    transform: scale(1);
+  }
+
   .carousel-item img {
-    max-width: 280px;
+    width: min(70vw, 280px);
+    height: auto;
     max-height: 280px;
   }
 
@@ -624,4 +637,7 @@ p {
     max-width: 380px;
     margin: 0;
   }
+}
+.image-container {
+  align-self: flex-start;
 }

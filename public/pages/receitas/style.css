@@ -50,15 +50,26 @@
     justify-content: center;
     align-items: center;
     padding: 18px 20px;
-    background-color: var(--branding-B1);
+    background-color: var(--B1-auxiliar);
     border-radius: 30px;
-    border: 1px solid var(--A2-auxiliar);
-    color: white;
+    border: 3px solid var(--branding-B1);
+    color: black;
     margin-top: 10px;
     font-family: "Archivo";
     font-weight: 400;
     font-size: 1.2rem;
     width: fit-content; 
+    transition: box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.button-joinus:hover {
+    background-color: #e7f58a;
+    box-shadow: 0 6px 14px rgba(103, 142, 64, 0.2);
+}
+
+.button-joinus:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(181, 228, 140, 0.6);
 }
 
 .image-joinus {
@@ -421,12 +432,34 @@
   border: 1px solid var(--branding-B1);
   border-radius: 30px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
   margin: 10px;
+  position: relative;
+  overflow: hidden;
 }
 
 .modal-receita form button[type="submit"]:hover {
-  background-color: var(--branding-B1); 
+  background-color: var(--branding-B1);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(103, 142, 64, 0.25);
+}
+
+.modal-receita form button[type="submit"]::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -120%;
+  width: 50%;
+  height: 200%;
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+  transform: skewX(-20deg);
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.6s ease;
+}
+
+.modal-receita form button[type="submit"]:hover::after {
+  opacity: 1;
+  transform: translateX(220%) skewX(-20deg);
 }
 
 .modal-receita form select {

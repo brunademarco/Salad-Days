@@ -15,10 +15,11 @@ let guideIndex = 0;
 let guideAutoInterval;
 
 function updateCarousel() {
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
   items.forEach((item) => {
     item.classList.remove('active');
-    item.style.transform = 'scale(0.8)';
-    item.style.opacity = '0.5';
+    item.style.transform = isMobile ? 'scale(1)' : 'scale(0.8)';
+    item.style.opacity = isMobile ? '1' : '0.5';
     const caption = item.querySelector('.caption');
     if (caption) caption.style.display = 'none';
   });
@@ -26,7 +27,7 @@ function updateCarousel() {
   const activeItem = items[currentIndex];
   if (activeItem) {
     activeItem.classList.add('active');
-    activeItem.style.transform = 'scale(1.2)';
+    activeItem.style.transform = isMobile ? 'scale(1)' : 'scale(1.2)';
     activeItem.style.opacity = '1';
     const caption = activeItem.querySelector('.caption');
     if (caption) caption.style.display = 'block';
@@ -86,8 +87,7 @@ if (prevBtn && nextBtn && items.length) {
     carousel.addEventListener('mouseenter', pauseAutoScroll);
     carousel.addEventListener('mouseleave', startAutoScroll);
     window.addEventListener('resize', () => {
-      const activeItem = items[currentIndex];
-      if (activeItem) centerActiveItem(activeItem);
+      updateCarousel();
     });
   }
 

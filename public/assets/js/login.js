@@ -21,7 +21,7 @@ showLoginLink.addEventListener("click", (e) => {
 document.querySelector('#login-box form').addEventListener('submit', async (e) => {
     e.preventDefault();
     
-    const loginInput = document.querySelector('#login-input').value;
+    const loginInput = document.querySelector('#login-input').value.trim();
     const senhaInput = document.querySelector('#login-box input[type="password"]').value;
 
     try {

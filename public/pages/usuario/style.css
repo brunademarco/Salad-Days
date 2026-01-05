@@ -35,6 +35,10 @@
   background-color: #e0eac2;
 }
 
+.sidebar-button.active {
+  background-color: #e0eac2;
+}
+
 .perfil-content {
   flex-grow: 1;
   margin: 20px;
