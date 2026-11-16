@@ -8,7 +8,8 @@ body {
     margin: 0;
     background: #D9D9D9;
     font-family: "Archivo", serif;
-    overflow: hidden; 
+    padding: 16px;
+    box-sizing: border-box;
 }
 
 .wrapper {
@@ -16,8 +17,9 @@ body {
     align-items: center;
     width: 100%;
     max-width: 450px;
-    height: 550px;
-    overflow: hidden; 
+    min-height: 550px;
+    height: auto;
+    overflow-y: auto;
     background-color: beige;
     border-radius: 20px;
     display: flex;
@@ -45,7 +47,7 @@ body {
 
 .form-box {
     
-    width: 100%;
+    width: min(100%, 400px);
     max-width: 400px; 
     height: auto; 
     position: absolute;
@@ -88,7 +90,7 @@ h2 {
 
 .input-box {
     position: relative;
-    width: 300px;
+    width: min(100%, 380px);
     margin: 35px 0;
     border-radius: 30px;
 }
@@ -111,7 +113,8 @@ h2 {
 }
 
 .input-box input {
-    width: 380px;
+    width: 100%;
+    box-sizing: border-box;
     height: 40px;
     border-radius: 30px;
     border: 1px solid #BDE038;
@@ -204,6 +207,7 @@ button:hover {
     text-align: center;
     width: 90%;
     max-width: 400px;
+    box-sizing: border-box;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Sombra ao redor */
     position: relative;
 }
@@ -233,4 +237,63 @@ button:hover {
 
 .modal-content button:hover {
     background-color: #0056b3;
+}
+
+@media (max-width: 480px) {
+    body {
+        align-items: center;
+        padding: 12px;
+    }
+
+    .wrapper {
+        width: 100%;
+        height: 600px;
+        min-height: 0;
+        border-radius: 16px;
+    }
+
+    .form-box {
+        padding: 0 18px;
+        box-sizing: border-box;
+    }
+
+    .form-box form {
+        width: 100%;
+    }
+
+    h2 {
+        font-size: clamp(1.6rem, 8vw, 2rem);
+        margin-bottom: 22px;
+    }
+
+    .input-box {
+        width: 100%;
+        margin: 26px 0;
+    }
+
+    .input-box input {
+        height: 44px;
+        font-size: 16px;
+    }
+
+    .remember-forgot {
+        gap: 12px;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        font-size: .8rem;
+    }
+
+    button {
+        min-height: 44px;
+    }
+
+    .register-link, .login-register {
+        font-size: .82rem;
+        margin-top: 20px;
+    }
+
+    .modal-content {
+        width: calc(100vw - 32px);
+        padding: 24px 18px;
+    }
 }

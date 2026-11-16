@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--referencias --> 
     <link rel="stylesheet" href="../../assets/css/global/global.css">
+    <link rel="stylesheet" href="../../assets/css/global/cursor.css">
     <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="../../assets/css/global/responsive.css">
     <link rel="icon" href="../../assets/images/logo-icon.svg" type="image/x-icon">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <!--fim das referencias-->
@@ -84,6 +86,56 @@
       <button id="salvar-edicao">Salvar</button>
     </div>
   </div>
+</div>
+
+<div id="modal-edicao-receita" class="modal-edicao oculto">
+  <form id="form-edicao-receita" class="modal-conteudo modal-receita-conteudo">
+    <h3>Editar receita</h3>
+    <div class="receita-form-grid">
+      <label>Título<input name="titulo" required maxlength="160"></label>
+      <label>Descrição<textarea name="descricao" required></textarea></label>
+      <label>Tempo de preparo (min)<input name="tempo_preparo_min" type="number" min="1" required></label>
+      <label>Porções<input name="numero_porcoes" type="number" min="1" required></label>
+      <label>Imagem (URL)<input name="imagem" type="url" required></label>
+      <label>Categorias<input name="categoria_id" placeholder="IDs separados por vírgula"></label>
+      <label>Ingredientes da base<textarea name="ingredientes_base"></textarea></label>
+      <label>Ingredientes do molho<textarea name="ingredientes_molho"></textarea></label>
+      <label class="receita-form-wide">Modo de preparo<textarea name="instrucoes" required></textarea></label>
+    </div>
+    <div class="modal-botoes">
+      <button type="button" id="cancelar-edicao-receita">Cancelar</button>
+      <button type="submit">Salvar alterações</button>
+    </div>
+  </form>
+</div>
+
+<div id="modal-nova-receita" class="modal-edicao oculto">
+  <form id="form-nova-receita" class="modal-conteudo modal-receita-conteudo">
+    <h3>FORMULÁRIO</h3>
+    <div class="receita-form-grid">
+      <label>Título<input name="titulo" required maxlength="160"></label>
+      <label>Descrição<textarea name="descricao" required></textarea></label>
+      <label>Tempo de preparo (min)<input name="tempo" type="number" min="1" required></label>
+      <label>Porções<input name="porcoes" type="number" min="1" required></label>
+      <label>Categorias
+        <div class="categoria-picker perfil-categoria-picker">
+          <select id="categoria-nova-receita">
+            <option value="" disabled selected>Selecione uma categoria</option>
+          </select>
+          <button type="button" id="adicionar-categoria-nova">Adicionar</button>
+        </div>
+        <div id="categorias-nova-selecionadas" class="categoria-selecionadas"></div>
+      </label>
+      <label>Imagem<input name="imagem" type="file" accept="image/jpeg,image/png,image/webp" required></label>
+      <label>Ingredientes da base<textarea name="base" required></textarea></label>
+      <label>Ingredientes do molho<textarea name="molho" required></textarea></label>
+      <label class="receita-form-wide">Modo de preparo<textarea name="preparo" required></textarea></label>
+    </div>
+    <div class="modal-botoes">
+      <button type="button" id="cancelar-nova-receita">Cancelar</button>
+      <button type="submit">ENVIAR</button>
+    </div>
+  </form>
 </div>
 
 </body>

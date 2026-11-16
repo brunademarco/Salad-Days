@@ -2,6 +2,11 @@ const ROOT_PREFIX = window.location.pathname.includes('/pages/') ? '../../' : '.
 const BASE_IMAGE_PATH = `${ROOT_PREFIX}assets/images/`;
 const API_BASE_URL = '/api/receitas'; 
 
+const resolveImage = (imagem) => {
+  if (!imagem) return `${BASE_IMAGE_PATH}cardClassica.jpg`;
+  return String(imagem).startsWith('http') ? imagem : `${BASE_IMAGE_PATH}${imagem}`;
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   const input = document.getElementById('searchInput');
   const button = document.getElementById('searchButton');
@@ -62,12 +67,19 @@ document.addEventListener('DOMContentLoaded', () => {
     lista.forEach(receita => {
       const card = document.createElement('div');
       card.className = 'recipe-card';
-      card.innerHTML = `
-        <h3>${receita.titulo}</h3>
-        <img src="${BASE_IMAGE_PATH}${receita.imagem}" alt="${receita.titulo}" loading="lazy">
-        <p>${receita.card_descricao}</p>
-        <button class="recipe-button" data-id="${receita.id}">Ver Receita</button>
-      `;
+      const title = document.createElement('h3');
+      title.textContent = receita.titulo || '';
+      const image = document.createElement('img');
+      image.src = resolveImage(receita.imagem);
+      image.alt = receita.titulo || 'Receita';
+      image.loading = 'lazy';
+      const description = document.createElement('p');
+      description.textContent = receita.card_descricao || '';
+      const button = document.createElement('button');
+      button.className = 'recipe-button';
+      button.dataset.id = String(receita.id);
+      button.textContent = 'Ver Receita';
+      card.append(title, image, description, button);
       container.appendChild(card);
     });
 
@@ -86,15 +98,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (openReceitaBtn) {
     openReceitaBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      const token = localStorage.getItem('token');
-
-      if (!token) {
-        showAlert("Você precisa estar logado para enviar uma receita!", () => {
-          window.location.href = `${ROOT_PREFIX}login.html`;
-        }, "Fazer login");
-        return;
-      }
-
       modalReceita.classList.add('show');
     });
   }
@@ -103,6 +106,10 @@ document.addEventListener('DOMContentLoaded', () => {
     closeReceitaBtn.addEventListener('click', () => {
       modalReceita.classList.remove('show');
     });
+  }
+
+  if (new URLSearchParams(window.location.search).get('abrirFormulario') === '1' && modalReceita) {
+    modalReceita.classList.add('show');
   }
 
 
@@ -144,16 +151,13 @@ document.addEventListener('DOMContentLoaded', () => {
   form.addEventListener('submit', async function(e) {
     e.preventDefault();
 
-    const token = localStorage.getItem('token');
-    if (!token) {
-      showAlert("Sessão expirada. Faça login novamente.", () => {
-        window.location.href = `${ROOT_PREFIX}login.html`;
-      });
+    const selectedFile = fileInput.files[0];
+    if (!selectedFile) {
+      showAlert("Selecione uma imagem para a receita!");
       return;
     }
-
-    if (!fileInput.files[0]) {
-      showAlert("Selecione uma imagem para a receita!");
+    if (!['image/jpeg', 'image/png', 'image/webp'].includes(selectedFile.type) || selectedFile.size > 5 * 1024 * 1024) {
+      showAlert("A imagem deve ser JPG, PNG ou WebP e ter no máximo 5 MB.");
       return;
     }
 
@@ -171,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       
       const formData = new FormData();
-      formData.append('file', fileInput.files[0]);
+      formData.append('file', selectedFile);
       formData.append('upload_preset', 'saladdays');
 
       const uploadResponse = await fetch('https://api.cloudinary.com/v1_1/dp3ypabuy/image/upload', {
@@ -184,15 +188,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const novaReceita = {
         titulo: document.getElementById('titulo').value.trim(),
-        categoria_id: categoriaIds,
-        card_descricao: document.getElementById('descricao').value.trim(),
-        ingredientes_base: document.getElementById('ingredientes-base').value
-          .split('\n').filter(i => i.trim()),
-        ingredientes_molho: document.getElementById('ingredientes-molho').value
-          .split('\n').filter(i => i.trim()),
-        instrucoes: document.getElementById('modo-preparo').value
-          .split('\n').filter(i => i.trim()),
-        imagem: imageUrl.split('/').pop()
+        descricao: document.getElementById('descricao').value.trim(),
+        tempo_preparo_min: Number(document.getElementById('tempo-preparo').value),
+        numero_porcoes: Number(document.getElementById('porcoes').value),
+        categorias: categoriaIds,
+        ingredientesBaseTexto: document.getElementById('ingredientes-base').value,
+        ingredientesMolhoTexto: document.getElementById('ingredientes-molho').value,
+        modoPreparoTexto: document.getElementById('modo-preparo').value,
+        imagem: imageUrl
       };
 
       
@@ -200,8 +203,8 @@ document.addEventListener('DOMContentLoaded', () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
         },
+        credentials: 'include',
         body: JSON.stringify(novaReceita)
       });
 

@@ -4,25 +4,29 @@ const path = require('path');
 const authRoutes = require('./routes/authRoutes');
 const usuariosRoutes = require('./routes/usuariosRoutes');
 const receitasRoutes = require('./routes/receitasRoutes');
+const asyncHandler = require('./middlewares/asyncHandler');
 const { query } = require('./services/db');
 require('dotenv').config();
 
 const app = express();
+if (!process.env.JWT_SECRET) throw new Error('JWT_SECRET não configurado');
 const publicDir = path.join(__dirname, '../public');
 
+const allowedOrigin = process.env.FRONTEND_URL || 'http://localhost:3000';
 app.use(cors({
-  origin: process.env.FRONTEND_URL || '*',
+  origin: allowedOrigin,
+  credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], 
-  allowedHeaders: ['Content-Type', 'Authorization'] 
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-app.use(express.json());
+app.use(express.json({ limit: '100kb' }));
 app.use(express.static(publicDir));
 
 app.get('/api/health', (req, res) => res.json({ ok: true }));
 
 // categorias
-app.get('/api/categorias', async (req, res) => {
+app.get('/api/categorias', asyncHandler(async (req, res) => {
   try {
     const result = await query('SELECT id_categoria, nome FROM categorias ORDER BY nome');
     res.json(result.rows.map(row => ({ id: row.id_categoria, nome: row.nome })));
@@ -30,7 +34,7 @@ app.get('/api/categorias', async (req, res) => {
     console.error(e);
     res.status(500).json({ error: 'Falha ao carregar categorias' });
   }
-});
+}));
 
 app.use('/api/auth', authRoutes);
 app.use('/api/usuarios', usuariosRoutes);

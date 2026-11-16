@@ -28,6 +28,7 @@ document.querySelector('#login-box form').addEventListener('submit', async (e) =
         const response = await fetch('/api/auth/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
             body: JSON.stringify({
                 login: loginInput,
                 senha: senhaInput
@@ -38,7 +39,6 @@ document.querySelector('#login-box form').addEventListener('submit', async (e) =
 
         if (response.ok) {
             const usuario = data.usuario || data.user;
-            localStorage.setItem('token', data.token);
             if (usuario) {
               localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
             }
@@ -71,10 +71,20 @@ document.querySelector('#register-box form').addEventListener('submit', async (e
         const response = await fetch('/api/auth/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
             body: JSON.stringify(formData)
         });
 
         if (response.ok) {
+            const data = await response.json();
+            if (!data.token) {
+                throw new Error('Resposta de cadastro sem token');
+            }
+
+            if (data.usuario) {
+                localStorage.setItem('usuarioLogado', JSON.stringify(data.usuario));
+            }
+
             const modal = document.getElementById('confirmation-modal');
             modal.style.display = 'flex';
             

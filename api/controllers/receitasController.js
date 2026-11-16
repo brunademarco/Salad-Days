@@ -1,25 +1,180 @@
 const { pool, query } = require('../services/db');
 
+const RECIPE_FIELDS = `
+  SELECT r.id_receita, r.titulo, r.descricao, r.tempo_preparo_min,
+         r.numero_porcoes, r.imagem_url,
+         r.id_usuario_autor, r.criado_em, r.atualizado_em,
+         COALESCE((SELECT json_agg(rc.id_categoria ORDER BY rc.id_categoria)
+                   FROM receitas_categorias rc WHERE rc.id_receita = r.id_receita), '[]') AS categorias,
+         COALESCE((SELECT json_agg(json_build_object('nome', i.nome, 'observacao', ri.observacao) ORDER BY i.nome)
+                   FROM receitas_ingredientes ri
+                   JOIN ingredientes i ON i.id_ingrediente = ri.id_ingrediente
+                   WHERE ri.id_receita = r.id_receita), '[]') AS ingredientes,
+         COALESCE((SELECT mp.passos FROM modos_preparo mp WHERE mp.id_receita = r.id_receita LIMIT 1), r.modo_preparo_text, '') AS passos
+  FROM receitas r`;
+
 const normalizeCategorias = (cat) => {
   if (Array.isArray(cat)) return cat.map(Number).filter(n => !Number.isNaN(n));
   const n = Number(cat);
   return Number.isNaN(n) ? [] : [n];
 };
 
+const isAllowedImageUrl = (value) => {
+  try {
+    const url = new URL(String(value));
+    return url.protocol === 'https:' && url.hostname.endsWith('cloudinary.com');
+  } catch {
+    return false;
+  }
+};
+
+async function criarReceita(req, res) {
+  const {
+    titulo,
+    descricao,
+    tempo_preparo_min,
+    numero_porcoes,
+    imagem,
+    categorias,
+    ingredientesBaseTexto,
+    ingredientesMolhoTexto,
+    modoPreparoTexto
+  } = req.body;
+
+  if (!req.userId) {
+    return res.status(401).json({ erro: 'Usuário não autenticado' });
+  }
+
+  const categoriasNormalizadas = normalizeCategorias(categorias);
+  if (!String(titulo || '').trim() || !String(descricao || '').trim() ||
+      !isAllowedImageUrl(imagem) || categoriasNormalizadas.length === 0 ||
+      !Number.isInteger(Number(tempo_preparo_min)) || Number(tempo_preparo_min) <= 0 ||
+      !Number.isInteger(Number(numero_porcoes)) || Number(numero_porcoes) <= 0) {
+    return res.status(400).json({ erro: 'Dados obrigatórios da receita são inválidos' });
+  }
+
+  const client = await pool.connect();
+
+  const quebrarEmLinhas = (texto) => {
+    if (!texto) return [];
+    return String(texto)
+      .split('\n')
+      .map(linha => linha.trim())
+      .filter(Boolean);
+  };
+
+  try {
+    await client.query('BEGIN');
+
+    const insertReceita = await client.query(
+      `INSERT INTO receitas (
+        id_usuario_autor,
+        titulo,
+        descricao,
+        tempo_preparo_min,
+        numero_porcoes,
+        imagem_url,
+        ingredientes_base_text,
+        ingredientes_molho_text,
+        modo_preparo_text
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+      RETURNING id_receita`,
+      [
+        req.userId,
+        titulo,
+        descricao,
+        tempo_preparo_min,
+        numero_porcoes,
+        imagem,
+        ingredientesBaseTexto,
+        ingredientesMolhoTexto,
+        modoPreparoTexto
+      ]
+    );
+
+    const { id_receita } = insertReceita.rows[0];
+
+    if (categoriasNormalizadas.length > 0) {
+      for (const categoriaId of categoriasNormalizadas) {
+        await client.query(
+          `INSERT INTO receitas_categorias (id_receita, id_categoria)
+           VALUES ($1, $2)`,
+          [id_receita, categoriaId]
+        );
+      }
+    }
+
+    const ingredientesBase = quebrarEmLinhas(ingredientesBaseTexto);
+    const ingredientesMolho = quebrarEmLinhas(ingredientesMolhoTexto);
+
+    const todosIngredientes = [
+      ...ingredientesBase.map(nome => ({ nome, tipo: 'base' })),
+      ...ingredientesMolho.map(nome => ({ nome, tipo: 'molho' }))
+    ];
+
+    for (const ingrediente of todosIngredientes) {
+      const inserido = await client.query(
+        `INSERT INTO ingredientes (nome) VALUES ($1)
+         ON CONFLICT (nome) DO UPDATE SET nome = EXCLUDED.nome
+         RETURNING id_ingrediente`,
+        [ingrediente.nome]
+      );
+      const idIngrediente = inserido.rows[0].id_ingrediente;
+
+      await client.query(
+        `INSERT INTO receitas_ingredientes (
+          id_receita,
+          id_ingrediente,
+          quantidade,
+          unidade_medida,
+          observacao
+        ) VALUES ($1, $2, $3, $4, $5)
+        ON CONFLICT (id_receita, id_ingrediente)
+        DO UPDATE SET observacao = CASE
+          WHEN receitas_ingredientes.observacao = EXCLUDED.observacao
+            THEN receitas_ingredientes.observacao
+          ELSE CONCAT(receitas_ingredientes.observacao, ',', EXCLUDED.observacao)
+        END`,
+        [id_receita, idIngrediente, null, null, ingrediente.tipo]
+      );
+    }
+
+    await client.query('COMMIT');
+    return res.status(201).json({ id_receita, mensagem: 'Receita criada com sucesso' });
+  } catch (erro) {
+    await client.query('ROLLBACK');
+    console.error('Erro ao criar receita:', erro);
+    return res.status(500).json({ erro: 'Erro ao criar receita' });
+  } finally {
+    client.release();
+  }
+}
+
 module.exports = {
+  criarReceita,
   // GET /api/receitas  (suporta ?autorId=...)
   getAll: async (req, res) => {
     const { autorId } = req.query;
+    const requestedPage = Number.parseInt(req.query.page || '1', 10);
+    const requestedLimit = Number.parseInt(req.query.limit || '20', 10);
+    const page = Number.isFinite(requestedPage) ? Math.max(1, requestedPage) : 1;
+    const limit = Number.isFinite(requestedLimit) ? Math.min(50, Math.max(1, requestedLimit)) : 20;
+    const offset = (page - 1) * limit;
     const params = [];
-    let sql = 'SELECT * FROM receitas';
+    let sql = RECIPE_FIELDS;
     if (autorId) {
+      const autorIdNumero = Number(autorId);
+      if (!Number.isInteger(autorIdNumero) || autorIdNumero <= 0) {
+        return res.status(400).json({ error: 'autorId inválido' });
+      }
       sql += ' WHERE id_usuario_autor = $1';
-      params.push(Number(autorId));
+      params.push(autorIdNumero);
     }
-    sql += ' ORDER BY criado_em DESC';
+    sql += ` ORDER BY criado_em DESC LIMIT $${params.length + 1} OFFSET $${params.length + 2}`;
+    params.push(limit, offset);
 
     const result = await query(sql, params);
-    const receitas = await Promise.all(result.rows.map((row) => buildReceitaResponse(row)));
+    const receitas = result.rows.map(formatAggregatedRecipe);
     res.json(receitas);
   },
 
@@ -30,75 +185,15 @@ module.exports = {
       return res.status(400).json({ error: 'ID inválido' });
     }
 
-    const result = await query('SELECT * FROM receitas WHERE id_receita = $1', [receitaId]);
+    const result = await query(`${RECIPE_FIELDS} WHERE r.id_receita = $1`, [receitaId]);
     const receita = result.rows[0];
     if (!receita) return res.status(404).json({ error: 'Receita não encontrada' });
 
-    res.json(await buildReceitaResponse(receita));
+    res.json(formatAggregatedRecipe(receita));
   },
 
-  // POST /api/receitas   (auth)  body: { titulo, categoria_id, card_descricao, ingredientes_base, ingredientes_molho, instrucoes, imagem }
-  create: async (req, res) => {
-    const {
-      titulo,
-      categoria_id,
-      card_descricao,
-      ingredientes_base,
-      ingredientes_molho,
-      instrucoes,
-      imagem
-    } = req.body;
-
-    if (!titulo || !imagem || !categoria_id) {
-      return res.status(400).json({ error: 'Campos obrigatórios: titulo, imagem, categoria_id' });
-    }
-
-    const categorias = normalizeCategorias(categoria_id);
-    const ingredientesBase = Array.isArray(ingredientes_base) ? ingredientes_base : [];
-    const ingredientesMolho = Array.isArray(ingredientes_molho) ? ingredientes_molho : [];
-    const passos = Array.isArray(instrucoes)
-      ? instrucoes.map(String).map(s => s.trim()).filter(Boolean).join('\n')
-      : '';
-
-    const client = await pool.connect();
-    try {
-      await client.query('BEGIN');
-      const insert = await client.query(
-        `INSERT INTO receitas (id_usuario_autor, titulo, descricao, imagem_url)
-         VALUES ($1, $2, $3, $4)
-         RETURNING *`,
-        [req.userId, String(titulo).trim(), (card_descricao || '').toString().trim(), String(imagem).trim()]
-      );
-      const receita = insert.rows[0];
-
-      for (const catId of categorias) {
-        await client.query(
-          'INSERT INTO receitas_categorias (id_receita, id_categoria) VALUES ($1, $2) ON CONFLICT DO NOTHING',
-          [receita.id_receita, catId]
-        );
-      }
-
-      if (passos) {
-        await client.query(
-          `INSERT INTO modos_preparo (id_receita, passos)
-           VALUES ($1, $2)
-           ON CONFLICT (id_receita) DO UPDATE SET passos = EXCLUDED.passos`,
-          [receita.id_receita, passos]
-        );
-      }
-
-      await upsertIngredientes(client, receita.id_receita, ingredientesBase, 'base');
-      await upsertIngredientes(client, receita.id_receita, ingredientesMolho, 'molho');
-
-      await client.query('COMMIT');
-      res.status(201).json(await buildReceitaResponse(receita));
-    } catch (err) {
-      await client.query('ROLLBACK');
-      throw err;
-    } finally {
-      client.release();
-    }
-  },
+  // POST /api/receitas   (auth)
+  create: criarReceita,
 
   // PUT /api/receitas/:id   (auth)
   update: async (req, res) => {
@@ -111,6 +206,9 @@ module.exports = {
       titulo,
       categoria_id,
       card_descricao,
+      descricao,
+      tempo_preparo_min,
+      numero_porcoes,
       ingredientes_base,
       ingredientes_molho,
       instrucoes,
@@ -138,11 +236,24 @@ module.exports = {
         campos.push(`titulo = $${i++}`);
         valores.push(titulo.trim());
       }
-      if (typeof card_descricao === 'string') {
+      const descricaoAtualizada = typeof descricao === 'string' ? descricao : card_descricao;
+      if (typeof descricaoAtualizada === 'string') {
         campos.push(`descricao = $${i++}`);
-        valores.push(card_descricao.trim());
+        valores.push(descricaoAtualizada.trim());
+      }
+      if (tempo_preparo_min !== undefined && Number.isInteger(Number(tempo_preparo_min)) && Number(tempo_preparo_min) > 0) {
+        campos.push(`tempo_preparo_min = $${i++}`);
+        valores.push(Number(tempo_preparo_min));
+      }
+      if (numero_porcoes !== undefined && Number.isInteger(Number(numero_porcoes)) && Number(numero_porcoes) > 0) {
+        campos.push(`numero_porcoes = $${i++}`);
+        valores.push(Number(numero_porcoes));
       }
       if (typeof imagem === 'string') {
+        if (imagem.trim() && !isAllowedImageUrl(imagem.trim())) {
+          await client.query('ROLLBACK');
+          return res.status(400).json({ error: 'URL de imagem inválida' });
+        }
         campos.push(`imagem_url = $${i++}`);
         valores.push(imagem.trim());
       }
@@ -155,7 +266,7 @@ module.exports = {
         );
       }
 
-      if (categoria_id) {
+      if (categoria_id !== undefined) {
         const categorias = normalizeCategorias(categoria_id);
         await client.query('DELETE FROM receitas_categorias WHERE id_receita = $1', [receitaId]);
         for (const catId of categorias) {
@@ -219,16 +330,40 @@ module.exports = {
     }
 
     const result = await query(
-      `SELECT r.*
-       FROM receitas r
+      `${RECIPE_FIELDS}
        JOIN receitas_categorias rc ON rc.id_receita = r.id_receita
        WHERE rc.id_categoria = $1
        ORDER BY r.criado_em DESC`,
       [catId]
     );
-    const receitas = await Promise.all(result.rows.map((row) => buildReceitaResponse(row)));
+    const receitas = result.rows.map(formatAggregatedRecipe);
     res.json(receitas);
   }
+};
+
+const formatAggregatedRecipe = (row) => {
+  const ingredientesBase = [];
+  const ingredientesMolho = [];
+  for (const item of row.ingredientes || []) {
+    const tipos = String(item.observacao || '').split(',');
+    if (tipos.includes('molho')) ingredientesMolho.push(item.nome);
+    if (tipos.includes('base') || !tipos.includes('molho')) ingredientesBase.push(item.nome);
+  }
+  return {
+    id: row.id_receita,
+    titulo: row.titulo,
+    categoria_id: row.categorias || [],
+    card_descricao: row.descricao || '',
+    ingredientes_base: ingredientesBase,
+    ingredientes_molho: ingredientesMolho,
+    instrucoes: String(row.passos || '').split('\n').map(s => s.trim()).filter(Boolean),
+    imagem: row.imagem_url || '',
+    tempo_preparo_min: row.tempo_preparo_min || '',
+    numero_porcoes: row.numero_porcoes || '',
+    autorId: row.id_usuario_autor,
+    criadoEm: row.criado_em,
+    atualizadoEm: row.atualizado_em
+  };
 };
 
 const buildReceitaResponse = async (receitaRow) => {
@@ -248,8 +383,9 @@ const buildReceitaResponse = async (receitaRow) => {
   const ingredientesBase = [];
   const ingredientesMolho = [];
   for (const item of ingredientesRes.rows) {
-    if (item.observacao === 'molho') ingredientesMolho.push(item.nome);
-    else ingredientesBase.push(item.nome);
+    const tipos = String(item.observacao || '').split(',');
+    if (tipos.includes('molho')) ingredientesMolho.push(item.nome);
+    if (tipos.includes('base') || !tipos.includes('molho')) ingredientesBase.push(item.nome);
   }
 
   const passos = modoRes.rows[0]?.passos || '';
@@ -289,7 +425,11 @@ const upsertIngredientes = async (client, receitaId, ingredientes, tipo) => {
       `INSERT INTO receitas_ingredientes (id_receita, id_ingrediente, observacao)
        VALUES ($1, $2, $3)
        ON CONFLICT (id_receita, id_ingrediente)
-       DO UPDATE SET observacao = EXCLUDED.observacao`,
+      DO UPDATE SET observacao = CASE
+        WHEN receitas_ingredientes.observacao = EXCLUDED.observacao
+          THEN receitas_ingredientes.observacao
+        ELSE CONCAT(receitas_ingredientes.observacao, ',', EXCLUDED.observacao)
+      END`,
       [receitaId, idIngrediente, tipo]
     );
   }

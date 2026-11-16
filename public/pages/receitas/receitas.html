@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--referencias --> 
     <link rel="stylesheet" href="../../assets/css/global/global.css">
+    <link rel="stylesheet" href="../../assets/css/global/cursor.css">
     <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="../../assets/css/global/responsive.css">
     <link rel="icon" href="../../assets/images/logo-icon.svg" type="image/x-icon">
     <!--fim das referencias-->
     <title>Receitas - Salad Days</title>
@@ -105,7 +107,7 @@
                 <span class="filter-circle">
                     <img src="../../assets/images/SemGluten.svg" alt="Sem Gluten">
                 </span>
-                <span class="filter-label">Sem Gluten</span>
+                    <span class="filter-label">Sem Glúten</span>
             </button>
             <button class="filter-pill" data-category="Vegetariana" type="button">
                 <span class="filter-circle">
@@ -176,7 +178,7 @@
                   <span class="filter-circle">
                     <img src="../../assets/images/SemGluten.svg" alt="Sem Gluten">
                   </span>
-                  <span class="filter-label">Sem Gluten</span>
+                  <span class="filter-label">Sem Glúten</span>
                 </button>
                 <button class="filter-pill" data-category="Vegetariana" type="button">
                   <span class="filter-circle">
@@ -210,9 +212,12 @@
             <label for="tempo-preparo">Tempo de preparo (min):</label>
             <input type="number" id="tempo-preparo" name="tempo-preparo" min="10" step="5" required>
 
+            <label for="descricao">Descrição:</label>
+            <textarea id="descricao" name="descricao" required></textarea>
+
             <label for="categoria">Categorias:</label>
             <div class="categoria-picker">
-              <select id="categoria" name="categoria" required>
+              <select id="categoria" name="categoria">
                 <option value="" disabled selected>Selecione uma categoria</option>
               </select>
               <button type="button" id="add-categoria" class="add-categoria">Adicionar</button>

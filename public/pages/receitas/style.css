@@ -1,7 +1,7 @@
 .JoinUs {
     display: flex;
     flex-direction: row;
-    align-items:flex-start;
+    align-items: flex-start;
     justify-content: space-between;
     background-color: var(--A1-auxiliar);
     gap: 0.5rem;
@@ -12,7 +12,7 @@
     flex-direction: column;
     justify-content: center;
     width: 30%;
-    padding: 30px;
+    padding: 20px 30px;
     gap: 0.5rem;
     margin-left: 20px;
 }
@@ -74,14 +74,16 @@
 
 .image-joinus {
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
     padding: 20px;
 }
 
 .image-joinus img {
-    
-    width: 100%;
+    width: auto;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: 0;
     height: auto;
 }
 
@@ -238,6 +240,7 @@
 
 .recipe-card img {
   width: 300px;
+  max-width: 100%;
   object-fit: cover;
   border-radius: 20px;
   height: 200px;
@@ -597,6 +600,8 @@
   .JoinUs {
     flex-direction: column;
     align-items: center;
+    height: auto;
+    min-height: 0;
     padding: 16px 12px;
   }
 
@@ -660,8 +665,23 @@
   }
 
   .filter-options {
-    justify-content: center;
-    gap: 8px;
+    justify-content: flex-start;
+    gap: 16px;
+    max-width: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+    flex-wrap: nowrap;
+    padding: 4px 8px 12px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .filter-options::-webkit-scrollbar { display: none; }
+
+  .filter-options .filter-pill {
+    flex: 0 0 78px;
+    scroll-snap-align: center;
   }
 
   .filter-button {

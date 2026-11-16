@@ -1,0 +1,23 @@
+/* O cursor ilustrado não participa do layout em dispositivos touch. */
+.custom-cursor {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .custom-cursor-active,
+  .custom-cursor-active * {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24'%3E%3Cpath d='M4 2l15 10-7 1 4 7-3 2-4-8-5 5V2z' fill='%236b7280' stroke='%233f4650' stroke-width='1.2' stroke-linejoin='round'/%3E%3C/svg%3E") 2 1, auto;
+  }
+
+  .custom-cursor-active input,
+  .custom-cursor-active textarea,
+  .custom-cursor-active [contenteditable="true"] {
+    cursor: text;
+  }
+
+  .custom-cursor { display: block; position: fixed; top: 0; left: 0; width: 32px; height: 32px;
+    object-fit: contain; pointer-events: none; z-index: 2147483647; opacity: 0;
+    will-change: transform, opacity; transform: translate3d(-100px, -100px, 0);
+    transition: opacity 180ms ease; }
+  .custom-cursor.is-visible { opacity: 1; }
+}

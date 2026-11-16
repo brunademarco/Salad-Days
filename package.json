@@ -7,11 +7,10 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production node api/index.js",
     "dev": "NODE_ENV=development nodemon api/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --test test/**/*.test.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
-    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "crypto-js": "^4.2.0",
     "dotenv": "^16.6.1",

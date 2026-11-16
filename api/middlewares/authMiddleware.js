@@ -3,7 +3,13 @@ const jwt = require('jsonwebtoken');
 module.exports = (req, res, next) => {
   // 1. Extrai o token do cabeçalho (formato: "Bearer <token>")
   const authHeader = req.headers.authorization;
-  const token = authHeader && authHeader.split(' ')[1]; 
+  const authToken = authHeader && authHeader.startsWith('Bearer ') && authHeader.slice(7) !== 'null'
+    ? authHeader.slice(7) : '';
+  const cookies = Object.fromEntries((req.headers.cookie || '').split(';').filter(Boolean).map(part => {
+    const index = part.indexOf('=');
+    return [part.slice(0, index).trim(), decodeURIComponent(part.slice(index + 1))];
+  }));
+  const token = authToken || cookies.token;
 
   // 2. Verifica se o token existe
   if (!token) {
