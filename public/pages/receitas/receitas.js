@@ -94,11 +94,108 @@ document.addEventListener('DOMContentLoaded', () => {
   const openReceitaBtn = document.getElementById('openReceitaBtn');
   const closeReceitaBtn = document.getElementById('closeReceitaModal');
   const modalReceita = document.getElementById('modal-receita');
+  const authDialog = document.getElementById('auth-required-dialog');
+  const authDialogPanel = authDialog?.querySelector('.auth-dialog');
+  const authDialogCloseBtn = document.getElementById('closeAuthDialog');
+  const authDialogFocusableSelector = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+  let authDialogTrigger = null;
+  let authDialogBodyOverflow = '';
+  let authDialogCloseTimer = null;
+  let authDialogIsOpen = false;
+  let authCheckInProgress = false;
+
+  const closeAuthDialog = () => {
+    if (!authDialog || !authDialogIsOpen) return;
+    authDialogIsOpen = false;
+    authDialog.setAttribute('aria-hidden', 'true');
+    authDialog.inert = true;
+    authDialog.classList.remove('is-open');
+    document.body.style.overflow = authDialogBodyOverflow;
+    document.removeEventListener('keydown', handleAuthDialogKeydown);
+
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    authDialogCloseTimer = window.setTimeout(() => {
+      authDialog.hidden = true;
+      authDialogCloseTimer = null;
+    }, reducedMotion ? 0 : 200);
+
+    if (authDialogTrigger?.isConnected) authDialogTrigger.focus();
+  };
+
+  const handleAuthDialogKeydown = (event) => {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      closeAuthDialog();
+      return;
+    }
+    if (event.key !== 'Tab' || !authDialogPanel) return;
+
+    const focusable = Array.from(authDialogPanel.querySelectorAll(authDialogFocusableSelector))
+      .filter(element => element.getClientRects().length > 0);
+    if (focusable.length === 0) {
+      event.preventDefault();
+      authDialogPanel.focus();
+      return;
+    }
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && (document.activeElement === first || document.activeElement === authDialogPanel)) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && (document.activeElement === last || document.activeElement === authDialogPanel)) {
+      event.preventDefault();
+      first.focus();
+    }
+  };
+
+  const openAuthDialog = (trigger) => {
+    if (!authDialog || !authDialogPanel) return;
+    if (authDialogCloseTimer) {
+      window.clearTimeout(authDialogCloseTimer);
+      authDialogCloseTimer = null;
+    }
+    authDialogTrigger = trigger || document.activeElement;
+    authDialogBodyOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    authDialog.hidden = false;
+    authDialog.inert = false;
+    authDialog.setAttribute('aria-hidden', 'false');
+    authDialogIsOpen = true;
+    window.requestAnimationFrame(() => authDialog.classList.add('is-open'));
+    authDialogPanel.focus();
+    document.addEventListener('keydown', handleAuthDialogKeydown);
+  };
+
+  const verifyAuthAndOpenRecipeForm = async (trigger) => {
+    if (authCheckInProgress) return;
+    authCheckInProgress = true;
+    if (openReceitaBtn) openReceitaBtn.disabled = true;
+    try {
+      const response = await fetch('/api/usuarios/perfil', { credentials: 'include' });
+      if (response.status === 401) {
+        openAuthDialog(trigger);
+        return;
+      }
+      if (!response.ok) throw new Error('Não foi possível verificar seu login. Tente novamente.');
+      modalReceita.classList.add('show');
+    } catch (error) {
+      showAlert(error.message || 'Erro ao verificar seu login. Tente novamente.');
+    } finally {
+      authCheckInProgress = false;
+      if (openReceitaBtn) openReceitaBtn.disabled = false;
+    }
+  };
+
+  authDialogCloseBtn?.addEventListener('click', closeAuthDialog);
+  authDialog?.addEventListener('click', (event) => {
+    if (event.target === authDialog) closeAuthDialog();
+  });
 
   if (openReceitaBtn) {
     openReceitaBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      modalReceita.classList.add('show');
+      verifyAuthAndOpenRecipeForm(openReceitaBtn);
     });
   }
 
@@ -109,7 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (new URLSearchParams(window.location.search).get('abrirFormulario') === '1' && modalReceita) {
-    modalReceita.classList.add('show');
+    verifyAuthAndOpenRecipeForm(openReceitaBtn);
   }
 
 
@@ -150,6 +247,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
   form.addEventListener('submit', async function(e) {
     e.preventDefault();
+
+    const invalidField = form.querySelector(':invalid');
+    if (invalidField) {
+      const fieldLabel = invalidField.labels?.[0]?.textContent.trim().replace(/:$/, '') || 'campo obrigatório';
+      let message = `Preencha o campo “${fieldLabel}” para continuar.`;
+      if (invalidField.validity.rangeUnderflow) {
+        message = `O campo “${fieldLabel}” deve ser no mínimo ${invalidField.min}.`;
+      } else if (invalidField.validity.stepMismatch) {
+        message = `Informe um valor válido para “${fieldLabel}”.`;
+      }
+      invalidField.focus();
+      showAlert(message);
+      return;
+    }
 
     const selectedFile = fileInput.files[0];
     if (!selectedFile) {
@@ -320,20 +431,26 @@ function showAlert(msg, callback = null, okText = "OK") {
   alertRoot.classList.remove('alert-hidden');
   alertRoot.classList.add('alert-show');
 
+  let handleOk;
+  let handleClose;
   const hide = () => {
     alertRoot.classList.remove('alert-show');
     alertRoot.classList.add('alert-hidden');
+    if (okBtn) okBtn.removeEventListener('click', handleOk);
+    if (closeBtn) closeBtn.removeEventListener('click', handleClose);
   };
 
-  if (okBtn) okBtn.addEventListener('click', (event) => {
+  handleOk = (event) => {
     event.preventDefault();
     event.stopPropagation();
     hide();
     if (callback) callback();
-  }, { once: true });
-  if (closeBtn) closeBtn.addEventListener('click', (event) => {
+  };
+  handleClose = (event) => {
     event.preventDefault();
     event.stopPropagation();
     hide();
-  }, { once: true });
+  };
+  if (okBtn) okBtn.addEventListener('click', handleOk);
+  if (closeBtn) closeBtn.addEventListener('click', handleClose);
 }

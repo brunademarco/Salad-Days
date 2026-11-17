@@ -200,12 +200,12 @@
                         <h1>FORMULÁRIO</h1>
                     <p>Envie sua receita de salada :)</p>
                 </div>
-                <button class="close-button" id="closeReceitaModal">
+                <button class="close-button" id="closeReceitaModal" type="button">
                     <img src="../../assets/images/close2.svg" alt="Fechar">
                 </button>
             </div>
 
-        <form action="#" method="POST">
+        <form action="#" method="POST" novalidate>
             <label for="titulo">Título (Nome da Receita):</label>
             <input type="text" id="titulo" name="titulo" required>
 
@@ -257,6 +257,27 @@
         <button class="aceppt-button "id="alert-ok" type="button">OK</button>
     </div>
   </div>
+</div>
+
+<div id="auth-required-dialog" class="auth-dialog-overlay" aria-hidden="true" hidden>
+  <section
+    class="auth-dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="auth-dialog-title"
+    aria-describedby="auth-dialog-description"
+    tabindex="-1"
+  >
+    <button class="auth-dialog-close" id="closeAuthDialog" type="button" aria-label="Fechar">
+      <img src="../../assets/images/close.svg" alt="" />
+    </button>
+    <h2 id="auth-dialog-title">Quer compartilhar sua receita?</h2>
+    <p id="auth-dialog-description">Faça login ou crie uma conta para começar :)</p>
+    <div class="auth-dialog-actions">
+      <a class="auth-dialog-button auth-dialog-button-primary" href="../../login.html">Entrar</a>
+      <a class="auth-dialog-button auth-dialog-button-secondary" href="../../login.html?cadastro=1">Criar conta</a>
+    </div>
+  </section>
 </div>
 
 <script src="../../assets/js/common.js"></script> 

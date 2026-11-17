@@ -14,6 +14,33 @@ const updateFavoriteButton = (button, isFavorite) => {
   button.querySelector('.favorite-icon').textContent = '♡';
 };
 
+const showFavoriteLoginAlert = () => {
+  const alertRoot = document.getElementById('custom-alert');
+  if (!alertRoot) {
+    window.alert('É preciso estar logado para favoritar uma receita.');
+    window.location.href = '../../login.html';
+    return;
+  }
+
+  const message = alertRoot.querySelector('#alert-message');
+  const okButton = alertRoot.querySelector('#alert-ok');
+  const closeButton = alertRoot.querySelector('#closeAlert');
+  if (message) message.textContent = 'É preciso estar logado para favoritar uma receita. Faça login para continuar.';
+  if (okButton) okButton.textContent = 'Fazer login';
+  alertRoot.classList.remove('alert-hidden');
+  alertRoot.classList.add('alert-show');
+
+  const hide = () => {
+    alertRoot.classList.remove('alert-show');
+    alertRoot.classList.add('alert-hidden');
+  };
+  okButton?.addEventListener('click', () => {
+    hide();
+    window.location.href = '../../login.html';
+  }, { once: true });
+  closeButton?.addEventListener('click', hide, { once: true });
+};
+
 const loadFavoriteState = async (recipeId, button) => {
   try {
     const response = await fetch('/api/usuarios/favoritos', { credentials: 'include' });
@@ -36,7 +63,7 @@ const toggleFavorite = async (recipeId, button) => {
       body: JSON.stringify({ receitaId: Number(recipeId) })
     });
     if (response.status === 401) {
-      window.location.href = '../../login.html';
+      showFavoriteLoginAlert();
       return;
     }
     if (!response.ok) throw new Error('Não foi possível atualizar o favorito');

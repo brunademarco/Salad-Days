@@ -6,6 +6,8 @@ const rateLimit = require('../middlewares/rateLimit');
 
 router.post('/login', rateLimit({ max: 10 }), asyncHandler(auth.login));
 router.post('/register', rateLimit({ max: 5 }), asyncHandler(auth.register));
+router.post('/password-reset/request', rateLimit({ max: 5 }), asyncHandler(auth.requestPasswordReset));
+router.post('/password-reset/complete', rateLimit({ max: 10 }), asyncHandler(auth.completePasswordReset));
 router.post('/logout', (req, res) => {
   res.setHeader('Set-Cookie', 'token=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0');
   res.status(204).send();

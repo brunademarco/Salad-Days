@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
     <link rel="icon" href="./assets/images/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="./assets/css/global/login.css">
     <link rel="stylesheet" href="./assets/css/global/cursor.css">
@@ -27,7 +28,7 @@
                 </div>
                 <div class="remember-forgot">
                     <label><input type="checkbox">Lembrar senha</label>
-                    <a href="#">Esqueceu a Senha?</a>
+                    <a href="#" id="forgot-password-link">Esqueceu a Senha?</a>
                 </div>
                 <button type="submit">Login</button>
                 <div class="register-link">
@@ -67,6 +68,37 @@
                 </div>
             </form>
         </div>  
+        <div class="form-box forgot" id="forgot-password-box">
+            <form action="#" id="forgot-password-form" novalidate>
+                <h2>Recuperar senha</h2>
+                <p class="recovery-copy">Informe seu e-mail. Se ele estiver cadastrado, enviaremos um link para redefinir sua senha.</p>
+                <div class="input-box">
+                    <input type="email" id="recovery-email" required>
+                    <label for="recovery-email">E-mail cadastrado</label>
+                </div>
+                <button type="submit">Enviar link</button>
+                <div class="login-register">
+                    <p><a href="#" id="back-to-login">Voltar para o login</a></p>
+                </div>
+            </form>
+        </div>
+        <div class="form-box reset" id="reset-password-box">
+            <form action="#" id="reset-password-form" novalidate>
+                <h2>Nova senha</h2>
+                <div class="input-box">
+                    <input type="password" id="new-password" required minlength="8" autocomplete="new-password">
+                    <label for="new-password">Nova senha (mínimo 8 caracteres)</label>
+                </div>
+                <div class="input-box">
+                    <input type="password" id="confirm-new-password" required minlength="8" autocomplete="new-password">
+                    <label for="confirm-new-password">Confirme a nova senha</label>
+                </div>
+                <button type="submit">Salvar nova senha</button>
+                <div class="login-register">
+                    <p><a href="#" id="reset-back-to-login">Voltar para o login</a></p>
+                </div>
+            </form>
+        </div>
         <div id="confirmation-modal" class="modal" style="display: none;">
             <div class="modal-content">
                 <span class="close-button" onclick="closeModal()">×</span>
@@ -74,6 +106,15 @@
             </div>
         </div>    
     </div>
+
+    <dialog id="login-feedback-dialog" class="login-feedback-dialog" aria-labelledby="login-feedback-title" aria-describedby="login-feedback-message">
+        <button id="close-login-feedback" class="login-feedback-close" type="button" aria-label="Fechar aviso">
+            <img src="./assets/images/close.svg" alt="">
+        </button>
+        <h2 id="login-feedback-title">Não foi possível continuar</h2>
+        <p id="login-feedback-message"></p>
+        <button id="confirm-login-feedback" class="login-feedback-confirm" type="button">OK</button>
+    </dialog>
 
     <script src="./assets/js/common.js"></script>
     <script src="./assets/js/login.js"></script>

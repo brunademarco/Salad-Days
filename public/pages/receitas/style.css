@@ -391,27 +391,11 @@
   transform: scale(0.8);
   transition: transform 0.4s ease;
   position: relative;
-  scrollbar-width: thin;
-  scrollbar-color: var(--branding-B1) #ece9dc;
+  scrollbar-width: none;
 }
 
 .modal-receita .modal-content::-webkit-scrollbar {
-  width: 10px;
-}
-
-.modal-receita .modal-content::-webkit-scrollbar-track {
-  background: #ece9dc;
-  border-radius: 12px;
-}
-
-.modal-receita .modal-content::-webkit-scrollbar-thumb {
-  background: var(--branding-B1);
-  border-radius: 12px;
-  border: 2px solid #ece9dc;
-}
-
-.modal-receita .modal-content::-webkit-scrollbar-thumb:hover {
-  background: #667482;
+  display: none;
 }
 
 .modal-receita .modal-header {
@@ -746,5 +730,178 @@
 
   .recipe-card img {
     height: 160px;
+  }
+}
+
+.auth-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10010;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(25, 30, 15, 0.56);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 200ms ease, visibility 0s linear 200ms;
+}
+
+.auth-dialog-overlay[hidden] {
+  display: none;
+}
+
+.auth-dialog-overlay.is-open {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.auth-dialog {
+  position: relative;
+  width: min(100%, 440px);
+  padding: 42px 36px 32px;
+  border-radius: 26px;
+  background: var(--branding-C1);
+  box-shadow: 0 18px 48px rgba(25, 30, 15, 0.24);
+  color: #1b1b16;
+  text-align: center;
+  opacity: 0;
+  transform: scale(0.97);
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+
+.auth-dialog-overlay.is-open .auth-dialog {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.auth-dialog:focus {
+  outline: none;
+}
+
+.auth-dialog-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 5px;
+  border: 2.5px solid var(--branding-B1);
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.auth-dialog-close:hover {
+  background-color: #f6faecea;
+  transform: scale(1.1);
+}
+
+.auth-dialog-close img {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+
+.auth-dialog-close:focus-visible,
+.auth-dialog-button:focus-visible {
+  outline: 3px solid rgba(105, 128, 45, 0.55);
+  outline-offset: 3px;
+}
+
+.auth-dialog h2 {
+  margin: 0;
+  color: #000;
+  font-family: "Archivo", sans-serif;
+  font-size: clamp(1.45rem, 4vw, 1.8rem);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.auth-dialog p {
+  margin: 12px 0 26px;
+  font-family: "Archivo", sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+
+.auth-dialog-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.auth-dialog-button {
+  display: inline-flex;
+  min-width: 132px;
+  min-height: 46px;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border: 2.5px solid var(--branding-B1);
+  border-radius: 30px;
+  font-family: "Archivo", sans-serif;
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.auth-dialog-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(103, 142, 64, 0.2);
+}
+
+.auth-dialog-button-primary {
+  background: var(--branding-A1);
+  color: var(--C1-auxiliar);
+}
+
+.auth-dialog-button-primary:hover {
+  background: var(--branding-B1);
+}
+
+.auth-dialog-button-secondary {
+  background: var(--branding-C1);
+  color: #222;
+}
+
+.auth-dialog-button-secondary:hover {
+  background: var(--B1-auxiliar);
+}
+
+@media (max-width: 480px) {
+  .auth-dialog-overlay {
+    padding: 16px;
+  }
+
+  .auth-dialog {
+    padding: 42px 22px 24px;
+    border-radius: 22px;
+  }
+
+  .auth-dialog p {
+    margin-bottom: 22px;
+  }
+
+  .auth-dialog-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .auth-dialog-button {
+    width: 100%;
+    min-height: 48px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-dialog-overlay,
+  .auth-dialog,
+  .auth-dialog-button {
+    transition-duration: 1ms;
   }
 }

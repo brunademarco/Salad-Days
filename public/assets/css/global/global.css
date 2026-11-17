@@ -460,6 +460,22 @@ footer p {
   animation: fadeInScale 0.3s ease-out;
 }
 
+.alert-box .close-button {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  margin: 0;
+  padding: 5px;
+  border-width: 1.5px;
+}
+
+.alert-box .close-button img {
+  width: 100%;
+  height: 100%;
+}
+
 @keyframes fadeInScale {
   from {
     transform: scale(0.9);
